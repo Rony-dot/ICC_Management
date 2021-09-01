@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.reflections.Reflections;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.Entity;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,6 +16,7 @@ import java.io.ObjectInputFilter;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
 
+@Component
 public class HibernateConfig {
 
     private SessionFactory sessionFactory = null;

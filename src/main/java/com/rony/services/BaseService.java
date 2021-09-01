@@ -56,7 +56,8 @@ public abstract class BaseService<T> {
                 configuration.addAnnotatedClass(model.getClass());
                 StandardServiceRegistryBuilder serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(settings);
-                sessionFactory = configuration.buildSessionFactory(serviceRegistry.build());
+                sessionFactory =
+                        configuration.buildSessionFactory(serviceRegistry.build());
             } catch (Exception e) {
                 e.printStackTrace();
             }

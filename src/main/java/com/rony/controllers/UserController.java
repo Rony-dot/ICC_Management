@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/all")
     public String allUsers(Model model){
-        model.addAttribute("users",userService.getAll());
+        model.addAttribute("users",userService.allUsers());
         return "users/allUsers";
     }
 

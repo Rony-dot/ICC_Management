@@ -50,10 +50,10 @@
 
 
 <%--            // error of the form--%>
-    <form:errors path="user.*" cssClass="error" />
+    <form:errors path="country.*" cssClass="error" />
 
-    <form:form action="${pageContext.request.contextPath}/users/add"
-               modelAttribute="user">
+    <form:form action="${pageContext.request.contextPath}/countries/add"
+               modelAttribute="country">
 
 <%--        // alternative error --%>
 <%--        <form:errors path="*" cssClass="error" element="div" />--%>
