@@ -6,17 +6,18 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.reflections.Reflections;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.Entity;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.InputStream;
-import java.io.ObjectInputFilter;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
 
 @Component
+@EnableTransactionManagement
 public class HibernateConfig {
 
     private SessionFactory sessionFactory = null;

@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "teams")
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class Team extends BaseModel{
     @OneToOne
     private Country country;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany
     @JoinTable(name = "team_members",
             joinColumns = {@JoinColumn(name = "team_id")},
             inverseJoinColumns = {@JoinColumn(name = "player_id")})

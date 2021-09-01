@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "roles")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

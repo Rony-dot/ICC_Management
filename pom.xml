@@ -7,7 +7,7 @@
     <groupId>com.rony</groupId>
     <artifactId>ICC_Spring</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging> war </packaging>
+    <packaging>war</packaging>
     <properties>
         <java.version>11</java.version>
     </properties>

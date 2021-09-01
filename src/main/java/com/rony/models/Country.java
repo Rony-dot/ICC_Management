@@ -9,18 +9,15 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "countries")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Country extends BaseModel{
 
     private String name;
 
-//    @ManyToOne(targetEntity = IccAdmin.class)
-//    @JoinColumn(name = "icc_admin_id", nullable = true)
-//    private IccAdmin iccAdmin;
-
+    @OneToOne
     @JoinColumn(name = "managing_director")
     private User managingDirector;
 

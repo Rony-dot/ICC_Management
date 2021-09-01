@@ -7,10 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@ComponentScan(basePackages = "com.rony.services")
-public class RootConfig  {
-    @Bean
-    HibernateConfig hibernateConfig(){
-        return new HibernateConfig();
-    }
+@ComponentScan(basePackages = {"com.rony.services", "com.rony.config"})
+public class RootConfig {
 }
