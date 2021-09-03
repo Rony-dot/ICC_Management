@@ -11,31 +11,28 @@
 	<table class="table table-hover" >
 		<tr>
 			<th>ID</th>
-			<th>Player Name</th>
-			<th>Player is captain</th>
-			<th>Player expertise</th>
-			<th>Player status</th>
+			<th>team Name</th>
+			<th>team country</th>
+			<th>team coach</th>
+			<th>players</th>
+
 			<th>Edit</th>
 			<th>Details</th>
 		</tr>
-		<c:forEach items="${players}" var="player">
+		<c:forEach items="${teams}" var="team">
 			<tr>
-				<th>${ player.id }</th>
-				<th>${ player.name }</th>
+				<th>${ team.id }</th>
+				<th>${ team.name }</th>
+				<th>${ team.country.name }</th>
+				<th>${ team.coach.name }</th>
 				<th>
-				<c:choose>
-					<c:when test="${player.isCaptain()}">
-						<b>captain</b>
-					</c:when>
-					<c:otherwise>
-						<b>not captain</b>
-					</c:otherwise>
-				</c:choose>
+					<c:forEach var="player" items="${team.playerList}">
+						${player.name}
+					</c:forEach>
 				</th>
-				<th>${ player.expertise }</th>
-				<th>${ player.playerStatus }</th>
-				<th><a href="edit?id=${ player.id }">Edit</a></th>
-				<th><a href="details?id=${ player.id }">Details</a></th>
+
+				<th><a href="edit?id=${ team.id }">Edit</a></th>
+				<th><a href="details?id=${ team.id }">Details</a></th>
 			</tr>
 		</c:forEach>
 	</table>

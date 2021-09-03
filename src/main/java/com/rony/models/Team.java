@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "teams")
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +30,10 @@ public class Team extends BaseModel{
 
     @OneToOne
     private User coach;
+
+    /**
+     * INSERT INTO `icc_spring`.`users`
+     * (`id`, `age`, `email`, `gender`, `homeTown`, `mobile`, `name`, `password`, `role`)
+     * VALUES ('100', '123', 'coach-email', 'M', 'Dhaka', '1234', 'coach-name', '1234', '2');
+     */
 }

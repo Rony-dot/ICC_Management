@@ -50,38 +50,39 @@
 
 
 <%--            // error of the form--%>
-    <form:errors path="player.*" cssClass="error" />
+    <form:errors path="user.*" cssClass="error" />
 
-    <form:form action="${pageContext.request.contextPath}/players/add"
-               modelAttribute="player">
-
-<%--        // alternative error --%>
-<%--        <form:errors path="*" cssClass="error" element="div" />--%>
+    <form:form action="${pageContext.request.contextPath}/teams/add"
+               modelAttribute="team">
 
         <form:input path="id" hidden="true"/>
 
-        <label>Name:</label>cv
-        <form:input path="name"/> <br><br>
+        <label>Name:</label>
+        Name : <form:input path="name"/>  <br><br>
 
-<%--        Player Team:--%>
-<%--        <select name="idTeam" >--%>
-<%--            <c:forEach items="${teams}" var="team">--%>
-<%--                <option value="${team.id}">${team.name}</option>--%>
-<%--            </c:forEach>--%>
-<%--        </select>--%>
+        Country :
+        <select name="countryId" >
+            <c:forEach items="${countries}" var="country">
+                <option value="${country.id}" label="${country.name}"> ${country.name} </option>
+            </c:forEach>
+        </select>
+        <br><br>
 
-        Player status:
-        <form:select path="playerStatus" >
-            <form:options items="${playerStatus}"/>
-        </form:select>
+        players list :
+        <select name="playerIds" multiple="multiple">
+            <c:forEach items="${players}" var="player">
+                <option label="${player.name}" value="${player.id}">${player.name} </option>
+            </c:forEach>
+        </select>
+        <br><br>
 
-        Player expertise:
-        <form:select path="expertise" >
-            <form:options items="${playerExpertise}"/>
-        </form:select>
-
-        Player isCaptain:
-        <input type="checkbox" name="isCap" value="true">
+        Coach :
+        <select name="coachId" >
+           <c:forEach items="${coaches}" var="coach">
+               <option value="${coach.id}" label="${coach.name}"> ${coach.name} </option>
+           </c:forEach>
+        </select>
+        <br><br>
 
         <input type="submit" name="submit" value="Add User">
 

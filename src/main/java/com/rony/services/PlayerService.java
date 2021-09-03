@@ -47,8 +47,25 @@ public class PlayerService {
                 .getSingleResult();
     }
 
-    public void addPlayer(Player playerDto, long idTeam){
-        System.out.println("save method of player service------------------------------------------------------");
+    public void addPlayer(Player playerDto){
+        System.err.println("save method of player service------------------------------------------------------");
+        var session = hibernateConfig.getSession();
+        Transaction tx = session.getTransaction();
+        if(!tx.isActive()){
+            tx = session.beginTransaction();
+        }
+        var playerEntity = new Player();
+        BeanUtils.copyProperties(playerDto,playerEntity);
+        session.save(playerEntity);
+        session.flush();
+        tx.commit();
+        System.err.println("---------------------------------------------------");
+        System.err.println("player  is saved");
+        System.err.println(playerEntity);
+    }
+
+    /*public void addPlayer(Player playerDto, long idTeam){
+        System.err.println("save method of player service------------------------------------------------------");
         var session = hibernateConfig.getSession();
         Transaction tx = session.getTransaction();
         if(!tx.isActive()){
@@ -59,8 +76,10 @@ public class PlayerService {
         session.save(playerEntity);
         session.flush();
         tx.commit();
-        System.out.println("---------------------------------------------------");
-        System.out.println("player  is saved");
-        System.out.println(playerEntity);
+        System.err.println("---------------------------------------------------");
+        System.err.println("player  is saved");
+        System.err.println(playerEntity);
     }
+
+     */
 }

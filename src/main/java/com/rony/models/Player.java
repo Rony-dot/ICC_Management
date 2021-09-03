@@ -22,8 +22,8 @@ public class Player extends BaseModel{
 
     private String name;
 
-    @ManyToOne
-    private Team team;
+//    @ManyToOne
+//    private Team team;
 
     @Column(name = "player_status")
     private PlayerStatus playerStatus;
