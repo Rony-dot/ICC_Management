@@ -53,30 +53,35 @@
     <form:errors path="country.*" cssClass="error" />
 
     <form:form action="${pageContext.request.contextPath}/countries/add"
-               modelAttribute="country">
+               modelAttribute="player">
 
 <%--        // alternative error --%>
 <%--        <form:errors path="*" cssClass="error" element="div" />--%>
 
         <form:input path="id" hidden="true"/>
 
-        <label>Name:</label>
+        <label>Name:</label>cv
         <form:input path="name"/> <br><br>
-        Managing Director:
-        <select name="idMD" >
-            <c:forEach items="${managingDirectors}" var="md">
-                <option value="${md.id}">${md.name}</option>
-            </c:forEach>
-        </select>
-        Players list
-        <select name="playerIds" multiple="multiple" >
-            <c:forEach items="${players}" var="player">
-                <option value="${player.id}">${player.name}</option>
+
+        Player Team:
+        <select name="idTeam" >
+            <c:forEach items="${teams}" var="team">
+                <option value="${team.id}">${team.name}</option>
             </c:forEach>
         </select>
 
-        <%--        // alternative error --%>
-<%--        <form:errors path="name" cssClass="error" />--%>
+        Player status:
+        <form:select path="playerStatus" >
+            <form:options items="${playerStatus}"/>
+        </form:select>
+
+        Player expertise:
+        <form:select path="expertise" >
+            <form:options items="${playerExpertise}"/>
+        </form:select>
+
+        Player isCaptain:
+        <form:checkbox path="isCaptain" /> Captain <br><br>
 
         <input type="submit" name="submit" value="Add User">
 

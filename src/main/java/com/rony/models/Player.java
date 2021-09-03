@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @ToString
 public class Player extends BaseModel{
+
     private String name;
 
     @ManyToOne

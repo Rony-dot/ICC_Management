@@ -37,7 +37,21 @@
                 <a class="dropdown-item" href="/users/all">All Users</a>
                 <a class="dropdown-item" href="/users/add">Add User</a>
             </div>
+
         </li>
+        <!-- Dropdown end -->
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                Country
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/countries/all">All countries</a>
+                <a class="dropdown-item" href="/countries/add">Add country</a>
+            </div>
+
+        </li>
+        <!-- Dropdown end -->
         <li class="nav-item">
             <a class="nav-link" href="#"></a>
         </li>
@@ -46,3 +60,5 @@
 
 
 </body>
+
+

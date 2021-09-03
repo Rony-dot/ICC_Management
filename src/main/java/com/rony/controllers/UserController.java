@@ -1,5 +1,6 @@
 package com.rony.controllers;
 
+import com.rony.enums.UserRole;
 import com.rony.models.User;
 import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,22 @@ public class UserController {
 
     @GetMapping("/all")
     public String allUsers(Model model){
+        model.addAttribute("pageTitle","Show all Users");
         model.addAttribute("users",userService.allUsers());
-        return "users/allUsers";
+        userService.allUsers().forEach(s->
+                System.out.println(s.toString()));
+        return "users/show-all";
     }
 
     @GetMapping("/add")
     public String addUser_GET(Model model){
-        model.addAttribute("user",new User());
+        model.addAttribute("user", new User());
+        model.addAttribute("genders",userService.getGenders());
+        model.addAttribute("homeTowns",userService.getHomeTowns());
+        model.addAttribute("salutations",userService.getSalutations());
+        model.addAttribute("roles", UserRole.values());
+        System.err.println("----------UserRole.values()--------------------");
+        System.out.println(UserRole.values());
         return "users/addUser";
     }
 
@@ -62,6 +72,29 @@ public class UserController {
         return "redirect: /users/all";
     }
 
+    @GetMapping("/details")
+    public String showUser(Model model,  @RequestParam("id") long id){
+        var userEntity = userService.getUserById(id);
+        System.out.println(userEntity+" -----------------------------userEntity of getMapping details------------------------------");
+        model.addAttribute("user",userEntity);
+        model.addAttribute("homeTowns",userService.getHomeTowns());
+        model.addAttribute("salutations",userService.getSalutations());
+        model.addAttribute("genders",userService.getGenders());
+        model.addAttribute("pageTitle","User details");
+        return "users/details";
+    }
+
+    @GetMapping("/edit")
+    public String edit(Model model, @RequestParam("id") long id){
+        var userEntity = userService.getUserById(id);
+        System.out.println(userEntity+" --------------------------userEntity of getMapping edit---------------------------------");
+        model.addAttribute("user",userEntity);
+        model.addAttribute("homeTowns",userService.getHomeTowns());
+        model.addAttribute("genders",userService.getGenders());
+        model.addAttribute("salutations",userService.getSalutations());
+        model.addAttribute("pageTitle","User details");
+        return "users/edit";
+    }
   /*
     // handling exception of this controller in spring framework
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)

@@ -61,7 +61,24 @@
         <form:input path="id" hidden="true"/>
 
         <label>Name:</label>
-        <form:input path="name"/>
+        Name : <form:input path="name"/>  <br><br>
+        Email : <form:input path="email"/>  <br><br>
+        Age : <form:input path="age"/>  <br><br>
+        Password : <form:input path="password"/>  <br><br>
+        Mobile : <form:input path="mobile"/>  <br><br>
+        Gender :<form:radiobuttons path="gender" items="${genders}" ></form:radiobuttons> <br><br>
+        Date of Birth: <form:input type="date" path="dateOfBirth" />  <br><br>
+        Salutation: <form:checkboxes path="salutation" items="${salutations}"/> <br><br>
+        HomeTown:
+        <form:select path="homeTown" >
+            <form:options items="${homeTowns}"/>
+        </form:select>
+        <br><br>
+        Role:
+        <form:select path="role" >
+            <form:options items="${roles}"/>
+        </form:select>
+        <br><br>
         <%--        // alternative error --%>
 <%--        <form:errors path="name" cssClass="error" />--%>
 
