@@ -11,25 +11,24 @@
 	<table class="table table-hover" >
 		<tr>
 			<th>ID</th>
-			<th>Country Name</th>
-			<th>Managing Director</th>
-			<th>Players</th>
+			<th>Player Name</th>
+			<th>Player team</th>
+			<th>Player is captain</th>
+			<th>Player expertise</th>
+			<th>Player status</th>
 			<th>Edit</th>
 			<th>Details</th>
 		</tr>
-		<c:forEach items="${countries}" var="country">
+		<c:forEach items="${players}" var="player">
 			<tr>
-				<th>${ country.id }</th>
-				<th>${ country.name }</th>
-				<th>${ country.managingDirector.name }</th>
-				<th>
-
-					<c:forEach var="player" items="${country.playerList}">
-						${player.name}
-					</c:forEach>
-				</th>
-				<th><a href="edit?id=${ country.id }">Edit</a></th>
-				<th><a href="details?id=${ country.id }">Details</a></th>
+				<th>${ player.id }</th>
+				<th>${ player.name }</th>
+				<th>${ player.team }</th>
+				<th>${ player.isCaptain }</th>
+				<th>${ player.expertise }</th>
+				<th>${ player.status }</th>
+				<th><a href="edit?id=${ player.id }">Edit</a></th>
+				<th><a href="details?id=${ player.id }">Details</a></th>
 			</tr>
 		</c:forEach>
 	</table>

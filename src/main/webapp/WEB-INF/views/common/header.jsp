@@ -52,6 +52,18 @@
 
         </li>
         <!-- Dropdown end -->
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                Player
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/players/all">All Players</a>
+                <a class="dropdown-item" href="/players/add">Add Player</a>
+            </div>
+
+        </li>
+        <!-- Dropdown end -->
         <li class="nav-item">
             <a class="nav-link" href="#"></a>
         </li>

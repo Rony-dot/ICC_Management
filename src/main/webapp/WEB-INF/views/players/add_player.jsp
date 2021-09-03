@@ -81,7 +81,7 @@
         </form:select>
 
         Player isCaptain:
-        <form:checkbox path="isCaptain" /> Captain <br><br>
+        <form:checkbox path="isCaptain" /> <br><br>
 
         <input type="submit" name="submit" value="Add User">
 
