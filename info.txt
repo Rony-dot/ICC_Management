@@ -1,0 +1,4 @@
+1. Player and User confusion bcz, User has already role of Player
+2. form cannot set LocalDateTime directly, lombok is used for getter setter
+3. @OneToMany and @JoinTable makes the inverse_column as unique
+4.

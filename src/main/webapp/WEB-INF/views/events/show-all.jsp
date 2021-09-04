@@ -28,8 +28,8 @@
 				<th>${ event.startDateTime }</th>
 				<th>${ event.endDateTime }</th>
 				<th>${ event.eventType }</th>
-				<th>${ event.team1 }</th>
-				<th>${ event.team2 }</th>
+				<th>${ event.team1.name }</th>
+				<th>${ event.team2.name }</th>
 				<th>
 					<c:forEach items="${event.umpires}" var="umpire">
 						${umpire.name},&nbsp

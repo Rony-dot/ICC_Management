@@ -1,15 +1,15 @@
 package com.rony.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mysql.cj.protocol.ColumnDefinition;
+
 import com.rony.enums.EventType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,10 +22,11 @@ public class Event extends BaseModel{
 
     private String name;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startDateTime;
 
-    private LocalDateTime startDateTime;
-
-    private LocalDateTime endDateTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDateTime;
 
     private EventType eventType;
 
