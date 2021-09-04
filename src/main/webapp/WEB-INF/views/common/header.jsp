@@ -64,6 +64,42 @@
 
         </li>
         <!-- Dropdown end -->
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                Teams
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/teams/all">All Teams</a>
+                <a class="dropdown-item" href="/teams/add">Add Teams</a>
+            </div>
+
+        </li>
+        <!-- Dropdown end -->
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                Events
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/events/all">All Events</a>
+                <a class="dropdown-item" href="/events/add">Add Events</a>
+            </div>
+
+        </li>
+        <!-- Dropdown end -->
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
+                Series
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/series/all">All Series</a>
+                <a class="dropdown-item" href="/series/add">Add Series</a>
+            </div>
+
+        </li>
+        <!-- Dropdown end -->
         <li class="nav-item">
             <a class="nav-link" href="#"></a>
         </li>
