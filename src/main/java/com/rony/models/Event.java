@@ -1,5 +1,7 @@
 package com.rony.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mysql.cj.protocol.ColumnDefinition;
 import com.rony.enums.EventType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,12 +21,17 @@ import java.util.List;
 public class Event extends BaseModel{
 
     private String name;
+
+
     private LocalDateTime startDateTime;
+
     private LocalDateTime endDateTime;
+
     private EventType eventType;
 
     @OneToOne
     private Team team1;
+
     @OneToOne
     private Team team2;
 
@@ -34,6 +41,7 @@ public class Event extends BaseModel{
             inverseJoinColumns = {@JoinColumn(name = "umpire_id")})
     private List<User> umpires;
 
+    @Column(nullable = true)
     private int score;
 
 //    private Country

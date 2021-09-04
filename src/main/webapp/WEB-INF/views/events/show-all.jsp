@@ -11,27 +11,32 @@
 	<table class="table table-hover" >
 		<tr>
 			<th>ID</th>
-			<th>team Name</th>
-			<th>team country</th>
-			<th>team coach</th>
-			<th>players</th>
+			<th>Event Name</th>
+			<th>Event start time</th>
+			<th>Event end time</th>
+			<th>Team 1</th>
+			<th>Team 2</th>
+			<th>Umpire List</th>
+			<th>score</th>
 			<th>Edit</th>
 			<th>Details</th>
 		</tr>
-		<c:forEach items="${teams}" var="team">
+		<c:forEach items="${events}" var="event">
 			<tr>
-				<th>${ team.id }</th>
-				<th>${ team.name }</th>
-				<th>${ team.country.name }</th>
-				<th>${ team.coach.name }</th>
+				<th>${ event.id }</th>
+				<th>${ event.name }</th>
+				<th>${ event.startDateTime }</th>
+				<th>${ event.endDateTime }</th>
+				<th>${ event.eventType }</th>
+				<th>${ event.team1 }</th>
+				<th>${ event.team2 }</th>
 				<th>
-					<c:forEach var="player" items="${team.playerList}">
-						${player.name}
+					<c:forEach items="${event.umpires}" var="umpire">
+						${umpire.name},&nbsp
 					</c:forEach>
 				</th>
-
-				<th><a href="edit?id=${ team.id }">Edit</a></th>
-				<th><a href="details?id=${ team.id }">Details</a></th>
+				<th><a href="edit?id=${ event.id }">Edit</a></th>
+				<th><a href="details?id=${ event.id }">Details</a></th>
 			</tr>
 		</c:forEach>
 	</table>
