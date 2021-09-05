@@ -32,7 +32,7 @@ public class Series extends BaseModel{
             inverseJoinColumns = {@JoinColumn(name = "event_id")})
     private List<Event> eventList;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(name = "participant_teams",
             joinColumns = {@JoinColumn(name = "series_id")},
             inverseJoinColumns = {@JoinColumn(name = "team_id")})

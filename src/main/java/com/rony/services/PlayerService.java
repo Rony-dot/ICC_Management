@@ -14,9 +14,12 @@ import java.util.List;
 public class PlayerService {
     @Autowired
     private HibernateConfig hibernateConfig;
+    @Autowired
+    private UserService userService;
 
-    public PlayerService(HibernateConfig hibernateConfig) {
+    public PlayerService(HibernateConfig hibernateConfig, UserService userService) {
         this.hibernateConfig = hibernateConfig;
+        this.userService = userService;
     }
 
     public List<Player> allPlayers(){
@@ -47,7 +50,7 @@ public class PlayerService {
                 .getSingleResult();
     }
 
-    public void addPlayer(Player playerDto){
+    public void addPlayer(Player playerDto, long userId){
         System.err.println("save method of player service------------------------------------------------------");
         var session = hibernateConfig.getSession();
         Transaction tx = session.getTransaction();
@@ -56,6 +59,8 @@ public class PlayerService {
         }
         var playerEntity = new Player();
         BeanUtils.copyProperties(playerDto,playerEntity);
+        var userInfo = userService.getUserById(userId);
+        playerEntity.setUserInfo(userInfo);
         session.save(playerEntity);
         session.flush();
         tx.commit();

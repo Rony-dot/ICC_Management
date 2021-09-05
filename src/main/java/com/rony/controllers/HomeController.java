@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @Autowired
-    private HibernateConfig hibernateConfig;
+//    @Autowired
+//    private HibernateConfig hibernateConfig;
 
     @GetMapping("/")
     public String home(){
-        hibernateConfig.getSession();
+//        hibernateConfig.getSession();
         return "index";
     }
 

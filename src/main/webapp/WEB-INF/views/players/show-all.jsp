@@ -21,7 +21,7 @@
 		<c:forEach items="${players}" var="player">
 			<tr>
 				<th>${ player.id }</th>
-				<th>${ player.name }</th>
+				<th>${ player.userInfo.name }</th>
 				<th>
 				<c:choose>
 					<c:when test="${player.isCaptain()}">

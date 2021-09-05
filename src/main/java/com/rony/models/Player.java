@@ -7,10 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "players")
@@ -20,7 +17,7 @@ import javax.persistence.Table;
 @ToString
 public class Player extends BaseModel{
 
-    private String name;
+//    private String name;
 
 //    @ManyToOne
 //    private Team team;
@@ -31,5 +28,9 @@ public class Player extends BaseModel{
     private PlayerExpertise expertise;
 
     private boolean isCaptain;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User userInfo;
 
 }

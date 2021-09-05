@@ -14,7 +14,6 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
 public class Role extends BaseModel{
     private String name;
 }

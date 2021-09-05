@@ -36,7 +36,7 @@ public class Event extends BaseModel{
     @OneToOne
     private Team team2;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(name = "umpires_in_event",
             joinColumns = {@JoinColumn(name = "event_id")},
             inverseJoinColumns = {@JoinColumn(name = "umpire_id")})

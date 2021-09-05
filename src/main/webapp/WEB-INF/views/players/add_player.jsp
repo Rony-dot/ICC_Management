@@ -60,8 +60,9 @@
 
         <form:input path="id" hidden="true"/>
 
-        <label>Name:</label>cv
-        <form:input path="name"/> <br><br>
+<%--        <label>Name:</label>cv--%>
+<%--        <form:input path="name"/> <br><br>--%>
+
 
 <%--        Player Team:--%>
 <%--        <select name="idTeam" >--%>
@@ -69,6 +70,13 @@
 <%--                <option value="${team.id}">${team.name}</option>--%>
 <%--            </c:forEach>--%>
 <%--        </select>--%>
+
+        User Name:
+        <select name="userId" >
+            <c:forEach items="${player_users}" var="user">
+                <option value="${user.id}">${user.name}</option>
+            </c:forEach>
+        </select>
 
         Player status:
         <form:select path="playerStatus" >
