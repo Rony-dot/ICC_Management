@@ -3,7 +3,7 @@
   User: User
   Date: 22/08/2021
   Time: 9:26 pm
-  To change this template use File | Settings | File Templates.
+  To change this template use File | Settings | File Templates.  \\
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -100,8 +100,10 @@
 
         </li>
         <!-- Dropdown end -->
-        <li class="nav-item">
-            <a class="nav-link" href="#"></a>
+        <li class="nav-item ">
+            <a class="nav-link" href="${pageContext.request.contextPath}/login">login</a>
+        </li>  <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
         </li>
     </ul>
 </nav>

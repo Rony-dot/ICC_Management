@@ -14,6 +14,7 @@
 			<th>Event Name</th>
 			<th>Event start time</th>
 			<th>Event end time</th>
+			<th>Event type</th>
 			<th>Team 1</th>
 			<th>Team 2</th>
 			<th>Umpire List</th>
@@ -30,11 +31,13 @@
 				<th>${ event.eventType }</th>
 				<th>${ event.team1.name }</th>
 				<th>${ event.team2.name }</th>
+
 				<th>
 					<c:forEach items="${event.umpires}" var="umpire">
 						${umpire.name},&nbsp
 					</c:forEach>
 				</th>
+				<th>${ event.score }</th>
 				<th><a href="edit?id=${ event.id }">Edit</a></th>
 				<th><a href="details?id=${ event.id }">Details</a></th>
 			</tr>

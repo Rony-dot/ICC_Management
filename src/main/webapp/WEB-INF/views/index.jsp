@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: User
@@ -18,6 +19,9 @@
 <body>
 <h1 class="text-center text-danger text-uppercase">this is home page</h1>
 
+<c:if test="${msg ne null}">
+    <h2>${msg}</h2>
+</c:if>
 
 <a class="text-primary" href="/users/all" a> all user </a>
 <a class="text-primary" href="/users/add" a> add user </a>

@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,6 +32,7 @@ public class User extends BaseModel{
     private UserRole role;
 
     private String age;
+    @Column(unique = true)
     private String email;
     private String password;
     private String mobile;

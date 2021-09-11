@@ -5,5 +5,6 @@ public enum UserRole {
     UMPIRE,
     COACH,
     TEAM_MANAGER,
-    ICC_AUTHORITY;
+    ICC_AUTHORITY,
+    SUPER_ADMIN;
 }

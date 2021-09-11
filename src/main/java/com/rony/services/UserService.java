@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,6 +91,20 @@ public class UserService{
                 .getSingleResult();
     }
 
+    public User getUserByEmail (String email) throws NoResultException {
+        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        var criteriaQuery = criteriaBuilder.createQuery(User.class);
+        var root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("email"),email));
+
+        return hibernateConfig.getSession()
+                .getEntityManagerFactory()
+                .createEntityManager()
+                .createQuery(criteriaQuery)
+                .getSingleResult();
+    }
+
 
     public void addUser(User userDto) {
         System.out.println("save method of userService------------------------------------------------------");
@@ -106,6 +121,20 @@ public class UserService{
         System.out.println("---------------------------------------------------");
         System.out.println("User is saved");
         System.out.println(userEntity);
+    }
+
+    public boolean validateUser(String email, String password) {
+        try{
+            if(getUserByEmail(email).getPassword().equals(password)){
+                return true;
+            }else {
+                System.out.println("user not exist");
+                return false;
+            }
+        }catch (NoResultException e){
+            System.err.println("exception of validate user in userService");
+           return false;
+        }
     }
 
 //    public void deleteUser(User user){

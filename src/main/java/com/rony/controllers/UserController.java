@@ -14,11 +14,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/users")
@@ -30,7 +28,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping("/all")
     public String allUsers(Model model){
         model.addAttribute("pageTitle","Show all Users");
@@ -41,14 +38,18 @@ public class UserController {
     }
 
     @GetMapping("/add")
-    public String addUser_GET(Model model){
+    public String addUser_GET(Model model, HttpSession session){
         model.addAttribute("user", new User());
         model.addAttribute("genders",userService.getGenders());
         model.addAttribute("homeTowns",userService.getHomeTowns());
         model.addAttribute("salutations",userService.getSalutations());
-        model.addAttribute("roles", UserRole.values());
-        System.err.println("----------UserRole.values()--------------------");
-        System.out.println(UserRole.values());
+        var role = session.getAttribute("role");
+        System.err.println(role+" getting role from session in addUser controller ");
+        if(role.equals(UserRole.ICC_AUTHORITY)){
+            model.addAttribute("roles", Arrays.asList(UserRole.TEAM_MANAGER, UserRole.UMPIRE));
+        }else{
+            model.addAttribute("roles", UserRole.values());
+        }
         return "users/addUser";
     }
 

@@ -89,12 +89,14 @@
         </select>
         <br><br>
 
-        Umpires :
+        Select existing Umpires :
         <select name="umpireIds" multiple="multiple" >
             <c:forEach items="${umpires}" var="umpire">
                 <option value="${umpire.id}" label="${umpire.name}"> ${umpire.name} </option>
             </c:forEach>
         </select>
+
+        <a href="${pageContext.request.contextPath}/users/add">Or Add an Umpire</a>
         <br><br>
 
         Score
@@ -107,3 +109,6 @@
 </html>
 
 <jsp:include page="../common/footer.jsp" />
+
+<%--String referer = request.getHeader("Referer");--%>
+<%--return "redirect:"+ referer;--%>

@@ -26,7 +26,7 @@
 				<th>${ team.coach.name }</th>
 				<th>
 					<c:forEach var="player" items="${team.playerList}">
-						${player.name}
+						${player.userInfo.name}
 					</c:forEach>
 				</th>
 
