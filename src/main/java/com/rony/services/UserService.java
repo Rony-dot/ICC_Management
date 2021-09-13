@@ -157,7 +157,7 @@ public class UserService implements UserDetailsService {
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("email"),email));
 
-        return hibernateConfig.getSession()
+        var result =  hibernateConfig.getSession()
                 .getEntityManagerFactory()
                 .createEntityManager()
                 .createQuery(criteriaQuery)
@@ -165,6 +165,7 @@ public class UserService implements UserDetailsService {
                 .stream()
                 .findFirst()
                 .orElse(null);
+        return result;
     }
 
 //    public void deleteUser(User user){

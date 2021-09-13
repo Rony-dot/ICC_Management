@@ -16,6 +16,20 @@ public class Initializer {
 //        TEAM_MANAGER,
 //        ICC_AUTHORITY,
 //        SUPER_ADMIN;
+
+//        admin pass before set to database
+//        $2a$10$WTqRJFGDatjtYhDHFmkzNeTf8/8g8Ot7JC1AQUsgASqnSJ7UTWM5K
+
+//        fetch from database admin pass
+//        $2a$10$7RaHAJAavX0VvJe/qwwkR.EKFMm2QFT9NkSViEhHvq2wFuR9czBxC
+
+//        copied from database admin pass
+//        $2a$10$7RaHAJAavX0VvJe/qwwkR.EKFMm2QFT9NkSViEhHvq2wFuR9czBxC
+
+
+
+
+
         roleService.create(new Role(System.nanoTime(), "ROLE_USER"));
         roleService.create(new Role(System.nanoTime(), "ROLE_ADMIN"));
         roleService.create(new Role(System.nanoTime(), "ROLE_PLAYER"));
@@ -33,11 +47,12 @@ public class Initializer {
         adminEntity.setAge("9999");
 //        adminEntity.setDateOfBirth(new Date());
         adminEntity.setUserRole(roleService.findByRoleName("ROLE_ADMIN"));
-        adminEntity.setPassword(passwordEncoder.encode("1234"));
+        adminEntity.setPassword("1234");
         adminEntity.setUsername("admin");
         if(userService.getUserByEmail(adminEntity.getEmail()) == null){
             userService.addUser(adminEntity);
         }
+
 
         // player
         User playerEntity = new User();
@@ -47,11 +62,12 @@ public class Initializer {
         playerEntity.setAge("9999");
 //        userEntity.setDateOfBirth(new Date());
         playerEntity.setUserRole(roleService.findByRoleName("ROLE_PLAYER"));
-        playerEntity.setPassword(passwordEncoder.encode("1234"));
+        playerEntity.setPassword("1234");
         playerEntity.setUsername("player");
         if(userService.getUserByEmail(playerEntity.getEmail())==null){
             userService.addUser(playerEntity);
         }
+
 
         // ICC_AUTH
         User iccEntity = new User();
@@ -61,7 +77,7 @@ public class Initializer {
         iccEntity.setAge("9999");
 //        iccEntity.setDateOfBirth(new Date());
         iccEntity.setUserRole(roleService.findByRoleName("ROLE_ICC_AUTHORITY"));
-        iccEntity.setPassword(passwordEncoder.encode("1234"));
+        iccEntity.setPassword("1234");
         iccEntity.setUsername("icc");
         if(userService.getUserByEmail(iccEntity.getEmail())==null){
             userService.addUser(iccEntity);
@@ -75,7 +91,7 @@ public class Initializer {
         suAdminEntity.setAge("9999");
 //        userEntity.setDateOfBirth(new Date());
         suAdminEntity.setUserRole(roleService.findByRoleName("ROLE_SUPER_ADMIN"));
-        suAdminEntity.setPassword(passwordEncoder.encode("1234"));
+        suAdminEntity.setPassword("1234");
         suAdminEntity.setUsername("suadmin");
         if(userService.getUserByEmail(suAdminEntity.getEmail())==null){
             userService.addUser(suAdminEntity);

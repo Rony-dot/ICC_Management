@@ -7,6 +7,8 @@ import com.rony.services.RoleService;
 import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,25 +16,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder);
-
-        String p = passwordEncoder.encode("1234");
-        passwordEncoder.matches("1234",p);
-        System.out.println("password : ----------- : below ");
-        System.out.println(p.toString());
+//        auth.authenticationProvider(authProvider());
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
 
       /*
         auth
@@ -116,10 +115,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/").permitAll()
+//                .antMatchers("/").permitAll()
                 .antMatchers( "/register").permitAll()
-//                .antMatchers("/**")
-//                .hasAnyRole("ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/countries/add").hasRole("ICC_AUTHORITY")
+                .antMatchers("/users/**").hasAnyRole("ICC_AUTHORITY","TEAM_MANAGER")
+                .antMatchers("/countries/all","/players/**","/teams/**","/events/**","/series/**").hasRole("TEAM_MANAGER")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -141,15 +141,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //         */
     }
 
-    @Bean(name = "passwordEncoder")
-    PasswordEncoder BCPasswordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean(name = "passwordEncoder")
 
-    @Bean
-    public CustomAuthSuccessHandler authSuccessHandler() {
-        return new CustomAuthSuccessHandler();
-    }
+
+//    @Bean
+//    public DaoAuthenticationProvider authProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setUserDetailsService(userService);
+//        authProvider.setPasswordEncoder(passwordEncoder);
+//        return authProvider;
+//    }
+//
+//    @Bean
+//    public CustomAuthSuccessHandler authSuccessHandler() {
+//        return new CustomAuthSuccessHandler();
+//    }
     
 
 }
