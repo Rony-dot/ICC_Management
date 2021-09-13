@@ -54,7 +54,8 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser_Post( @ModelAttribute(name = "user") @Valid User user,  BindingResult bindingResult, Model model){
+    public String addUser_Post( @ModelAttribute(name = "user") @Valid User user,
+                                BindingResult bindingResult, Model model){
         String errorMsg = "";
         if(bindingResult.hasErrors()){
 //            for(ObjectError error: bindingResult.getAllErrors()){

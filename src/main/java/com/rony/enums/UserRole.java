@@ -1,6 +1,7 @@
 package com.rony.enums;
 
 public enum UserRole {
+    USER,
     PLAYER,
     UMPIRE,
     COACH,

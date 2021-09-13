@@ -31,7 +31,12 @@
         <div class="row">
 <%--            <div class="col-md-3"></div>--%>
             <div class="col-md-6 mx-auto shadow border border-primary">
-                <form action="${pageContext.request.contextPath}/login" method="post">
+    <c:if test="${not empty errorMessge}"><div style="color:red; font-weight: bold; margin: 30px 0px;">${errorMessge}</div></c:if>
+<%--                <form action="${pageContext.request.contextPath}/login" method="post">--%>
+                <form action="${pageContext.request.contextPath}/login-processing" method="post">
+
+<%--    <form action="@{/login-processing}" method="post">--%>
+<%--    <form action="/login" method="post">--%>
                     <div class="form-group">
                         <label for="email">Email address</label>
 <%--                        <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">--%>
@@ -42,11 +47,10 @@
                         <label for="exampleInputPassword1">Password</label>
                         <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Agree to nothing</label>
-                    </div>
+
                     <button type="submit" class="btn btn-primary">Submit</button>
+
+<%--                    <input type="hidden" name="${_csrf}" value="${_csrf.token}" />--%>
                 </form>
             </div>
 <%--            <div class="col-md-3"></div>--%>

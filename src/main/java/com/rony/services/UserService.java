@@ -7,6 +7,10 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
@@ -16,10 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class UserService{
+public class UserService implements UserDetailsService {
 
     @Autowired
     private HibernateConfig hibernateConfig;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     private List<User> userList;
@@ -77,6 +83,7 @@ public class UserService{
                 .createQuery(criteriaQuery)
                 .getResultList();
     }
+
     public User getUserById(long id){
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(User.class);
@@ -102,9 +109,11 @@ public class UserService{
                 .getEntityManagerFactory()
                 .createEntityManager()
                 .createQuery(criteriaQuery)
-                .getSingleResult();
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
-
 
     public void addUser(User userDto) {
         System.out.println("save method of userService------------------------------------------------------");
@@ -115,6 +124,8 @@ public class UserService{
         }
         var userEntity = new User();
         BeanUtils.copyProperties(userDto,userEntity);
+        // encoding password
+        userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
         session.save(userEntity);
         session.flush();
         tx.commit();
@@ -135,6 +146,25 @@ public class UserService{
             System.err.println("exception of validate user in userService");
            return false;
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        // or can directly call " getUserByEmail(email) ", bcz it is allReady defined previously
+        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        var criteriaQuery = criteriaBuilder.createQuery(User.class);
+        var root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("email"),email));
+
+        return hibernateConfig.getSession()
+                .getEntityManagerFactory()
+                .createEntityManager()
+                .createQuery(criteriaQuery)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
 //    public void deleteUser(User user){
