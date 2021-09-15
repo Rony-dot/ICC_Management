@@ -6,11 +6,13 @@ import com.rony.models.Event;
 import com.rony.models.User;
 import org.hibernate.Hibernate;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.AttributeAccessor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,6 +24,12 @@ public class EventService {
     private UserService userService;
     @Autowired
     private TeamService teamService;
+
+    @Autowired
+    private PlayerService playerService;
+
+    @Autowired
+    private RoleService roleService;
 
     public EventService(HibernateConfig hibernateConfig, UserService userService, TeamService teamService) {
         this.hibernateConfig = hibernateConfig;
@@ -56,27 +64,55 @@ public class EventService {
                 .getSingleResult();
     }
 
-    public void saveEvent(Event eventDto, long idTeam1, long idTeam2, long[] umpireIds) {
+    public void saveEvent(Event eventDto, long idTeam1, long idTeam1Cap,
+                          long idTeam2, long idTeam2Cap,
+                          long[] umpireIds, long[] newUmpireIds) {
+
         System.err.println("save method of Event service------------------------------------------------------");
-        var session = hibernateConfig.getSession();
-        Transaction tx = session.getTransaction();
-        if(!tx.isActive()){
-            tx = session.beginTransaction();
+
+        // update users as new umpire by updating role
+        if(newUmpireIds.length > 0  && newUmpireIds!=null){
+            for(long id: newUmpireIds){
+                User umpire = userService.getUserById(id);
+                umpire.setUserRole(roleService.findByRoleName("ROLE_UMPIRE"));
+                hibernateConfig.updateObject(umpire);
+            }
         }
+
+        // fetch updated umpires
+        List<User> newUmpires = new ArrayList<>();
+        if(newUmpireIds.length > 0  && newUmpireIds!=null) {
+            for (long id : newUmpireIds) {
+                User umpire = userService.getUserById(id);
+                newUmpires.add(umpire);
+            }
+        }
+
         var eventEntity = new Event();
         BeanUtils.copyProperties(eventDto,eventEntity);
         var team1 = teamService.getTeamById(idTeam1);
+        var team1Cap = playerService.getPlayerById(idTeam1Cap);
         var team2 = teamService.getTeamById(idTeam2);
+        var team2Cap = playerService.getPlayerById(idTeam2Cap);
         eventEntity.setTeam1(team1);
+        eventEntity.setTeam1Captain(team1Cap);
         eventEntity.setTeam2(team2);
+        eventEntity.setTeam2Captain(team2Cap);
         List<User> umpireList = new ArrayList<>();
-        for(long id: umpireIds){
-            umpireList.add(userService.getUserById(id));
+
+        if(umpireIds.length > 0 && umpireIds != null ){
+            for(long id : umpireIds){
+                umpireList.add(userService.getUserById(id));
+            }
+        }
+        if(newUmpires.size() > 0 && newUmpires !=null ){
+            for(User umpire : newUmpires){
+                umpireList.add(umpire);
+            }
         }
         eventEntity.setUmpires(umpireList);
-        session.save(eventEntity);
-        session.flush();
-        tx.commit();
+        hibernateConfig.saveObject(eventEntity);
+
         System.err.println("---------------------------------------------------");
         System.err.println("Event is saved");
         System.err.println(eventEntity);

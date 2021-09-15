@@ -81,10 +81,26 @@
         </select>
         <br><br>
 
+        Team 1 Captain:
+        <select name="idTeam1Captain" >
+            <c:forEach items="${team_1_Captain}" var="team1Captain">
+                <option value="${team1Captain.id}">${team1Captain.userInfo.name}</option>
+            </c:forEach>
+        </select>
+        <br><br>
+
         Team 2:
         <select name="idTeam2" >
             <c:forEach items="${teams2}" var="team2">
                 <option value="${team2.id}">${team2.name}</option>
+            </c:forEach>
+        </select>
+        <br><br>
+
+        Team 2 Captain:
+        <select name="idTeam2Captain" >
+            <c:forEach items="${team_2_Captain}" var="team2Captain">
+                <option value="${team2Captain.id}">${team2Captain.userInfo.name}</option>
             </c:forEach>
         </select>
         <br><br>
@@ -96,7 +112,13 @@
             </c:forEach>
         </select>
 
-        <a href="${pageContext.request.contextPath}/users/add">Or Add an Umpire</a>
+        Or add new Umpires :
+        <select name="newUmpireIds" multiple="multiple" >
+            <c:forEach items="${new_umpires}" var="new_umpire">
+                <option value="${new_umpire.id}" label="${new_umpire.name}"> ${new_umpire.name} </option>
+            </c:forEach>
+        </select>
+
         <br><br>
 
         Score

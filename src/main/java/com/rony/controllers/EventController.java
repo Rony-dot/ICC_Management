@@ -4,6 +4,7 @@ import com.rony.enums.EventType;
 import com.rony.enums.UserRole;
 import com.rony.models.Event;
 import com.rony.services.EventService;
+import com.rony.services.PlayerService;
 import com.rony.services.TeamService;
 import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class EventController {
     private UserService userService;
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private PlayerService playerService;
 
     public EventController(EventService eventService, UserService userService, TeamService teamService) {
         this.eventService = eventService;
@@ -42,20 +45,44 @@ public class EventController {
     public String addEvent(Model model){
         model.addAttribute("event",new Event());
         model.addAttribute("eventTypes", EventType.values());
-        model.addAttribute("teams1", teamService.allTeams());
-        model.addAttribute("teams2", teamService.allTeams());
+
+        var teams =  teamService.allTeams();
+        model.addAttribute("teams1",teams);
+        model.addAttribute("teams2", teams);
+
+        var players = playerService.allPlayers();
+        model.addAttribute("team_1_Captain", players);
+        model.addAttribute("team_2_Captain", players);
+
         model.addAttribute("umpires", userService.allUsers().stream()
-                .filter(u->u.getRole() == UserRole.UMPIRE)
+                .filter(u -> u.getAuthorities().stream()
+                        .findFirst()
+                        .get()
+                        .getAuthority()
+                        .equals("ROLE_UMPIRE"))
+                .collect(Collectors.toList()));
+
+        model.addAttribute("new_umpires", userService.allUsers().stream()
+                .filter(u -> u.getAuthorities().stream()
+                        .findFirst()
+                        .get()
+                        .getAuthority()
+                        .equals("ROLE_USER"))
                 .collect(Collectors.toList()));
 
         return "events/add_event";
     }
 
     @PostMapping("/events/add")
-    public String addEvent(Model model, @ModelAttribute Event event, @RequestParam("idTeam1") long idTeam1,
-                           @RequestParam("idTeam2") long idTeam2, @RequestParam("umpireIds") long[] umpireIds){
+    public String addEvent(Model model, @ModelAttribute Event event,
+                           @RequestParam("idTeam1") long idTeam1,
+                           @RequestParam("idTeam1Captain") long idTeam1Cap,
+                           @RequestParam("idTeam2") long idTeam2,
+                           @RequestParam("idTeam2Captain") long idTeam2Cap,
+                           @RequestParam(value = "umpireIds", required = false) long[] umpireIds,
+                           @RequestParam(value = "newUmpireIds", required = false) long[] newUmpireIds){
 
-        eventService.saveEvent(event, idTeam1, idTeam2, umpireIds);
+        eventService.saveEvent(event, idTeam1, idTeam1Cap, idTeam2, idTeam2Cap, umpireIds, newUmpireIds);
         return "redirect: /events/all";
     }
 }

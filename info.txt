@@ -1,11 +1,12 @@
 1. Player and User confusion bcz, User has already role of Player
 2. form cannot set LocalDateTime directly, lombok is used for getter setter
 3. @OneToMany and @JoinTable makes the inverse_column as unique
-4.
+4. how to model.addAttribute in header.jsp
 
 for multiple bean we should use qualifier in @Autowired
 
 ///
+
 Use update() if you are certain that the session does not contain an already persistent instance with the
  same identifier. Use merge() if you want to merge your modifications at any time without consideration
  of the state of the session. In other words, update() is usually the first method you would call in a

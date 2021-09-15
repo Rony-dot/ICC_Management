@@ -77,11 +77,11 @@ public class PlayerService {
 
             var countryEntity = countryService.getCountryById(cid);
             var player = getPlayerByUserId(userId);
-            var playerList = countryEntity.getPlayerList();
-            playerList.add(player);
-            countryEntity.setPlayerList(playerList);
+            countryEntity.getPlayerList().add(player);
+//            playerList.add(player);
+//            countryEntity.setPlayerList(playerList);
 
-            hibernateConfig.updateObject(countryEntity);
+            hibernateConfig.saveObject(countryEntity);
             System.out.println("assign player to country success!");
 
             System.err.println("---------------------------------------------------");

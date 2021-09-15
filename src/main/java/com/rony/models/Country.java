@@ -23,8 +23,8 @@ public class Country extends BaseModel{
     @JoinColumn(name = "managing_director")
     private User managingDirector;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+//    @ManyToMany
     @JoinTable(name = "country_player",
                 joinColumns = {@JoinColumn(name = "country_id", nullable = true) },
                 inverseJoinColumns = {@JoinColumn(name = "player_id", unique = false, nullable = true)})

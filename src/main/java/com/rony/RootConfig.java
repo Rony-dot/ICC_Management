@@ -30,4 +30,6 @@ public class RootConfig {
 //        return new UserService(hibernateConfig());
 //    }
 
+
+
 }

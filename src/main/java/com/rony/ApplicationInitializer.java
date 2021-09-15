@@ -1,5 +1,6 @@
 package com.rony;
 
+import com.rony.config.HibernateConfig;
 import com.rony.config.security.SecurityConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -15,7 +16,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         // Load Spring web application configuration
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(RootConfig.class, SecurityConfig.class);
+        rootContext.register(RootConfig.class, SecurityConfig.class, HibernateConfig.class);
         rootContext.refresh();
 
         servletContext.addListener(new ContextLoaderListener(rootContext));
