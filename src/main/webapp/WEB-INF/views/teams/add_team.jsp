@@ -60,18 +60,18 @@
         <label>Name:</label>
         Name : <form:input path="name"/>  <br><br>
 
-        Country :
-        <select name="countryId" >
-            <c:forEach items="${countries}" var="country">
-                <option value="${country.id}" label="${country.name}"> ${country.name} </option>
-            </c:forEach>
-        </select>
-        <br><br>
+<%--        Country :--%>
+<%--        <select name="countryId" >--%>
+<%--            <c:forEach items="${countries}" var="country">--%>
+<%--                <option value="${country.id}" label="${country.name}"> ${country.name} </option>--%>
+<%--            </c:forEach>--%>
+<%--        </select>--%>
+<%--        <br><br>--%>
 
         players list :
         <select name="playerIds" multiple="multiple">
             <c:forEach items="${players}" var="player">
-                <option label="${player.name}" value="${player.id}">${player.name} </option>
+                <option label="${player.userInfo.name}" value="${player.id}">${player.userInfo.name} </option>
             </c:forEach>
         </select>
         <br><br>

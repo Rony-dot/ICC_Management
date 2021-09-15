@@ -50,7 +50,7 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(Model model, HttpSession session){
+    public String home(Model model, HttpServletRequest request){
         System.err.println("------------------------------------------- ");
         System.err.println("initializer invoking started () ");
 
@@ -74,6 +74,8 @@ public class HomeController {
         for(String r : roles){
             logger.info("role from for looop : " + r);
         }
+
+
         
         return "index";
     }
@@ -83,6 +85,23 @@ public class HomeController {
 //        return "index";
 //    }
 
+    @GetMapping("/success")
+    public String success(Model model, HttpServletRequest request){
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        var role = authentication.getAuthorities().stream()
+                .findFirst().get().getAuthority();
+        var cm = (User) authentication.getPrincipal();
+        var country = countryService.allCountries().stream()
+                .filter(u -> u.getManagingDirector().getId() == cm.getId())
+                .findFirst()
+                .get();
+        var cid = country.getId();
+        HttpSession session = request.getSession();
+
+        session.setAttribute("cid", cid);
+        model.addAttribute("msg",role );
+        return "successPage";
+    }
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
@@ -121,7 +140,8 @@ public class HomeController {
     }
 
 //    @PostMapping("/login")
-//    public String login(Model model, @RequestParam("email") String email, @RequestParam("password") String password,
+//    public String login(Model model, @RequestParam("email") String email,
+//                          @RequestParam("password") String password,
 //                        HttpServletRequest request){
 //       try{
 //           if(!userService.validateUser(email,password)) {

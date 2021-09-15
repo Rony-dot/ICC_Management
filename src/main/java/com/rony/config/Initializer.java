@@ -124,6 +124,20 @@ public class Initializer {
             userService.addUser(cmEntity);
         }
 
+        // coach
+        User coachEntity = new User();
+        coachEntity.setId(System.nanoTime());
+        coachEntity.setName("i am coach");
+        coachEntity.setEmail("coach@gmail.com");
+        coachEntity.setAge("9999");
+//      coach will be assigned by country manager, then role will be updated in service layer
+        coachEntity.setUserRole(roleService.findByRoleName("ROLE_USER"));
+        coachEntity.setPassword("1234");
+        coachEntity.setUsername("coach");
+        if( userService.getUserByEmail(coachEntity.getEmail()) == null){
+            userService.addUser(coachEntity);
+        }
+
 //
 
         // player 1

@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class TeamService {
     private PlayerService playerService;
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private RoleService roleService;
 
     public TeamService(HibernateConfig hibernateConfig, UserService userService, PlayerService playerService, CountryService countryService) {
         this.hibernateConfig = hibernateConfig;
@@ -80,27 +83,27 @@ public class TeamService {
                 .getSingleResult();
     }
 
-    public void saveTeam(Team teamDto, long countryId, long[] playerIds, long coachId) {
+    public void saveTeam(Team teamDto, long cid,  long[] playerIds, long coachId) {
         System.err.println("save method of Team service------------------------------------------------------");
-        var session = hibernateConfig.getSession();
-        Transaction tx = session.getTransaction();
-        if(!tx.isActive()){
-            tx = session.beginTransaction();
-        }
+
+        var coachDto = userService.getUserById(coachId);
+        coachDto.setUserRole(roleService.findByRoleName("ROLE_COACH"));
+        hibernateConfig.updateObject(coachDto);
+
         var teamEntity = new Team();
         BeanUtils.copyProperties(teamDto,teamEntity);
-        var countryDto = countryService.getCountryById(countryId);
-        teamEntity.setCountry(countryDto);
-        var coachDto = userService.getUserById(coachId);
+
         teamEntity.setCoach(coachDto);
         List<Player> playerList = new ArrayList<>();
         for(long id: playerIds){
             playerList.add(playerService.getPlayerById(id));
         }
         teamEntity.setPlayerList(playerList);
-        session.save(teamEntity);
-        session.flush();
-        tx.commit();
+        var country = countryService.getCountryById(cid);
+        teamEntity.setCountry(country);
+
+        hibernateConfig.saveObject(teamEntity);
+
         System.err.println("---------------------------------------------------");
         System.err.println("team is saved");
         System.err.println(teamEntity);

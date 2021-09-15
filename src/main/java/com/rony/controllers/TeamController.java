@@ -4,11 +4,14 @@ import com.rony.enums.PlayerStatus;
 import com.rony.enums.UserRole;
 import com.rony.models.Country;
 import com.rony.models.Team;
+import com.rony.models.User;
 import com.rony.services.CountryService;
 import com.rony.services.PlayerService;
 import com.rony.services.TeamService;
 import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.stream.Collectors;
 
 @Controller
@@ -47,9 +51,11 @@ public class TeamController {
     public String addTeam(Model model){
         model.addAttribute("team", new Team());
 
-        var coaches = userService.allUsers().stream()
-                .filter(u -> u.getRole() == UserRole.COACH)
-                .collect(Collectors.toList());
+        var coaches = userService.allUsers();
+//                .stream()
+//                .filter(u -> u.getAuthorities().stream()
+//                        .findFirst().get().getAuthority().equals("ROLE_COACH"))
+//                .collect(Collectors.toList());
         model.addAttribute("coaches",coaches);
 
         var players = playerService.allPlayers().stream()
@@ -57,16 +63,18 @@ public class TeamController {
                 .collect(Collectors.toList());
         model.addAttribute("players",players);
 
-        model.addAttribute("countries",countryService.allCountries());
+//        model.addAttribute("countries",countryService.allCountries());
 
         return "/teams/add_team";
     }
 
     @PostMapping("/teams/add")
-    public String addTeam(Model model, @ModelAttribute Team team, @RequestParam("countryId") long countryId,
-                             @RequestParam("playerIds") long[] playerIds,
-                             @RequestParam("coachId") long coachId){
-        teamService.saveTeam(team, countryId, playerIds, coachId);
+    public String addTeam(Model model, @ModelAttribute Team team,
+                          @RequestParam("playerIds") long[] playerIds,
+                          @RequestParam("coachId") long coachId,
+                          HttpSession session){
+        var cid = (long) session.getAttribute("cid");
+        teamService.saveTeam(team, cid, playerIds, coachId);
 
         return "redirect: /teams/all";
     }

@@ -12,7 +12,7 @@
 		<tr>
 			<th>ID</th>
 			<th>team Name</th>
-			<th>team country</th>
+<%--			<th>team country</th>--%>
 			<th>team coach</th>
 			<th>players</th>
 			<th>Edit</th>
@@ -22,7 +22,7 @@
 			<tr>
 				<th>${ team.id }</th>
 				<th>${ team.name }</th>
-				<th>${ team.country.name }</th>
+<%--				<th>${ team.country.name }</th>--%>
 				<th>${ team.coach.name }</th>
 				<th>
 					<c:forEach var="player" items="${team.playerList}">

@@ -9,6 +9,7 @@ import com.rony.services.CountryService;
 import com.rony.services.PlayerService;
 import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,22 +47,16 @@ public class PlayerController {
     }
 
     @GetMapping("/players/add")
-    public String addPlayer(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var role = authentication.getAuthorities().stream()
-                .findFirst().get().getAuthority();
-        var cm = (User) authentication.getPrincipal();
-        var country = countryService.allCountries().stream()
-                .filter(c -> c.getManagingDirector().getId() == cm.getId())
-                .findFirst()
-                .get();
-        var cid = country.getId();
+    public String addPlayer(Model model, HttpSession session){
+
+        var cid = (long) session.getAttribute("cid");
         System.out.println("1. country id is "+cid);
         model.addAttribute("cid", cid);
         model.addAttribute("player",new Player());
         model.addAttribute("playerStatus", PlayerStatus.values());
         model.addAttribute("playerExpertise", PlayerExpertise.values());
         model.addAttribute("player_users", userService.allUsers());
+
 
         // Later, team objects need to sent from here, filtered by country
         return "players/add_player";
