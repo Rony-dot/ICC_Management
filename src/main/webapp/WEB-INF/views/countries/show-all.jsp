@@ -25,7 +25,7 @@
 				<th>
 
 					<c:forEach var="player" items="${country.playerList}">
-						${player.name}
+						${player.userInfo.name}
 					</c:forEach>
 				</th>
 				<th><a href="edit?id=${ country.id }">Edit</a></th>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CountryService {
@@ -19,6 +20,8 @@ public class CountryService {
     private HibernateConfig hibernateConfig;
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     public CountryService(HibernateConfig hibernateConfig, UserService userService) {
         this.hibernateConfig = hibernateConfig;
@@ -31,11 +34,8 @@ public class CountryService {
         var root = criteriaQuery.from(Country.class);
         criteriaQuery.select(root);
 
-        return hibernateConfig.getSession()
-                .getEntityManagerFactory()
-                .createEntityManager()
-                .createQuery(criteriaQuery)
-                .getResultList();
+        var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+        return resultList.size() > 0  ? resultList : null;
     }
 
   /*  public void saveCountry(Country countryDto, User userDto){
@@ -67,32 +67,23 @@ public class CountryService {
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
 
-        return hibernateConfig.getSession()
-                .getEntityManagerFactory()
-                .createEntityManager()
-                .createQuery(criteriaQuery)
-                .getSingleResult();
+        return hibernateConfig.query(criteriaQuery).getSingleResult();
     }
 
     public void saveCountry(Country countryDto, long idMD, long[] playerIds) {
         System.out.println("save method of country service------------------------------------------------------");
-        var session = hibernateConfig.getSession();
-        Transaction tx = session.getTransaction();
-        if(!tx.isActive()){
-            tx = session.beginTransaction();
-        }
+
         var countryEntity = new Country();
         BeanUtils.copyProperties(countryDto,countryEntity);
+
         var managingDirectorDto = userService.getUserById(idMD);
+        managingDirectorDto.setUserRole(roleService.findByRoleName("ROLE_TEAM_MANAGER"));
         countryEntity.setManagingDirector(managingDirectorDto);
-        List<User> playerList = new ArrayList<>();
-        for(long id: playerIds){
-            playerList.add(userService.getUserById(id));
-        }
+        List<Player> playerList = new ArrayList<>();
         countryEntity.setPlayerList(playerList);
-        session.save(countryEntity);
-        session.flush();
-        tx.commit();
+
+        hibernateConfig.saveObject(countryEntity);
+
         System.out.println("---------------------------------------------------");
         System.out.println("country is saved");
         System.out.println(countryEntity);
@@ -110,11 +101,11 @@ public class CountryService {
         BeanUtils.copyProperties(countryDto,countryEntity);
         var managingDirectorDto = userService.getUserById(idMD);
         countryEntity.setManagingDirector(managingDirectorDto);
-        List<User> playerList = new ArrayList<>();
-        for(long pId: playerIds){
-            playerList.add(userService.getUserById(pId));
-        }
-        countryEntity.setPlayerList(playerList);
+//        List<Player> playerList = new ArrayList<>();
+//        for(long pId: playerIds){
+//            playerList.add(userService.getUserById(pId));
+//        }
+//        countryEntity.setPlayerList(playerList);
 
         session.update(countryEntity);
         session.flush();

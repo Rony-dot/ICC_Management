@@ -71,6 +71,7 @@
 <%--            </c:forEach>--%>
 <%--        </select>--%>
 
+        <input name="cid" value="${cid}">
         User Name:
         <select name="userId" >
             <c:forEach items="${player_users}" var="user">
@@ -88,8 +89,8 @@
             <form:options items="${playerExpertise}"/>
         </form:select>
 
-        Player isCaptain:
-        <input type="checkbox" name="isCap" value="true">
+<%--        Player isCaptain:--%>
+<%--        <input type="checkbox" name="isCap" value="true">--%>
 
         <input type="submit" name="submit" value="Add User">
 

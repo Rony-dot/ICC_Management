@@ -102,8 +102,12 @@
         <!-- Dropdown end -->
         <li class="nav-item ">
             <a class="nav-link" href="${pageContext.request.contextPath}/login">login</a>
-        </li>  <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href="${pageContext.request.contextPath}/register">register</a>
         </li>
     </ul>
 </nav>

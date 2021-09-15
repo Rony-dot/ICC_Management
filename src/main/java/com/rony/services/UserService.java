@@ -91,11 +91,12 @@ public class UserService implements UserDetailsService {
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
 
-        return hibernateConfig.getSession()
-                .getEntityManagerFactory()
-                .createEntityManager()
-                .createQuery(criteriaQuery)
-                .getSingleResult();
+        return hibernateConfig.query(criteriaQuery).getSingleResult();
+//        return hibernateConfig.getSession()
+//                .getEntityManagerFactory()
+//                .createEntityManager()
+//                .createQuery(criteriaQuery)
+//                .getSingleResult();
     }
 
     public User getUserByEmail (String email) throws NoResultException {
@@ -117,18 +118,19 @@ public class UserService implements UserDetailsService {
 
     public void addUser(User userDto) {
         System.out.println("save method of userService------------------------------------------------------");
-        var session = hibernateConfig.getSession();
-        Transaction tx = session.getTransaction();
-        if(!tx.isActive()){
-            tx = session.beginTransaction();
-        }
+//        var session = hibernateConfig.getSession();
+//        Transaction tx = session.getTransaction();
+//        if(!tx.isActive()){
+//            tx = session.beginTransaction();
+//        }
         var userEntity = new User();
         BeanUtils.copyProperties(userDto,userEntity);
         // encoding password
         userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        session.save(userEntity);
-        session.flush();
-        tx.commit();
+        hibernateConfig.saveObject(userEntity);
+//        session.save(userEntity);
+//        session.flush();
+//        tx.commit();
         System.out.println("---------------------------------------------------");
         System.out.println("User is saved");
         System.out.println(userEntity);

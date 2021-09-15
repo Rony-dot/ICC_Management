@@ -26,7 +26,7 @@ public class Series extends BaseModel{
     private Date seriesEndDate;
     private SeriesType seriesType;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(name = "events_in_series",
             joinColumns = {@JoinColumn(name = "series_id")},
             inverseJoinColumns = {@JoinColumn(name = "event_id")})

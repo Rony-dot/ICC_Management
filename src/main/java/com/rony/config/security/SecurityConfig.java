@@ -110,14 +110,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
          */
 //        /*
+//        /*
         http
                 .csrf()
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-//                .antMatchers("/").permitAll()
+                .antMatchers("/").permitAll()
                 .antMatchers( "/register").permitAll()
-                .antMatchers("/countries/add").hasRole("ICC_AUTHORITY")
+                .antMatchers("/countries/**").hasRole("ICC_AUTHORITY")
                 .antMatchers("/users/**").hasAnyRole("ICC_AUTHORITY","TEAM_MANAGER")
                 .antMatchers("/countries/all","/players/**","/teams/**","/events/**","/series/**").hasRole("TEAM_MANAGER")
                 .anyRequest()

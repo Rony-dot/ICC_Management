@@ -1,5 +1,6 @@
 package com.rony.config;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -12,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
@@ -25,7 +27,16 @@ public class HibernateConfig {
 
     public Session getSession(){
         this.session = createAndGetLocalSessionFactoryBean().getCurrentSession();
-        return session!=null? this.session : createAndGetLocalSessionFactoryBean().openSession();
+        if(session!=null){
+            System.out.println("------------------------------------------------");
+            System.out.println("giving existing session");
+            return this.session;
+        }else {
+            System.out.println("------------------------------------------------");
+            System.out.println("creating new session");
+            return createAndGetLocalSessionFactoryBean().openSession();
+        }
+//        return session!=null? this.session : createAndGetLocalSessionFactoryBean().openSession();
     }
 
     public SessionFactory createAndGetLocalSessionFactoryBean() {
@@ -81,8 +92,31 @@ public class HibernateConfig {
             tx = session.beginTransaction();
         }
         var result = session.getEntityManagerFactory().createEntityManager().createQuery(query);
+        session.flush();
         tx.commit();
         return result;
     }
+
+    public void saveObject(Object o){
+        var session = getSession();
+        var tx = session.getTransaction();
+        if (!tx.isActive()) {
+            tx = session.beginTransaction();
+        }
+        session.save(o);
+        tx.commit();
+    }
+
+    public void updateObject(Object o){
+        var session = getSession();
+        var tx = session.getTransaction();
+        if (!tx.isActive()) {
+            tx = session.beginTransaction();
+        }
+        sessionFactory.getCurrentSession().merge(o);
+        tx.commit();
+
+    }
+
 
 }

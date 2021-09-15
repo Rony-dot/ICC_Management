@@ -6,6 +6,8 @@ import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/users")
@@ -45,7 +48,16 @@ public class UserController {
         model.addAttribute("salutations",userService.getSalutations());
         var role = session.getAttribute("role");
         System.err.println(role+" getting role from session in addUser controller ");
-        if(role.equals(UserRole.ICC_AUTHORITY)){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // check for a particular role
+        boolean hasRoleIcc = authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ICC_AUTHORITY"));
+
+        // to get all the roles
+        Set<String> roles = authentication.getAuthorities().stream()
+                .map(r -> r.getAuthority()).collect(Collectors.toSet());
+
+        if(hasRoleIcc){
             model.addAttribute("roles", Arrays.asList(UserRole.TEAM_MANAGER, UserRole.UMPIRE));
         }else{
             model.addAttribute("roles", UserRole.values());

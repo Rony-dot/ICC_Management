@@ -34,7 +34,13 @@ public class Event extends BaseModel{
     private Team team1;
 
     @OneToOne
+    private Player team1Captain;
+
+    @OneToOne
     private Team team2;
+
+    @OneToOne
+    private Player team2Captain;
 
     @ManyToMany
     @JoinTable(name = "umpires_in_event",

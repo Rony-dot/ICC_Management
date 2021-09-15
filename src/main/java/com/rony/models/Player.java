@@ -27,8 +27,6 @@ public class Player extends BaseModel{
 
     private PlayerExpertise expertise;
 
-    private boolean isCaptain;
-
     @OneToOne
     @JoinColumn(name = "user_id")
     private User userInfo;

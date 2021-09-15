@@ -4,3 +4,10 @@
 4.
 
 for multiple bean we should use qualifier in @Autowired
+
+///
+Use update() if you are certain that the session does not contain an already persistent instance with the
+ same identifier. Use merge() if you want to merge your modifications at any time without consideration
+ of the state of the session. In other words, update() is usually the first method you would call in a
+ fresh session, ensuring that the reattachment of your detached instances is the first operation that
+ is executed.

@@ -3,11 +3,13 @@ package com.rony.services;
 import com.rony.config.HibernateConfig;
 import com.rony.models.Player;
 import com.rony.models.User;
+import lombok.extern.flogger.Flogger;
 import org.hibernate.Transaction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -16,6 +18,8 @@ public class PlayerService {
     private HibernateConfig hibernateConfig;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CountryService countryService;
 
     public PlayerService(HibernateConfig hibernateConfig, UserService userService) {
         this.hibernateConfig = hibernateConfig;
@@ -28,12 +32,22 @@ public class PlayerService {
         var root = criteriaQuery.from(Player.class);
         criteriaQuery.select(root);
 
-        var result = hibernateConfig.getSession()
-                .getEntityManagerFactory()
-                .createEntityManager()
-                .createQuery(criteriaQuery)
-                .getResultList();
-        return result;
+        return hibernateConfig.query(criteriaQuery).getResultList();
+
+    }
+
+    public Player getPlayerByUserId(long id){
+        // partial done
+//        var user = userService.getUserById(id);
+        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        var criteriaQuery = criteriaBuilder.createQuery(Player.class);
+        var root = criteriaQuery.from(Player.class);
+        criteriaQuery.select(root);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("userInfo"),id));
+
+        return hibernateConfig.query(criteriaQuery).getResultList().stream()
+                .findFirst().orElse(null);
+
     }
 
     public Player getPlayerById(long id){
@@ -43,30 +57,41 @@ public class PlayerService {
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
 
-        return hibernateConfig.getSession()
-                .getEntityManagerFactory()
-                .createEntityManager()
-                .createQuery(criteriaQuery)
-                .getSingleResult();
+       return hibernateConfig.query(criteriaQuery)
+               .getResultList().stream()
+               .findFirst().orElse(null);
+
     }
 
-    public void addPlayer(Player playerDto, long userId){
-        System.err.println("save method of player service------------------------------------------------------");
-        var session = hibernateConfig.getSession();
-        Transaction tx = session.getTransaction();
-        if(!tx.isActive()){
-            tx = session.beginTransaction();
+    public void addPlayer(Player playerDto, long userId, long cid){
+        System.err.println("save method of player service-----------------------------------");
+
+        if(getPlayerByUserId(userId)==null){
+            var playerEntity = new Player();
+            BeanUtils.copyProperties(playerDto,playerEntity);
+            var userInfo = userService.getUserById(userId);
+            playerEntity.setUserInfo(userInfo);
+            playerEntity.setId(userId);
+
+            hibernateConfig.saveObject(playerEntity);
+
+            var countryEntity = countryService.getCountryById(cid);
+            var player = getPlayerByUserId(userId);
+            var playerList = countryEntity.getPlayerList();
+            playerList.add(player);
+            countryEntity.setPlayerList(playerList);
+
+            hibernateConfig.updateObject(countryEntity);
+            System.out.println("assign player to country success!");
+
+            System.err.println("---------------------------------------------------");
+            System.err.println("player along with country  is saved");
+            System.err.println(playerEntity);
+        }else {
+            System.out.println("-----======================-----------------");
+            System.out.println("player exists !!! ");
         }
-        var playerEntity = new Player();
-        BeanUtils.copyProperties(playerDto,playerEntity);
-        var userInfo = userService.getUserById(userId);
-        playerEntity.setUserInfo(userInfo);
-        session.save(playerEntity);
-        session.flush();
-        tx.commit();
-        System.err.println("---------------------------------------------------");
-        System.err.println("player  is saved");
-        System.err.println(playerEntity);
+
     }
 
     /*public void addPlayer(Player playerDto, long idTeam){

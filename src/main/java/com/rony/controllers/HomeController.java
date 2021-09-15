@@ -4,10 +4,15 @@ import com.rony.config.HibernateConfig;
 import com.rony.config.Initializer;
 import com.rony.enums.UserRole;
 import com.rony.models.User;
+import com.rony.services.CountryService;
 import com.rony.services.RoleService;
 import com.rony.services.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.awt.geom.QuadCurve2D;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -30,6 +37,11 @@ public class HomeController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private CountryService countryService;
+
+    private static final Logger logger = LogManager.getLogger(HomeController.class);
+
     public HomeController(UserService userService, HibernateConfig hibernateConfig, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userService = userService;
         this.hibernateConfig = hibernateConfig;
@@ -41,11 +53,28 @@ public class HomeController {
     public String home(Model model, HttpSession session){
         System.err.println("------------------------------------------- ");
         System.err.println("initializer invoking started () ");
-        System.out.println("nano time => "+System.nanoTime());
-        Initializer initializer = new Initializer(roleService, userService, passwordEncoder);
-        System.err.println("initializer invoked finished () ");
-//        hibernateConfig.getSession();
-//        System.err.println("session getting role : "+session.getAttribute("role"));
+
+        logger.info("initilizer called");
+        Initializer initializer = new Initializer(roleService, userService, passwordEncoder, hibernateConfig, countryService);
+        logger.info("initilizer finished");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        var role = authentication.getAuthorities().stream()
+                .findFirst().get().getAuthority();
+        logger.info("your role is --------> " + role);
+
+        // check for a particular role
+        boolean whichRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ICC_AUTHORITY"));
+
+        // to get all the roles
+        Set<String> roles = authentication.getAuthorities().stream()
+                .map(r -> r.getAuthority()).collect(Collectors.toSet());
+
+        for(String r : roles){
+            logger.info("role from for looop : " + r);
+        }
+        
         return "index";
     }
 

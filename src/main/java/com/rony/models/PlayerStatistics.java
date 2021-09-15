@@ -32,5 +32,4 @@ public class PlayerStatistics extends BaseModel{
     private Player player;
     @OneToOne
     private Event event;
-
 }

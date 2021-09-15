@@ -22,7 +22,7 @@ public class Team extends BaseModel{
     @OneToOne
     private Country country;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(name = "team_members",
             joinColumns = {@JoinColumn(name = "team_id")},
             inverseJoinColumns = {@JoinColumn(name = "player_id")})

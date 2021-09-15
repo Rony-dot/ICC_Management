@@ -12,7 +12,7 @@
 		<tr>
 			<th>ID</th>
 			<th>Player Name</th>
-			<th>Player is captain</th>
+<%--			<th>Player is captain</th>--%>
 			<th>Player expertise</th>
 			<th>Player status</th>
 			<th>Edit</th>
@@ -22,16 +22,16 @@
 			<tr>
 				<th>${ player.id }</th>
 				<th>${ player.userInfo.name }</th>
-				<th>
-				<c:choose>
-					<c:when test="${player.isCaptain()}">
-						<b>captain</b>
-					</c:when>
-					<c:otherwise>
-						<b>not captain</b>
-					</c:otherwise>
-				</c:choose>
-				</th>
+<%--				<th>--%>
+<%--				<c:choose>--%>
+<%--					<c:when test="${player.isCaptain()}">--%>
+<%--						<b>captain</b>--%>
+<%--					</c:when>--%>
+<%--					<c:otherwise>--%>
+<%--						<b>not captain</b>--%>
+<%--					</c:otherwise>--%>
+<%--				</c:choose>--%>
+<%--				</th>--%>
 				<th>${ player.expertise }</th>
 				<th>${ player.playerStatus }</th>
 				<th><a href="edit?id=${ player.id }">Edit</a></th>

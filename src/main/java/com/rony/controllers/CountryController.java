@@ -39,21 +39,22 @@ public class CountryController {
     public String addCountry(Model model){
         model.addAttribute("country", new Country());
 
-        var managingDirectors = userService.allUsers().stream()
-                .filter(u -> u.getRole() == UserRole.TEAM_MANAGER)
-                .collect(Collectors.toList());
+        var managingDirectors = userService.allUsers();
+
         model.addAttribute("managingDirectors",managingDirectors);
 
-        var players = userService.allUsers().stream()
-                .filter(u -> u.getRole() == UserRole.PLAYER)
-                .collect(Collectors.toList());
+        var players = userService.allUsers();
         model.addAttribute("players",players);
 
         return "/countries/add_country";
     }
 
     @PostMapping("/countries/add")
-    public String addCountry(Model model, @ModelAttribute Country country, @RequestParam("idMD") long idMD, @RequestParam("playerIds") long[] playerIds){
+    public String addCountry(Model model,
+                             @ModelAttribute Country country,
+                             @RequestParam("idMD") long idMD,
+                             @RequestParam(value = "playerIds", required = false) long[] playerIds){
+
         System.err.println(idMD+"--------------countries add -> managing director id------------------");
         countryService.saveCountry(country, idMD, playerIds);
         return "redirect: /countries/all";
