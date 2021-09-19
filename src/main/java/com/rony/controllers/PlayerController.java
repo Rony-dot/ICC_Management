@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @Controller
@@ -63,24 +65,22 @@ public class PlayerController {
     }
 
     @PostMapping("/players/add")
-    public String addPlayer(Model model, @ModelAttribute("player") Player player,
-                // TODO team id need to be added here
+    public String addPlayer(Model model, @Valid @ModelAttribute("player") Player player, BindingResult errors,
+                            // TODO team id need to be added here
                             //  @RequestParam("idTeam") long idTeam,
                             @RequestParam("cid") long cid,
                             @RequestParam("userId") long userId){
-//        System.err.println(idTeam+" id of the team");
-//        System.err.println(isCap+" is captain of the path variable");
-//        System.err.println(player.getName()+" name of the player");
-        System.err.println(player.getPlayerStatus()+" status of the player");
-        System.err.println(player.getExpertise()+" expertise of the player");
-        /**
-         * TODO dummy team id is used for a while
-         */
-//        long idTeam = -100;
-//        playerService.addPlayer(player, idTeam);
-        System.out.println("2. country id is "+cid);
-        playerService.addPlayer(player,userId, cid);
 
-        return "redirect: /players/all";
+        if(errors.hasErrors()){
+            return "players/add_player";
+        }else {
+
+            System.err.println(player.getPlayerStatus()+" status of the player");
+            System.err.println(player.getExpertise()+" expertise of the player");
+            System.out.println("2. country id is "+cid);
+            playerService.addPlayer(player,userId, cid);
+
+            return "redirect: /players/all";
+        }
     }
 }

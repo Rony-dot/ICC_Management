@@ -1,6 +1,9 @@
 package com.rony.services;
 
 import com.rony.config.HibernateConfig;
+import com.rony.enums.Genders;
+import com.rony.enums.HomeTowns;
+import com.rony.enums.Salutations;
 import com.rony.models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -14,10 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -36,15 +38,12 @@ public class UserService implements UserDetailsService {
     public UserService(HibernateConfig hibernateConfig){
         this.hibernateConfig = hibernateConfig;
         userList = new ArrayList<>();
-        homeTowns.add("Dhaka");
-        homeTowns.add("Comilla");
-        homeTowns.add("Chittagong");
-        homeTowns.add("Noakhali");
-        homeTowns.add("Gramer Bari");
-        salutations.add("Mr.");
-        salutations.add("Mrs.");
-        salutations.add("Md.");
-        salutations.add("Dr.");
+        homeTowns.addAll(Stream.of(HomeTowns.values())
+                .map(HomeTowns::name)
+                .collect(Collectors.toList()));
+        salutations.addAll(Stream.of(Salutations.values())
+                .map(Salutations::name)
+                .collect(Collectors.toList()));
         genders.put("M","Male");
         genders.put("F","Female");
         genders.put("O","Others");

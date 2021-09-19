@@ -11,17 +11,23 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.awt.geom.QuadCurve2D;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -51,9 +57,8 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request){
-        System.err.println("------------------------------------------- ");
-        System.err.println("initializer invoking started () ");
 
+        logger.info("application started"+ new Date());
         logger.info("initilizer called");
         Initializer initializer = new Initializer(roleService, userService, passwordEncoder, hibernateConfig, countryService);
         logger.info("initilizer finished");
@@ -107,20 +112,20 @@ public class HomeController {
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
                         Model model){
-        System.out.println("you tried to login bro ?");
+        logger.info("someone tried to login ?");
         String errorMessge = null;
         if(error != null) {
             errorMessge = "Username or Password is incorrect !!";
         }
-        model.addAttribute("errorMessge", errorMessge);
+        model.addAttribute("errorMsg", errorMessge);
         return "login";
     }
 
     @GetMapping("/logout")
     public String logout(Model model, HttpSession session){
-        System.err.println("logging out?");
+        logger.info("logging out ? ");
         session.invalidate();
-        System.err.println("logged out success");
+        logger.info("logged out success ! ");
         return "login";
     }
 
@@ -134,10 +139,43 @@ public class HomeController {
     }
 
     @PostMapping("/register")
-    public String processRegistration(Model model, @ModelAttribute(name = "user") User user){
-        user.setUserRole(roleService.findByRoleName("ROLE_USER"));
-        userService.addUser(user);
-        return "redirect:/login";
+    public String processRegistration(Model model, @Valid @ModelAttribute(name = "user") User user,
+                                      BindingResult errors){
+        String errorMsg = "";
+        if(errors.hasErrors()){
+            for(ObjectError error: errors.getAllErrors()){
+                errorMsg += error.getDefaultMessage()+"<br>";
+            }
+            model.addAttribute("errorMsg", errorMsg);
+            model.addAttribute("genders",userService.getGenders());
+            model.addAttribute("homeTowns",userService.getHomeTowns());
+            model.addAttribute("salutations",userService.getSalutations());
+            return "registration";
+        }else {
+            user.setUserRole(roleService.findByRoleName("ROLE_USER"));
+            userService.addUser(user);
+            logger.info("registration success ! "+user.getEmail());
+            return "redirect:/login";
+
+        }
+    }
+
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public String accessDenied_GET() {
+        logger.info("Access Denied page ");
+        return "/errors/error_403";
+    }
+
+    @RequestMapping(value = "/404", method = RequestMethod.GET)
+    public String notFound_GET() {
+        logger.info("Page not found  ");
+        return "/errors/error_404";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder){
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
 //    @PostMapping("/login")

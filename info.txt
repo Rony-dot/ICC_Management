@@ -1,14 +1,25 @@
+// ===== Problems =====
 1. Player and User confusion bcz, User has already role of Player
 2. form cannot set LocalDateTime directly, lombok is used for getter setter
 3. @OneToMany and @JoinTable makes the inverse_column as unique
 4. how to model.addAttribute in header.jsp
 
-for multiple bean we should use qualifier in @Autowired
 
-///
+// ===== task list ======
+1. javax.validation (done)
+2. logger => (log4j dependency + log4j.properties) (done)
+3. UI integration => (Best admin UI)
+4. separate request / response model
+5. success / warning message show => (bootstrap alert)
+6. Proper business logic for urls => (Spring security) (done)
+7. AOP => (Aspect Oriented Programming)
+8. Global exception handler => with ( error page 500 / 400/ 403 ) (done)
 
-Use update() if you are certain that the session does not contain an already persistent instance with the
- same identifier. Use merge() if you want to merge your modifications at any time without consideration
- of the state of the session. In other words, update() is usually the first method you would call in a
- fresh session, ensuring that the reattachment of your detached instances is the first operation that
- is executed.
+
+// ===== information =====
+1. for multiple bean we should use qualifier in @Autowired
+2. Use update() if you are certain that the session does not contain an already persistent instance with the
+same identifier. Use merge() if you want to merge your modifications at any time without consideration
+of the state of the session. In other words, update() is usually the first method you would call in a
+fresh session, ensuring that the reattachment of your detached instances is the first operation that
+is executed.

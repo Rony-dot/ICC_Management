@@ -50,7 +50,7 @@
 
 
 <%--            // error of the form--%>
-    <form:errors path="user.*" cssClass="error" />
+    <form:errors path="team.*" cssClass="error" />
 
     <form:form action="${pageContext.request.contextPath}/teams/add"
                modelAttribute="team">

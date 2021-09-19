@@ -8,7 +8,10 @@ import com.rony.services.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 public class SeriesController {
@@ -42,9 +45,16 @@ public class SeriesController {
     }
 
     @PostMapping("/series/add")
-    public String addSeries(Model model, @ModelAttribute Series series, @RequestParam("eventIds") long[] eventIds , @RequestParam("teamIds") long[] teamIds) {
-        seriesService.saveSeries(series, eventIds, teamIds);
-        return "redirect: /series/all";
+    public String addSeries(Model model, @Valid @ModelAttribute Series series, BindingResult errors,
+                            @RequestParam("eventIds") long[] eventIds , @RequestParam("teamIds") long[] teamIds) {
+
+        if(errors.hasErrors()){
+            return "series/add_series";
+        }else {
+            seriesService.saveSeries(series, eventIds, teamIds);
+            return "redirect: /series/all";
+
+        }
     }
 
 }

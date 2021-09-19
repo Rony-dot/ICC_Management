@@ -6,9 +6,14 @@
 <html>
 <jsp:include page="../common/header.jsp"/>
 <title>${pageTitle}</title>
-<body>
-	<h1>${pageTitle}</h1>
-	<table class="table table-hover" >
+<body class="nav-md">
+<div class="container body">
+	<div class="main_container">
+	<div class="bg-light" >
+
+
+	<h1 class="text-dark">${pageTitle}</h1>
+	<table class="table table-hover text-dark" >
 		<tr>
 			<th>ID</th>
 			<th>user Name</th>
@@ -40,6 +45,9 @@
 			</tr>
 		</c:forEach>
 	</table>
+	</div>
+	</div>
+</div>
 </body>
 </html>
 

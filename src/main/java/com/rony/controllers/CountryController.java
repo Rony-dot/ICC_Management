@@ -1,6 +1,3 @@
-
-
-
 package com.rony.controllers;
 
 import com.rony.enums.UserRole;
@@ -11,8 +8,11 @@ import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.BindException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,13 +51,18 @@ public class CountryController {
 
     @PostMapping("/countries/add")
     public String addCountry(Model model,
-                             @ModelAttribute Country country,
+                            @Valid @ModelAttribute Country country, BindingResult errors,
                              @RequestParam("idMD") long idMD,
                              @RequestParam(value = "playerIds", required = false) long[] playerIds){
+        if(errors.hasErrors()){
+            return "/countries/add_country";
+        }else {
+            System.err.println(idMD+"--------------countries add -> managing director id------------------");
+            countryService.saveCountry(country, idMD, playerIds);
+            return "redirect: /countries/all";
 
-        System.err.println(idMD+"--------------countries add -> managing director id------------------");
-        countryService.saveCountry(country, idMD, playerIds);
-        return "redirect: /countries/all";
+        }
+
     }
 
 

@@ -115,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/images/**", "/js/**", "/css/**").permitAll()
+                .antMatchers("/login", "/images/**", "/js/**", "/css/**", "/vendors/**", "/build/**" ).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers( "/register").permitAll()
                 .antMatchers("/countries/**","/events/**","/series/**").hasRole("ICC_AUTHORITY")
@@ -134,9 +134,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login?logout=true")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
-                .permitAll();
+                .permitAll()
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/403");
 
 
 //         */

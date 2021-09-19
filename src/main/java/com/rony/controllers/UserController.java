@@ -66,20 +66,18 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser_Post( @ModelAttribute(name = "user") @Valid User user,
-                                BindingResult bindingResult, Model model){
+    public String addUser_Post( @ModelAttribute(name = "user") @Valid User user, BindingResult errors,
+                                Model model){
         String errorMsg = "";
-        if(bindingResult.hasErrors()){
-//            for(ObjectError error: bindingResult.getAllErrors()){
-//                errorMsg+= error+"<br>";
-//            }
-            System.out.println("--------------------------------------------------------");
-            System.out.println("got you!");
-            System.out.println("--------------------------------------------------------");
-            model.addAttribute("errorMsg", bindingResult.getAllErrors());
-
-            // returning a page by directory path keeps the previous request
-            // but redirecting to a url (new url or same url) creates a new req (so prev req errors are gone)
+        if(errors.hasErrors()){
+            for(ObjectError error: errors.getAllErrors()){
+                errorMsg+= error.getDefaultMessage()+"<br>";
+            }
+//            model.addAttribute("errorMsg", errors.getAllErrors());
+            /**
+             * returning a page by directory path keeps the previous request
+             * but redirecting to a url (new url or same url) creates a new req (so prev req errors are gone)
+              */
             return "users/addUser";
         }
         userService.addUser(user);

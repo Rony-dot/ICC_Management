@@ -1,9 +1,11 @@
 package com.rony.services;
 
 import com.rony.config.HibernateConfig;
+import com.rony.models.Country;
 import com.rony.models.Player;
 import com.rony.models.User;
 import lombok.extern.flogger.Flogger;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,13 +77,24 @@ public class PlayerService {
 
             hibernateConfig.saveObject(playerEntity);
 
-            var countryEntity = countryService.getCountryById(cid);
+
             var player = getPlayerByUserId(userId);
+
+//            var countryEntity = countryService.getCountryById(cid);
+            Session session = hibernateConfig.getSession();
+            var tx = session.getTransaction();
+            if (!tx.isActive()) {
+                tx = session.beginTransaction();
+            }
+            var countryEntity = session.get(Country.class, cid);
             countryEntity.getPlayerList().add(player);
+            // omly commit will make the changes save to DB, because it is in the same session
+            tx.commit();
 //            playerList.add(player);
 //            countryEntity.setPlayerList(playerList);
 
-            hibernateConfig.saveObject(countryEntity);
+//            hibernateConfig.saveObject(countryEntity);
+
             System.out.println("assign player to country success!");
 
             System.err.println("---------------------------------------------------");

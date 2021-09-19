@@ -10,11 +10,13 @@ import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -74,15 +76,19 @@ public class EventController {
     }
 
     @PostMapping("/events/add")
-    public String addEvent(Model model, @ModelAttribute Event event,
+    public String addEvent(Model model, @Valid @ModelAttribute Event event, BindingResult errors,
                            @RequestParam("idTeam1") long idTeam1,
                            @RequestParam("idTeam1Captain") long idTeam1Cap,
                            @RequestParam("idTeam2") long idTeam2,
                            @RequestParam("idTeam2Captain") long idTeam2Cap,
                            @RequestParam(value = "umpireIds", required = false) long[] umpireIds,
                            @RequestParam(value = "newUmpireIds", required = false) long[] newUmpireIds){
+        if(errors.hasErrors()){
+            return "events/add_event";
+        }else {
+            eventService.saveEvent(event, idTeam1, idTeam1Cap, idTeam2, idTeam2Cap, umpireIds, newUmpireIds);
+            return "redirect: /events/all";
+        }
 
-        eventService.saveEvent(event, idTeam1, idTeam1Cap, idTeam2, idTeam2Cap, umpireIds, newUmpireIds);
-        return "redirect: /events/all";
     }
 }

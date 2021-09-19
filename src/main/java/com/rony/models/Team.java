@@ -7,6 +7,8 @@ import lombok.ToString;
 import net.bytebuddy.agent.builder.AgentBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -17,6 +19,8 @@ import java.util.List;
 @ToString
 public class Team extends BaseModel{
 
+    @NotNull(message = "name cannot be empty")
+    @Size(min = 2, message = "min is 2 characters")
     private String name;
 
     @OneToOne

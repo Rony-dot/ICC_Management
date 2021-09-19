@@ -50,7 +50,7 @@
 
 
 <%--            // error of the form--%>
-    <form:errors path="player.*" cssClass="error" />
+    <form:errors path="series.*" cssClass="error" />
 
     <form:form action="${pageContext.request.contextPath}/series/add"
                modelAttribute="series">

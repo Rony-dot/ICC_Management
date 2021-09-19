@@ -102,15 +102,15 @@ public class HibernateConfig {
         return result;
     }
 
-    @Transactional
+//    @Transactional
     public void saveObject(Object o){
-//        var session = getSession();
-//        var tx = session.getTransaction();
-//        if (!tx.isActive()) {
-//            tx = session.beginTransaction();
-//        }
+        var session = getSession();
+        var tx = session.getTransaction();
+        if (!tx.isActive()) {
+            tx = session.beginTransaction();
+        }
         session.save(o);
-//        tx.commit();
+        tx.commit();
     }
 
     public void updateObject(Object o){
@@ -125,12 +125,12 @@ public class HibernateConfig {
     }
 
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        final JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(getSession().getEntityManagerFactory());
-        return transactionManager;
-    }
+//    @Bean
+//    public PlatformTransactionManager transactionManager() {
+//        final JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(getSession().getEntityManagerFactory());
+//        return transactionManager;
+//    }
 
 
 }

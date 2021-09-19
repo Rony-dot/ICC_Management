@@ -62,6 +62,7 @@
 
         <label>Name:</label>
         Name : <form:input path="name"/>  <br><br>
+
         Email : <form:input path="email"/>  <br><br>
         Age : <form:input path="age"/>  <br><br>
         Password : <form:input path="password"/>  <br><br>
