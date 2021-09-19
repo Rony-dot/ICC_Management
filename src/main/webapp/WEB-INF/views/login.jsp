@@ -37,6 +37,7 @@
                 <c:if test="${not empty errorMsg}">
                     <div style="color:red; font-weight: bold; margin: 30px 0px;">${errorMsg}</div>
                 </c:if>
+
                 <form action="${pageContext.request.contextPath}/login-processing" method="post">
                     <h1>Login Form</h1>
                     <div>
@@ -62,8 +63,8 @@
                         <br />
 
                         <div>
-                            <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                            <h1><i class="fa fa-paw"></i> ICC !</h1>
+                            <p>©2016 All Rights Reserved.  ICC ! is a Bootstrap 3 template. Privacy and Terms</p>
                         </div>
                     </div>
                 </form>
@@ -98,8 +99,8 @@
                         <br />
 
                         <div>
-                            <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                            <h1><i class="fa fa-paw"></i> ICC !</h1>
+                            <p>©2016 All Rights Reserved. ICC ! is a Bootstrap 3 template. Privacy and Terms</p>
                         </div>
                     </div>
                 </form>
