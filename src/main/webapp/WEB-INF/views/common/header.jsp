@@ -8,22 +8,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <head>
-        <%--    bootstrap--%>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
-            <!-- Font Awesome -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
-            <!-- NProgress -->
+    <%--    bootstrap--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/font-awesome.min.css">
+        <!-- NProgress -->
 <%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nprogress.css">--%>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/animate.min.css">
-            <!-- Custom Theme Style -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/animate.min.css">
+        <!-- Custom Theme Style -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.min.css">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<%--        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>--%>
-
-
-    <title></title>
+            <title></title>
 </head>
 <body>
 
