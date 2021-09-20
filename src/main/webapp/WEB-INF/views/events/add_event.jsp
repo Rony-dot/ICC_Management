@@ -27,27 +27,17 @@
     </style>
 </head>
 <body>
-<%--    <c:choose>--%>
-<%--        <c:when test="${errorMsg != null}" >--%>
-<%--            <div class="alert alert-danger" role="alert">--%>
-<%--                <p>error msg</p>--%>
-<%--                    ${errorMsg}--%>
-
-<%--            </div>--%>
-<%--        </c:when>--%>
-<%--        <c:when test="${error != null}" >--%>
-<%--            <div class="alert alert-danger" role="alert">--%>
-<%--                <p>error</p>--%>
-<%--                ${error}--%>
-
-<%--            </div>--%>
-<%--        </c:when>--%>
-<%--        <c:otherwise>--%>
-<%--            you are good to go!--%>
-
-<%--        </c:otherwise>--%>
-<%--    </c:choose>--%>
-
+<c:if test="${not empty errorMsg}">
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="alert alert-danger">
+                        ${errorMsg}
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
 
 <%--            // error of the form--%>
     <form:errors path="event.*" cssClass="error" />

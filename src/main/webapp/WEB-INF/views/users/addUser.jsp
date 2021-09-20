@@ -8,7 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="../common/header.jsp" />
+<jsp:include page="../common/header.jsp"/>
 
 <html>
 <head>
@@ -17,6 +17,7 @@
         .error {
             color: #ff0000;
         }
+
         .errorblock {
             color: #000;
             background-color: #ffEEEE;
@@ -27,66 +28,130 @@
     </style>
 </head>
 <body>
-<%--    <c:choose>--%>
-<%--        <c:when test="${errorMsg != null}" >--%>
-<%--            <div class="alert alert-danger" role="alert">--%>
-<%--                <p>error msg</p>--%>
-<%--                    ${errorMsg}--%>
-
-<%--            </div>--%>
-<%--        </c:when>--%>
-<%--        <c:when test="${error != null}" >--%>
-<%--            <div class="alert alert-danger" role="alert">--%>
-<%--                <p>error</p>--%>
-<%--                ${error}--%>
-
-<%--            </div>--%>
-<%--        </c:when>--%>
-<%--        <c:otherwise>--%>
-<%--            you are good to go!--%>
-
-<%--        </c:otherwise>--%>
-<%--    </c:choose>--%>
-
-
+<c:if test="${not empty errorMsg}">
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="alert alert-danger">
+                        ${errorMsg}
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
 <%--            // error of the form--%>
-    <form:errors path="user.*" cssClass="error" />
+<form:errors path="user.*" cssClass="error"/>
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-md-12 mx-auto bg-light">
+            <form:form class="form-horizontal form-label-left" novalidate=""
+                       action="${pageContext.request.contextPath}/register"
+                       modelAttribute="user">
+                <span class="section text-light text-center">Personal Info</span>
 
-    <form:form action="${pageContext.request.contextPath}/users/add"
-               modelAttribute="user">
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span
+                            class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:input id="name" path="name" class="form-control col-md-7 col-xs-12"
+                                    data-validate-length-range="6"
+                                    data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe"
+                                    type="text" required="required"/>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span
+                            class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:input type="email" id="email" path="email" name="email" required="required"
+                                    class="form-control col-md-7 col-xs-12"/>
+                    </div>
+                </div>
 
-<%--        // alternative error --%>
-<%--        <form:errors path="*" cssClass="error" element="div" />--%>
+                <div class="item form-group">
+                    <label for="username" class="control-label col-md-3">Username</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:input path="username" id="username" type="text" name="username" data-validate-length="6,8"
+                                    class="form-control col-md-7 col-xs-12" required="required"/>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label for="password" class="control-label col-md-3">Password</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:input path="password" id="password" type="password" name="password"
+                                    data-validate-length="6,8"
+                                    class="form-control col-md-7 col-xs-12" required="required"/>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Number <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:input type="number" id="number" path="mobile" name="number" required="required"
+                                    class="form-control col-md-7 col-xs-12"/>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="age">Age <span
+                            class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:input type="number" id="age" path="age" name="age" required="required"
+                                    class="form-control col-md-7 col-xs-12"/>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dateOfBirth">Date of Birth <span
+                            class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:input type="date" id="dateOfBirth" path="dateOfBirth" name="dateOfBirth"
+                                    required="required"
+                                    class="form-control col-md-7 col-xs-12"/>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">Gender <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:radiobuttons path="gender" items="${genders}" id="gender"
+                                           name="gender"></form:radiobuttons>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="salutation">Salutaion <span
+                            class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:checkboxes path="salutation" items="${salutations}" id="salutation" name="salutation"/>
+                    </div>
+                </div>
+                <div class="item form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="homeTown">HomeTown <span
+                            class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <form:select path="homeTown" class="form-control col-md-7 col-xs-12">
+                            <form:options items="${homeTowns}"/>
+                        </form:select>
+                    </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary">Cancel</button>
+                        <button id="send" type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form:form>
+        </div>
+    </div>
+</div>
 
-        <form:input path="id" hidden="true"/>
 
-        <label>Name:</label>
-        Name : <form:input path="name"/>  <br><br>
-
-        Email : <form:input path="email"/>  <br><br>
-        Age : <form:input path="age"/>  <br><br>
-        Password : <form:input path="password"/>  <br><br>
-        Mobile : <form:input path="mobile"/>  <br><br>
-        Gender :<form:radiobuttons path="gender" items="${genders}" ></form:radiobuttons> <br><br>
-        Date of Birth: <form:input type="date" path="dateOfBirth" />  <br><br>
-        Salutation: <form:checkboxes path="salutation" items="${salutations}"/> <br><br>
-        HomeTown:
-        <form:select path="homeTown" >
-            <form:options items="${homeTowns}"/>
-        </form:select>
-        <br><br>
-        Role:
-        <form:select path="role" >
-            <form:options items="${roles}"/>
-        </form:select>
-        <br><br>
-        <%--        // alternative error --%>
-<%--        <form:errors path="name" cssClass="error" />--%>
-
-        <input type="submit" name="submit" value="Add User">
-
-    </form:form>
 </body>
 </html>
 
-<jsp:include page="../common/footer.jsp" />
+<jsp:include page="../common/footer.jsp"/>

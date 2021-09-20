@@ -11,7 +11,17 @@
     <title>Error</title>
 </head>
 <body>
-${errorMsg}
+<c:if test="${not empty errorMsg}">
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="alert alert-danger">
+                        ${errorMsg}
+                </div>
+            </div>
+        </div>
+    </div>
+</c:if>
 ${error}
 </body>
 </html>

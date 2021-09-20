@@ -6,14 +6,14 @@
 
 
 // ===== task list ======
-1. javax.validation (done)
-2. logger => (log4j dependency + log4j.properties) (done)
+1. javax.validation ---------------------------------------------------(done)
+2. logger => (log4j dependency + log4j.properties) ----------------------(done)
 3. UI integration => (Best admin UI)
 4. separate request / response model
 5. success / warning message show => (bootstrap alert)
-6. Proper business logic for urls => (Spring security) (done)
+6. Proper business logic for urls => (Spring security)------------------------------- (done)
 7. AOP => (Aspect Oriented Programming)
-8. Global exception handler => with ( error page 500 / 400/ 403 ) (done)
+8. Global exception handler => with ( error page 500 / 400/ 403 ) -------------------(done)
 
 
 // ===== information =====

@@ -35,7 +35,15 @@
         <div class="animate form login_form">
             <section class="login_content">
                 <c:if test="${not empty errorMsg}">
-                    <div style="color:red; font-weight: bold; margin: 30px 0px;">${errorMsg}</div>
+                    <div class="container mt-3">
+                        <div class="row">
+                            <div class="col-md-6 mx-auto">
+                                <div class="alert alert-danger">
+                                        ${errorMsg}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </c:if>
 
                 <form action="${pageContext.request.contextPath}/login-processing" method="post">
