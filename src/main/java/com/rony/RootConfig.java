@@ -19,6 +19,11 @@ public class RootConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    GlobalExceptionHandler globalExceptionHandler() {
+        return new GlobalExceptionHandler();
+    }
+
 // its not required because, we have scanned the config package;
 //    @Bean
 //    public HibernateConfig hibernateConfig(){

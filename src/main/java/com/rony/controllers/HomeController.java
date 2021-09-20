@@ -3,6 +3,7 @@ package com.rony.controllers;
 import com.rony.config.HibernateConfig;
 import com.rony.config.Initializer;
 import com.rony.enums.UserRole;
+import com.rony.exceptions.InternalServerException;
 import com.rony.models.User;
 import com.rony.services.CountryService;
 import com.rony.services.RoleService;
@@ -92,20 +93,27 @@ public class HomeController {
 
     @GetMapping("/success")
     public String success(Model model, HttpServletRequest request){
-       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var role = authentication.getAuthorities().stream()
-                .findFirst().get().getAuthority();
-        var cm = (User) authentication.getPrincipal();
-        var country = countryService.allCountries().stream()
-                .filter(u -> u.getManagingDirector().getId() == cm.getId())
-                .findFirst()
-                .get();
-        var cid = country.getId();
-        HttpSession session = request.getSession();
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            var role = authentication.getAuthorities().stream()
+                    .findFirst().get().getAuthority();
+            var cm = (User) authentication.getPrincipal();
+            var country = countryService.allCountries().stream()
+                    .filter(u -> u.getManagingDirector().getId() == cm.getId())
+                    .findFirst()
+                    .get();
+            var cid = country.getId();
+            HttpSession session = request.getSession();
 
-        session.setAttribute("cid", cid);
-        model.addAttribute("msg",role );
-        return "successPage";
+            session.setAttribute("cid", cid);
+            model.addAttribute("msg",role );
+            return "successPage";
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.info("success page exception");
+            throw new InternalServerException("Success page exception occurred");
+        }
+
     }
 
     @GetMapping("/login")
@@ -170,6 +178,12 @@ public class HomeController {
     public String notFound_GET() {
         logger.info("Page not found  ");
         return "/errors/error_404";
+    }
+
+    @RequestMapping(value = "/500", method = RequestMethod.GET)
+    public String internalServerError_GET() {
+        logger.info("Internal server eroor  ");
+        return "/errors/error_500";
     }
 
     @InitBinder

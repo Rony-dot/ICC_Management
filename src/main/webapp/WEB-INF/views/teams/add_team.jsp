@@ -40,43 +40,110 @@
 </c:if>
 
 <%--            // error of the form--%>
-    <form:errors path="team.*" cssClass="error" />
+<%--    <form:errors path="team.*" cssClass="error" />--%>
 
-    <form:form action="${pageContext.request.contextPath}/teams/add"
-               modelAttribute="team">
+<%--    <form:form action="${pageContext.request.contextPath}/teams/add"--%>
+<%--               modelAttribute="team">--%>
 
-        <form:input path="id" hidden="true"/>
+<%--        <form:input path="id" hidden="true"/>--%>
 
-        <label>Name:</label>
-        Name : <form:input path="name"/>  <br><br>
-
-<%--        Country :--%>
-<%--        <select name="countryId" >--%>
-<%--            <c:forEach items="${countries}" var="country">--%>
-<%--                <option value="${country.id}" label="${country.name}"> ${country.name} </option>--%>
+<%--        <label>Name:</label>--%>
+<%--        Name : <form:input path="name"/>  <br><br>--%>
+<%--        players list :--%>
+<%--        <select name="playerIds" multiple="multiple">--%>
+<%--            <c:forEach items="${players}" var="player">--%>
+<%--                <option label="${player.userInfo.name}" value="${player.id}">${player.userInfo.name} </option>--%>
 <%--            </c:forEach>--%>
 <%--        </select>--%>
 <%--        <br><br>--%>
+<%--        Coach :--%>
+<%--        <select name="coachId" >--%>
+<%--           <c:forEach items="${coaches}" var="coach">--%>
+<%--               <option value="${coach.id}" label="${coach.name}"> ${coach.name} </option>--%>
+<%--           </c:forEach>--%>
+<%--        </select>--%>
+<%--        <br><br>--%>
+<%--        <input type="submit" name="submit" value="Add User">--%>
 
-        players list :
-        <select name="playerIds" multiple="multiple">
-            <c:forEach items="${players}" var="player">
-                <option label="${player.userInfo.name}" value="${player.id}">${player.userInfo.name} </option>
-            </c:forEach>
-        </select>
-        <br><br>
+<%--    </form:form>--%>
 
-        Coach :
-        <select name="coachId" >
-           <c:forEach items="${coaches}" var="coach">
-               <option value="${coach.id}" label="${coach.name}"> ${coach.name} </option>
-           </c:forEach>
-        </select>
-        <br><br>
 
-        <input type="submit" name="submit" value="Add User">
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add Exciting Series ! <small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
 
-    </form:form>
+                <form:form class="form-horizontal form-label-left" novalidate="" action="${pageContext.request.contextPath}/teams/add"
+                           modelAttribute="team">
+                    <span class="section text-light text-center">Series Info</span>
+
+                    <form:input path="id" hidden="true"/>
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Team Name <span
+                                class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:input id="name" path="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+                                        data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Player List<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="playerIds" multiple="multiple" class="select2_multiple form-control col-md-7 col-xs-12">
+                                <c:forEach items="${players}" var="player">
+                                    <option label="${player.userInfo.name}" value="${player.id}">${player.userInfo.name} </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Coach name<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="coachId"  class=" form-control col-md-7 col-xs-12" >
+                                <c:forEach items="${coaches}" var="coach">
+                                    <option value="${coach.id}" label="${coach.name}"> ${coach.name} </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                            <button id="send" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 </body>
 </html>
 

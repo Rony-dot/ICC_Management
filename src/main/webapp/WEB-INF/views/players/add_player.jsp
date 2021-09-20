@@ -39,51 +39,108 @@
     </div>
 </c:if>
 <%--            // error of the form--%>
-    <form:errors path="player.*" cssClass="error" />
+<%--    <form:errors path="player.*" cssClass="error" />--%>
 
-    <form:form action="${pageContext.request.contextPath}/players/add"
-               modelAttribute="player">
+<%--    <form:form action="${pageContext.request.contextPath}/players/add"--%>
+<%--               modelAttribute="player">--%>
+<%--        <form:input path="id" hidden="true"/>--%>
 
-<%--        // alternative error --%>
-<%--        <form:errors path="*" cssClass="error" element="div" />--%>
-
-        <form:input path="id" hidden="true"/>
-
-<%--        <label>Name:</label>cv--%>
-<%--        <form:input path="name"/> <br><br>--%>
-
-
-<%--        Player Team:--%>
-<%--        <select name="idTeam" >--%>
-<%--            <c:forEach items="${teams}" var="team">--%>
-<%--                <option value="${team.id}">${team.name}</option>--%>
+<%--        <input name="cid" value="${cid}">--%>
+<%--        User Name:--%>
+<%--        <select name="userId" >--%>
+<%--            <c:forEach items="${player_users}" var="user">--%>
+<%--                <option value="${user.id}">${user.name}</option>--%>
 <%--            </c:forEach>--%>
 <%--        </select>--%>
 
-        <input name="cid" value="${cid}">
-        User Name:
-        <select name="userId" >
-            <c:forEach items="${player_users}" var="user">
-                <option value="${user.id}">${user.name}</option>
-            </c:forEach>
-        </select>
+<%--        Player status:--%>
+<%--        <form:select path="playerStatus" >--%>
+<%--            <form:options items="${playerStatus}"/>--%>
+<%--        </form:select>--%>
 
-        Player status:
-        <form:select path="playerStatus" >
-            <form:options items="${playerStatus}"/>
-        </form:select>
+<%--        Player expertise:--%>
+<%--        <form:select path="expertise" >--%>
+<%--            <form:options items="${playerExpertise}"/>--%>
+<%--        </form:select>--%>
 
-        Player expertise:
-        <form:select path="expertise" >
-            <form:options items="${playerExpertise}"/>
-        </form:select>
+<%--        <input type="submit" name="submit" value="Add User">--%>
 
-<%--        Player isCaptain:--%>
-<%--        <input type="checkbox" name="isCap" value="true">--%>
+<%--    </form:form>--%>
 
-        <input type="submit" name="submit" value="Add User">
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add Exciting Series ! <small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Settings 1</a>
+                            </li>
+                            <li><a href="#">Settings 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
 
-    </form:form>
+                <form:form class="form-horizontal form-label-left" novalidate=""  action="${pageContext.request.contextPath}/players/add"
+                           modelAttribute="player">
+                    <span class="section text-light text-center">Series Info</span>
+
+                    <form:input path="id" hidden="true"/>
+                    <input name="cid" value="${cid}" hidden="true" >
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Player Name <span
+                                class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select name="userId" class="form-control col-md-7 col-xs-12"  >
+                                <c:forEach items="${player_users}" var="user">
+                                    <option value="${user.id}">${user.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" >Player Status<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:select path="playerStatus" class="form-control col-md-7 col-xs-12" >
+                                <form:options items="${playerStatus}"/>
+                            </form:select>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Player Expertise<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:select path="expertise" class=" form-control col-md-7 col-xs-12">
+                                <form:options items="${playerExpertise}"/>
+                            </form:select>
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-3">
+                            <button type="submit" class="btn btn-primary">Cancel</button>
+                            <button id="send" type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
 
