@@ -72,7 +72,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Add Exciting Series ! <small></small></h2>
+                <h2>Add Extraordinary Teams! <small></small></h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -94,7 +94,7 @@
 
                 <form:form class="form-horizontal form-label-left" novalidate="" action="${pageContext.request.contextPath}/teams/add"
                            modelAttribute="team">
-                    <span class="section text-light text-center">Series Info</span>
+                    <span class="section text-light text-center">Team Info</span>
 
                     <form:input path="id" hidden="true"/>
 
