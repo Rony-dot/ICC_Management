@@ -7,34 +7,97 @@
 <jsp:include page="../common/header.jsp"/>
 <title>${pageTitle}</title>
 <body>
-	<h1>${pageTitle}</h1>
-	<table class="table table-hover" >
-		<tr>
-			<th>ID</th>
-			<th>team Name</th>
-<%--			<th>team country</th>--%>
-			<th>team coach</th>
-			<th>players</th>
-			<th>Edit</th>
-			<th>Details</th>
-		</tr>
-		<c:forEach items="${teams}" var="team">
-			<tr>
-				<th>${ team.id }</th>
-				<th>${ team.name }</th>
-<%--				<th>${ team.country.name }</th>--%>
-				<th>${ team.coach.name }</th>
-				<th>
-					<c:forEach var="player" items="${team.playerList}">
-						${player.userInfo.name}
-					</c:forEach>
-				</th>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>All Teams <small>teams</small></h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+								   aria-expanded="false"><i class="fa fa-wrench"></i></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Settings 1</a>
+									</li>
+									<li><a href="#">Settings 2</a>
+									</li>
+								</ul>
+							</li>
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<p class="text-muted font-13 m-b-30">
+							Internation cricket Council registered teams!
+						</p>
+						<div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+							<div class="row">
+								<div class="col-sm-12">
+									<table id="datatable" class="table table-striped table-bordered dataTable no-footer"
+										   role="grid" aria-describedby="datatable_info">
+										<thead>
+										<tr role="row">
+											<th class="sorting_asc" tabindex="0" aria-controls="datatable" rowspan="1"
+												colspan="1" aria-sort="ascending"
+												aria-label="Name: activate to sort column descending" style="width: 157px;">
+												ID
+											</th>
+											<th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1"
+												colspan="1" aria-label="Position: activate to sort column ascending"
+												style="width: 261px;"> Team Name
+											</th>
+											<th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1"
+												colspan="1" aria-label="Office: activate to sort column ascending"
+												style="width: 117px;"> Coach Name
+											</th>
+											<th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1"
+												colspan="1" aria-label="Age: activate to sort column ascending"
+												style="width: 60px;">All Players
+											</th>
+											<th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1"
+												colspan="1" aria-label="Salary: activate to sort column ascending"
+												style="width: 88px;">Edit
+											</th>
+											<th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1"
+												colspan="1" aria-label="Salary: activate to sort column ascending"
+												style="width: 88px;">Details
+											</th>
 
-				<th><a href="edit?id=${ team.id }">Edit</a></th>
-				<th><a href="details?id=${ team.id }">Details</a></th>
-			</tr>
-		</c:forEach>
-	</table>
+										</tr>
+										</thead>
+
+										<tbody>
+										<c:forEach items="${teams}" var="team">
+											<tr role="row" class="odd">
+												<td  class="sorting_1">${ team.id }</td>
+												<td>${ team.name }</td>
+													<%--				<th>${ team.country.name }</th>--%>
+												<td>${ team.coach.name }</td>
+												<td>
+													<c:forEach var="player" items="${team.playerList}">
+														${player.userInfo.name}
+													</c:forEach>
+												</td>
+
+												<td><a href="edit?id=${ team.id }">Edit</a></td>
+												<td><a href="details?id=${ team.id }">Details</a></td>
+											</tr>
+										</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 </body>
 </html>
 
