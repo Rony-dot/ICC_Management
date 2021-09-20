@@ -109,18 +109,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic();
 
          */
-//        /*
-//        /*
+
         http
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/images/**", "/js/**", "/css/**", "/vendors/**", "/build/**" ).permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers( "/register").permitAll()
+                .antMatchers( "/images/**", "/js/**", "/css/**", "/vendors/**", "/build/**" ).permitAll()
+                .antMatchers("/","/login","/register").permitAll()
+                .antMatchers("/users/all","/countries/all","/players/all","/events/all","/teams/all","/series/all").permitAll()
                 .antMatchers("/countries/**","/events/**","/series/**").hasRole("ICC_AUTHORITY")
-                .antMatchers("/users/**").hasAnyRole("ICC_AUTHORITY","TEAM_MANAGER")
-                .antMatchers("/countries/all","/players/**","/teams/**").hasRole("TEAM_MANAGER")
+                .antMatchers("/players/**","/teams/**","/users/**").hasRole("TEAM_MANAGER")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -141,8 +139,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/403");
-
-
 //         */
     }
 

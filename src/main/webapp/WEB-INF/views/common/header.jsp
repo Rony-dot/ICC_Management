@@ -27,10 +27,16 @@
 <link href="${pageContext.request.contextPath}/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
-
-
         <!-- Custom Theme Style -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.min.css">
+<!-- Datatables -->
+<link href="${pageContext.request.contextPath}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+<!-- Custom Theme Style -->
+<link href="${pageContext.request.contextPath}/build/css/custom.min.css" rel="stylesheet">
 
             <title></title>
 </head>
