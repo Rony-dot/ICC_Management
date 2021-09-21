@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body>
+<body class="nav-md">
 <c:if test="${not empty errorMsg}">
     <div class="container mt-3">
         <div class="row">
@@ -38,7 +38,10 @@
         </div>
     </div>
 </c:if>
-
+<div class="container body">
+    <div class="main_container">
+        <!-- page content -->
+        <div class="right_col" role="main">
 <%--            // error of the form--%>
     <form:errors path="country.*" cssClass="error" />
     <div class="row">
@@ -116,6 +119,10 @@
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
 

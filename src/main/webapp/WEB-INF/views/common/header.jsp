@@ -6,29 +6,30 @@
   To change this template use File | Settings | File Templates.  \\
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<html>
 <head>
+
 <!-- Bootstrap -->
 <link href="${pageContext.request.contextPath}/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 <!-- Font Awesome -->
 <link href="${pageContext.request.contextPath}/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 <!-- NProgress -->
 <link href="${pageContext.request.contextPath}/vendors/nprogress/nprogress.css" rel="stylesheet">
-
-<!-- Custom Theme Style -->
-<link href="{pageContext.request.contextPath}/build/css/custom.min.css" rel="stylesheet">
-
-<link href="${pageContext.request.contextPath}/vendors/nprogress/nprogress.css" rel="stylesheet">
+<!-- Animate.css -->
+<link href="${pageContext.request.contextPath}/vendors/animate.css/animate.min.css" rel="stylesheet">
 <!-- iCheck -->
 <link href="${pageContext.request.contextPath}/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
 <!-- bootstrap-progressbar -->
 <link href="${pageContext.request.contextPath}/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+<!-- JQVMap -->
+<link href="${pageContext.request.contextPath}/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+<!-- bootstrap-daterangepicker -->
+<link href="${pageContext.request.contextPath}/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 <!-- PNotify -->
 <link href="${pageContext.request.contextPath}/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
-        <!-- Custom Theme Style -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.min.css">
+
 <!-- Datatables -->
 <link href="${pageContext.request.contextPath}/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -40,191 +41,245 @@
 
             <title></title>
 </head>
-<body>
 
-<%--<nav class="navbar navbar-expand-sm bg-dark navbar-dark">--%>
-<%--    <!-- Brand/logo -->--%>
-<%--    <a class="navbar-brand" href="#">--%>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+                </div>
 
-<%--        <img src="${pageContext.request.contextPath}/images/logo.jpg" alt="logo" style="width:40px; height: 40px;">--%>
-<%--    </a>--%>
+                <div class="clearfix"></div>
 
-<%--    <!-- Links -->--%>
-<%--    <ul class="navbar-nav">--%>
-<%--        <li class="nav-item">--%>
-<%--            <a class="nav-link" href="/">Home</a>--%>
-<%--        </li>--%>
-<%--        <!-- Dropdown -->--%>
-<%--        <li class="nav-item dropdown">--%>
-<%--            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">--%>
-<%--                Users--%>
-<%--            </a>--%>
-<%--            <div class="dropdown-menu">--%>
-<%--                <a class="dropdown-item" href="/users/all">All Users</a>--%>
-<%--                <a class="dropdown-item" href="/users/add">Add User</a>--%>
-<%--            </div>--%>
+                <!-- menu profile quick info -->
+                <div class="profile clearfix">
+                    <div class="profile_pic">
+                        <img src="${pageContext.request.contextPath}/images/img.jpg" alt="..." class="img-circle profile_img">
+                    </div>
+                    <div class="profile_info">
+                        <span>Welcome,</span>
+                        <h2>John Doe</h2>
+                    </div>
+                </div>
+                <!-- /menu profile quick info -->
 
-<%--        </li>--%>
-<%--        <!-- Dropdown end -->--%>
-<%--        <!-- Dropdown -->--%>
-<%--        <li class="nav-item dropdown">--%>
-<%--            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">--%>
-<%--                Country--%>
-<%--            </a>--%>
-<%--            <div class="dropdown-menu">--%>
-<%--                <a class="dropdown-item" href="/countries/all">All countries</a>--%>
-<%--                <a class="dropdown-item" href="/countries/add">Add country</a>--%>
-<%--            </div>--%>
+                <br />
 
-<%--        </li>--%>
-<%--        <!-- Dropdown end -->--%>
-<%--        <!-- Dropdown -->--%>
-<%--        <li class="nav-item dropdown">--%>
-<%--            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">--%>
-<%--                Player--%>
-<%--            </a>--%>
-<%--            <div class="dropdown-menu">--%>
-<%--                <a class="dropdown-item" href="/players/all">All Players</a>--%>
-<%--                <a class="dropdown-item" href="/players/add">Add Player</a>--%>
-<%--            </div>--%>
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <h3>General</h3>
+                        <ul class="nav side-menu">
+                            <li><a class="active" href="/"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a></li>
 
-<%--        </li>--%>
-<%--        <!-- Dropdown end -->--%>
-<%--        <!-- Dropdown -->--%>
-<%--        <li class="nav-item dropdown">--%>
-<%--            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">--%>
-<%--                Teams--%>
-<%--            </a>--%>
-<%--            <div class="dropdown-menu">--%>
-<%--                <a class="dropdown-item" href="/teams/all">All Teams</a>--%>
-<%--                <a class="dropdown-item" href="/teams/add">Add Teams</a>--%>
-<%--            </div>--%>
+                            <li><a><i class="fa fa-edit"></i> Users <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a  href="/users/all">All Users</a></li>
+                                    <li><a  href="/users/add">Add Users</a></li>
+                                </ul>
+                            </li>
 
-<%--        </li>--%>
-<%--        <!-- Dropdown end -->--%>
-<%--        <!-- Dropdown -->--%>
-<%--        <li class="nav-item dropdown">--%>
-<%--            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">--%>
-<%--                Events--%>
-<%--            </a>--%>
-<%--            <div class="dropdown-menu">--%>
-<%--                <a class="dropdown-item" href="/events/all">All Events</a>--%>
-<%--                <a class="dropdown-item" href="/events/add">Add Events</a>--%>
-<%--            </div>--%>
+                            <li><a><i class="fa fa-desktop"></i> Countries <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/countries/all">All Countries</a></li>
+                                    <li><a href="/countries/add">Add Country</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> Players <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/players/all">All Players</a></li>
+                                    <li><a href="/players/add">Add Player</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-bar-chart-o"></i> Teams <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/teams/all">All Teams</a></li>
+                                    <li><a href="/teams/add">Add Team</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-clone"></i>Events <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/events/all">All Events</a></li>
+                                    <li><a href="/events/add">Add Event</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-clone"></i>Series <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="/series/all">All Series</a></li>
+                                    <li><a href="/series/add">Add Series</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="menu_section">
+                        <h3>Live On</h3>
+                        <ul class="nav side-menu">
+                            <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="e_commerce.html">E-commerce</a></li>
+                                    <li><a href="projects.html">Projects</a></li>
+                                    <li><a href="project_detail.html">Project Detail</a></li>
+                                    <li><a href="contacts.html">Contacts</a></li>
+                                    <li><a href="profile.html">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="page_403.html">403 Error</a></li>
+                                    <li><a href="page_404.html">404 Error</a></li>
+                                    <li><a href="page_500.html">500 Error</a></li>
+                                    <li><a href="plain_page.html">Plain Page</a></li>
+                                    <li><a href="login.html">Login Page</a></li>
+                                    <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="#level1_1">Level One</a>
+                                    <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="level2.html">Level Two</a>
+                                            </li>
+                                            <li><a href="#level2_1">Level Two</a>
+                                            </li>
+                                            <li><a href="#level2_2">Level Two</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#level1_2">Level One</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                        </ul>
+                    </div>
 
-<%--        </li>--%>
-<%--        <!-- Dropdown end -->--%>
-<%--        <!-- Dropdown -->--%>
-<%--        <li class="nav-item dropdown">--%>
-<%--            <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">--%>
-<%--                Series--%>
-<%--            </a>--%>
-<%--            <div class="dropdown-menu">--%>
-<%--                <a class="dropdown-item" href="/series/all">All Series</a>--%>
-<%--                <a class="dropdown-item" href="/series/add">Add Series</a>--%>
-<%--            </div>--%>
+                </div>
+                <!-- /sidebar menu -->
 
-<%--        </li>--%>
-<%--        <!-- Dropdown end -->--%>
-<%--        <li class="nav-item ">--%>
-<%--            <a class="nav-link" href="${pageContext.request.contextPath}/login">login</a>--%>
-<%--        </li>--%>
-<%--        <li class="nav-item">--%>
-<%--            <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>--%>
-<%--        </li>--%>
-<%--        <li class="nav-item ">--%>
-<%--            <a class="nav-link" href="${pageContext.request.contextPath}/register">register</a>--%>
-<%--        </li>--%>
-<%--    </ul>--%>
-<%--</nav>--%>
-
-<nav class="navbar navbar-inverse mt-5">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-left" href="/">
-                <img src="${pageContext.request.contextPath}/images/logo.jpg" alt="logo" style="width:40px; height: 40px;">
-            </a>
+                <!-- /menu footer buttons -->
+                <div class="sidebar-footer hidden-small">
+                    <a data-toggle="tooltip" data-placement="top" title="Settings">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </a>
+                    <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                        <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                    </a>
+                    <a data-toggle="tooltip" data-placement="top" title="Lock">
+                        <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                    </a>
+                    <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    </a>
+                </div>
+                <!-- /menu footer buttons -->
+            </div>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Users <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
 
-                        <li><a  href="/users/all">All Users</a></li>
-                        <li><a  href="/users/add">Add Users</a></li>
-                    </ul>
-                </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Countries <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/countries/all">All Countries</a></li>
-                        <li><a href="/countries/add">Add Country</a></li>
-                    </ul>
-                </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Players <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/players/all">All Players</a></li>
-                        <li><a href="/players/add">Add Player</a></li>
-                    </ul>
-                </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/teams/all">All Teams</a></li>
-                        <li><a href="/teams/add">Add Team</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/events/all">All Events</a></li>
-                        <li><a href="/events/add">Add Event</a></li>
-                    </ul>
-                </li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Series <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/series/all">All Series</a></li>
-                        <li><a href="/series/add">Add Series</a></li>
-                    </ul>
-                </li>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <img src="${pageContext.request.contextPath}/images/img.jpg" alt="">John Doe
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a href="javascript:;"> Profile</a></li>
+                                <li>
+                                    <a href="javascript:;">
+                                        <span class="badge bg-red pull-right">50%</span>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                                <li><a href="javascript:;">Help</a></li>
+                                <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                            </ul>
+                        </li>
 
-            </ul>
-<%--            <form class="navbar-form navbar-left">--%>
-<%--                <div class="form-group">--%>
-<%--                    <input type="text" class="form-control" placeholder="Search">--%>
-<%--                </div>--%>
-<%--                <button type="submit" class="btn btn-default">Submit</button>--%>
-<%--            </form>--%>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
-                <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
-                <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
-<%--                <li class="dropdown">--%>
-<%--                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>--%>
-<%--                    <ul class="dropdown-menu">--%>
-<%--                        <li role="separator" class="divider"></li>--%>
-<%--                        <li><a href="#">Separated link</a></li>--%>
-<%--                    </ul>--%>
-<%--                </li>--%>
-            </ul>
+                        <li role="presentation" class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="badge bg-green">6</span>
+                            </a>
+                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="${pageContext.request.contextPath}/images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="${pageContext.request.contextPath}/images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="${pageContext.request.contextPath}/images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="image"><img src="${pageContext.request.contextPath}/images/img.jpg" alt="Profile Image" /></span>
+                                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="text-center">
+                                        <a>
+                                            <strong>See All Alerts</strong>
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
 
 
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+
+
+    </div>
+</div>
 
 <%--        <c:if test="${not empty errorMsg}">--%>
 <%--            <div class="container mt-3">--%>
@@ -243,4 +298,4 @@
 
 </body>
 
-
+</html>

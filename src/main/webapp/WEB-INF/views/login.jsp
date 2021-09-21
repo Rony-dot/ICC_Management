@@ -9,7 +9,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <jsp:include page="common/header.jsp"/>
+    <!-- Bootstrap -->
+    <link href="${pageContext.request.contextPath}/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="${pageContext.request.contextPath}/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="${pageContext.request.contextPath}/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="${pageContext.request.contextPath}/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="${pageContext.request.contextPath}/build/css/custom.min.css" rel="stylesheet">
     <title>Login Page</title>
 </head>
 <body class="login">
@@ -118,6 +127,3 @@
 </div>
 </body>
 </html>
-
-<!-- GLOBAL FOOTER -->
-<jsp:include page="common/footer.jsp"/>

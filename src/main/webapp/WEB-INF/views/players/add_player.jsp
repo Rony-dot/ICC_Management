@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body>
+<body class="nav-md">
 <c:if test="${not empty errorMsg}">
     <div class="container mt-3">
         <div class="row">
@@ -66,7 +66,10 @@
 <%--        <input type="submit" name="submit" value="Add User">--%>
 
 <%--    </form:form>--%>
-
+<div class="container body">
+    <div class="main_container">
+        <!-- page content -->
+        <div class="right_col" role="main">
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
@@ -137,6 +140,9 @@
                     </div>
                 </form:form>
             </div>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>
