@@ -105,7 +105,7 @@ public class TeamController {
         model.addAttribute("players",players);
         return "teams/edit";
     }
-
+/*
     @PostMapping("/teams/update")
     public String updateTeam(Model model, @ModelAttribute("country") Country country, @RequestParam("id") long id, @RequestParam("idMD") long idMD, @RequestParam("playerIds") long[] playerIds){
         System.err.println(idMD+"--------------countries update controller-> managing director id------------------");
@@ -122,5 +122,7 @@ public class TeamController {
         model.addAttribute("pageTitle","country details");
         return "teams/details";
     }
+
+ */
 
 }

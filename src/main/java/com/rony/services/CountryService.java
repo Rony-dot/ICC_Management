@@ -1,10 +1,13 @@
 package com.rony.services;
 
 import com.rony.config.HibernateConfig;
-import com.rony.models.Country;
+
 import com.rony.models.Player;
 import com.rony.models.User;
+
+import com.rony.requestDto.Country;
 import org.hibernate.Transaction;
+//import com.rony.models.Country;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +31,10 @@ public class CountryService {
         this.userService = userService;
     }
 
-    public List<Country> allCountries(){
+    public List<com.rony.models.Country> allCountries(){
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Country.class);
-        var root = criteriaQuery.from(Country.class);
+        var criteriaQuery = criteriaBuilder.createQuery(com.rony.models.Country.class);
+        var root = criteriaQuery.from(com.rony.models.Country.class);
         criteriaQuery.select(root);
 
         var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
@@ -60,23 +63,44 @@ public class CountryService {
 
     }
 
-    public Country getCountryById(long id) {
+    public com.rony.models.Country getCountryById(long id) {
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Country.class);
-        var root = criteriaQuery.from(Country.class);
+        var criteriaQuery = criteriaBuilder.createQuery(com.rony.models.Country.class);
+        var root = criteriaQuery.from(com.rony.models.Country.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
 
         return hibernateConfig.query(criteriaQuery).getSingleResult();
     }
+//
+//    public void saveCountry(Country countryDto, long idMD, long[] playerIds) {
+//        System.out.println("save method of country service------------------------------------------------------");
+//
+//        var countryEntity = new Country();
+//        BeanUtils.copyProperties(countryDto,countryEntity);
+//
+//        var managingDirectorDto = userService.getUserById(idMD);
+//        managingDirectorDto.setUserRole(roleService.findByRoleName("ROLE_TEAM_MANAGER"));
+//        countryEntity.setManagingDirector(managingDirectorDto);
+//        List<Player> playerList = new ArrayList<>();
+//        countryEntity.setPlayerList(playerList);
+//
+//        hibernateConfig.saveObject(countryEntity);
+//
+//        System.out.println("---------------------------------------------------");
+//        System.out.println("country is saved");
+//        System.out.println(countryEntity);
+//    }
 
-    public void saveCountry(Country countryDto, long idMD, long[] playerIds) {
+
+    public void saveCountry(Country countryDto) {
         System.out.println("save method of country service------------------------------------------------------");
 
-        var countryEntity = new Country();
+        // why full qualified class name ?
+        var countryEntity = new com.rony.models.Country();
         BeanUtils.copyProperties(countryDto,countryEntity);
 
-        var managingDirectorDto = userService.getUserById(idMD);
+        var managingDirectorDto = userService.getUserById(countryDto.getCountryManagerId());
         managingDirectorDto.setUserRole(roleService.findByRoleName("ROLE_TEAM_MANAGER"));
         countryEntity.setManagingDirector(managingDirectorDto);
         List<Player> playerList = new ArrayList<>();
@@ -85,11 +109,11 @@ public class CountryService {
         hibernateConfig.saveObject(countryEntity);
 
         System.out.println("---------------------------------------------------");
-        System.out.println("country is saved");
+        System.out.println("country entity is saved");
         System.out.println(countryEntity);
     }
 
-
+/*
     public void updateCountry(Country countryDto, long id, long idMD, long[] playerIds) {
         System.err.println("update method of country service--------------------------------------------");
         var session = hibernateConfig.getSession();
@@ -114,4 +138,6 @@ public class CountryService {
         System.err.println("country is updated");
         System.err.println(countryEntity);
     }
+
+ */
 }

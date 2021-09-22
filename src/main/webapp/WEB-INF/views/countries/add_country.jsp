@@ -27,23 +27,23 @@
     </style>
 </head>
 <body class="nav-md">
-<c:if test="${not empty errorMsg}">
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <div class="alert alert-danger">
-                        ${errorMsg}
+    <c:if test="${not empty errorMsg}">
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="alert alert-danger">
+                            ${errorMsg}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</c:if>
+    </c:if>
 <div class="container body">
     <div class="main_container">
         <!-- page content -->
         <div class="right_col" role="main">
 <%--            // error of the form--%>
-    <form:errors path="country.*" cssClass="error" />
+
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -70,7 +70,7 @@
 
                     <form:form class="form-horizontal form-label-left" novalidate="" action="${pageContext.request.contextPath}/countries/add"
                                modelAttribute="country">
-                        <span class="section text-light text-center">Country Details</span>
+                        <span class="section text-light text-center">Add Country info</span>
                         <form:input path="id" hidden="true"/>
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span
@@ -81,30 +81,47 @@
                                             data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
                             </div>
                         </div>
+
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" >Managing Director <span
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="idMD"  class="form-control col-md-7 col-xs-12">
+
+                                <form:select path="countryManagerId" class="form-control col-md-7 col-xs-12" >
+<%--                                    <form:options  items="${managingDirectors}" itemValue="countryManagerId" itemLabel="name" ></form:options>--%>
                                     <c:forEach items="${managingDirectors}" var="md">
                                         <option value="${md.id}">${md.name}</option>
                                     </c:forEach>
-                                </select>
+                                </form:select>
+<%--                                <select name="idMD"  class="form-control col-md-7 col-xs-12">--%>
+<%--                                    <c:forEach items="${managingDirectors}" var="md">--%>
+<%--                                        <option value="${md.id}">${md.name}</option>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </select>--%>
                             </div>
                         </div>
+
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" >Players list<span
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="playerIds" multiple="multiple" class="select2_multiple form-control col-md-7 col-xs-12">
+                                <form:select path="playerIds" multiple="multiple" class="select2_multiple form-control col-md-7 col-xs-12">
+<%--                                    <form:options items="${players}" itemLabel="palyerName" itemValue="playerIds" ></form:options>--%>
                                     <c:forEach items="${players}" var="player">
                                         <option value="${player.id}">${player.name}</option>
                                     </c:forEach>
-                                </select>
+                                </form:select>
+
+<%--                                <select name="playerIds" multiple="multiple" class="select2_multiple form-control col-md-7 col-xs-12">--%>
+<%--                                    <c:forEach items="${players}" var="player">--%>
+<%--                                        <option value="${player.id}">${player.name}</option>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </select>--%>
                             </div>
                         </div>
+
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">

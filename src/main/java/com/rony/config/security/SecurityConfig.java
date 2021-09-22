@@ -115,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers( "/images/**", "/js/**", "/css/**", "/vendors/**", "/build/**" ).permitAll()
-                .antMatchers("/","/login","/register").permitAll()
+                .antMatchers("/","/login","/register", "/test/**").permitAll()
                 .antMatchers("/users/all","/countries/all","/players/all","/events/all","/teams/all","/series/all").permitAll()
                 .antMatchers("/countries/**","/events/**","/series/**").hasRole("ICC_AUTHORITY")
                 .antMatchers("/players/**","/teams/**","/users/**").hasRole("TEAM_MANAGER")

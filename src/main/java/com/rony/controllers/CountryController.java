@@ -1,10 +1,13 @@
 package com.rony.controllers;
 
 import com.rony.enums.UserRole;
-import com.rony.models.Country;
+import com.rony.requestDto.Country;
+//import com.rony.models.Country;
 import com.rony.models.User;
 import com.rony.services.CountryService;
 import com.rony.services.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
 
 @Controller
 public class CountryController {
+
+    Logger logger = LogManager.getLogger(CountryController.class);
 
     @Autowired
     private CountryService countryService;
@@ -49,23 +54,39 @@ public class CountryController {
         return "/countries/add_country";
     }
 
+//    @PostMapping("/countries/add")
+//    public String addCountry(Model model,
+//                             @Valid @ModelAttribute Country country, BindingResult errors,
+//                             @RequestParam("idMD") long idMD,
+//                             @RequestParam(value = "playerIds", required = false) long[] playerIds){
+//        if(errors.hasErrors()){
+//            return "/countries/add_country";
+//        }else {
+//            System.err.println(idMD+"--------------countries add -> managing director id------------------");
+//            countryService.saveCountry(country, idMD, playerIds);
+//            return "redirect: /countries/all";
+//
+//        }
+//
+//    }
+
     @PostMapping("/countries/add")
     public String addCountry(Model model,
-                            @Valid @ModelAttribute Country country, BindingResult errors,
-                             @RequestParam("idMD") long idMD,
-                             @RequestParam(value = "playerIds", required = false) long[] playerIds){
+                            @Valid @ModelAttribute(name = "country") Country country,
+                             BindingResult errors){
         if(errors.hasErrors()){
             return "/countries/add_country";
         }else {
-            System.err.println(idMD+"--------------countries add -> managing director id------------------");
-            countryService.saveCountry(country, idMD, playerIds);
+            logger.info("country name : "+country.getName());
+            logger.info("country Managing director id : "+country.getCountryManagerId());
+            logger.info("country player id's: "+country.getPlayerIds());
+            countryService.saveCountry(country);
             return "redirect: /countries/all";
-
         }
 
     }
 
-
+/*
     @GetMapping("/countries/edit")
     public String edit(Model model, @RequestParam("id") long id){
         var countryEntity = countryService.getCountryById(id);
@@ -100,5 +121,7 @@ public class CountryController {
         model.addAttribute("pageTitle","country details");
         return "countries/details";
     }
+
+ */
 
 }
