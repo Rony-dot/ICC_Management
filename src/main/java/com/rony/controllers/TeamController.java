@@ -107,7 +107,7 @@ public class TeamController {
     }
 /*
     @PostMapping("/teams/update")
-    public String updateTeam(Model model, @ModelAttribute("country") Country country, @RequestParam("id") long id, @RequestParam("idMD") long idMD, @RequestParam("playerIds") long[] playerIds){
+    public String updateTeam(Model model, @ModelAttribute("country") CountryReqDto country, @RequestParam("id") long id, @RequestParam("idMD") long idMD, @RequestParam("playerIds") long[] playerIds){
         System.err.println(idMD+"--------------countries update controller-> managing director id------------------");
         System.err.println(country);
         countryService.updateCountry(country, id, idMD, playerIds);

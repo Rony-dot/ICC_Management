@@ -54,7 +54,7 @@ public class TeamService {
         if(!tx.isActive()){
             tx = session.beginTransaction();
         }
-        var countryEntity = new Country();
+        var countryEntity = new CountryReqDto();
         BeanUtils.copyProperties(countryDto,countryEntity);
         countryEntity.setManagingDirector(userDto);
         session.save(countryEntity);
@@ -110,7 +110,7 @@ public class TeamService {
     }
 
   /*
-    public void updateCountry(Country countryDto, long id, long idMD, long[] playerIds) {
+    public void updateCountry(CountryReqDto countryDto, long id, long idMD, long[] playerIds) {
         System.err.println("update method of country service--------------------------------------------");
         var session = hibernateConfig.getSession();
         Transaction tx = session.getTransaction();

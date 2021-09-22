@@ -55,7 +55,7 @@ public class Event extends BaseModel{
     @Column(nullable = true)
     private int score;
 
-//    private Country
+//    private CountryReqDto
 //    @ManyToOne
 //    private CountryManager countryManager;
 }

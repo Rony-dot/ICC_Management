@@ -3,19 +3,15 @@ package com.rony.services;
 import com.rony.config.HibernateConfig;
 
 import com.rony.models.Player;
-import com.rony.models.User;
 
-import com.rony.requestDto.Country;
-import org.hibernate.Transaction;
-//import com.rony.models.Country;
+import com.rony.requestDto.CountryReqDto;
+import com.rony.models.Country;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CountryService {
@@ -31,24 +27,25 @@ public class CountryService {
         this.userService = userService;
     }
 
-    public List<com.rony.models.Country> allCountries(){
+    public List<Country> allCountries(){
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(com.rony.models.Country.class);
-        var root = criteriaQuery.from(com.rony.models.Country.class);
+        var criteriaQuery = criteriaBuilder.createQuery(Country.class);
+        var root = criteriaQuery.from(Country.class);
         criteriaQuery.select(root);
 
         var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+
         return resultList.size() > 0  ? resultList : null;
     }
 
-  /*  public void saveCountry(Country countryDto, User userDto){
+  /*  public void saveCountry(CountryReqDto countryDto, User userDto){
         System.out.println("save method of country service------------------------------------------------------");
         var session = hibernateConfig.getSession();
         Transaction tx = session.getTransaction();
         if(!tx.isActive()){
             tx = session.beginTransaction();
         }
-        var countryEntity = new Country();
+        var countryEntity = new CountryReqDto();
         BeanUtils.copyProperties(countryDto,countryEntity);
         countryEntity.setManagingDirector(userDto);
         session.save(countryEntity);
@@ -59,7 +56,7 @@ public class CountryService {
         System.out.println(countryEntity);
     } */
 
-    public void deleteCountry(Country country){
+    public void deleteCountry(CountryReqDto country){
 
     }
 
@@ -73,10 +70,10 @@ public class CountryService {
         return hibernateConfig.query(criteriaQuery).getSingleResult();
     }
 //
-//    public void saveCountry(Country countryDto, long idMD, long[] playerIds) {
+//    public void saveCountry(CountryReqDto countryDto, long idMD, long[] playerIds) {
 //        System.out.println("save method of country service------------------------------------------------------");
 //
-//        var countryEntity = new Country();
+//        var countryEntity = new CountryReqDto();
 //        BeanUtils.copyProperties(countryDto,countryEntity);
 //
 //        var managingDirectorDto = userService.getUserById(idMD);
@@ -93,14 +90,14 @@ public class CountryService {
 //    }
 
 
-    public void saveCountry(Country countryDto) {
+    public void saveCountry(CountryReqDto countryReqDto) {
         System.out.println("save method of country service------------------------------------------------------");
 
         // why full qualified class name ?
         var countryEntity = new com.rony.models.Country();
-        BeanUtils.copyProperties(countryDto,countryEntity);
+        BeanUtils.copyProperties(countryReqDto,countryEntity);
 
-        var managingDirectorDto = userService.getUserById(countryDto.getCountryManagerId());
+        var managingDirectorDto = userService.getUserById(countryReqDto.getCountryManagerId());
         managingDirectorDto.setUserRole(roleService.findByRoleName("ROLE_TEAM_MANAGER"));
         countryEntity.setManagingDirector(managingDirectorDto);
         List<Player> playerList = new ArrayList<>();
@@ -114,7 +111,7 @@ public class CountryService {
     }
 
 /*
-    public void updateCountry(Country countryDto, long id, long idMD, long[] playerIds) {
+    public void updateCountry(CountryReqDto countryDto, long id, long idMD, long[] playerIds) {
         System.err.println("update method of country service--------------------------------------------");
         var session = hibernateConfig.getSession();
         Transaction tx = session.getTransaction();

@@ -1,4 +1,4 @@
-package com.rony.requestDto;
+package com.rony.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,16 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Country{
+public class CountryRespDto {
+
     private String id;
-
-    @NotNull(message = "name must be given")
-    @Size(min = 3, max = 30, message = "must be greater than or equal 3 and less than or equal 30")
     private String name;
-
-    @NotNull(message = "must select an country manager")
     private int countryManagerId;
-
     private List<Integer> playerIds;
 
 }
