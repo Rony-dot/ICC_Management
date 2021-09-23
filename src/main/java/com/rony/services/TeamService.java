@@ -69,12 +69,12 @@ public class TeamService {
 
     }
 
-    public Team getTeamById(long id) {
+    public Team getTeamById(String id) {
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(Team.class);
         var root = criteriaQuery.from(Team.class);
         criteriaQuery.select(root);
-        criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
+        criteriaQuery.where(criteriaBuilder.equal(root.get("id"),Long.parseLong(id)));
 
         return hibernateConfig.getSession()
                 .getEntityManagerFactory()
@@ -83,7 +83,7 @@ public class TeamService {
                 .getSingleResult();
     }
 
-    public void saveTeam(Team teamDto, long cid,  long[] playerIds, long coachId) {
+    public void saveTeam(Team teamDto, String cid,  String[] playerIds, String coachId) {
         System.err.println("save method of Team service------------------------------------------------------");
 
         var coachDto = userService.getUserById(coachId);
@@ -95,7 +95,7 @@ public class TeamService {
 
         teamEntity.setCoach(coachDto);
         List<Player> playerList = new ArrayList<>();
-        for(long id: playerIds){
+        for(String id: playerIds){
             playerList.add(playerService.getPlayerById(id));
         }
         teamEntity.setPlayerList(playerList);

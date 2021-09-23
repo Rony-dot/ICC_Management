@@ -5,6 +5,7 @@ import com.rony.enums.PlayerStatus;
 import com.rony.enums.UserRole;
 import com.rony.models.Player;
 import com.rony.models.User;
+import com.rony.requestDto.PlayerReqDto;
 import com.rony.services.CountryService;
 import com.rony.services.PlayerService;
 import com.rony.services.UserService;
@@ -48,10 +49,9 @@ public class PlayerController {
         return "players/show-all";
     }
 
-    @GetMapping("/players/add")
     public String addPlayer(Model model, HttpSession session){
 
-        var cid = (long) session.getAttribute("cid");
+        var cid = session.getAttribute("cid");
         System.out.println("1. country id is "+cid);
         model.addAttribute("cid", cid);
         model.addAttribute("player",new Player());
@@ -65,20 +65,17 @@ public class PlayerController {
     }
 
     @PostMapping("/players/add")
-    public String addPlayer(Model model, @Valid @ModelAttribute("player") Player player, BindingResult errors,
-                            // TODO team id need to be added here
-                            //  @RequestParam("idTeam") long idTeam,
-                            @RequestParam("cid") long cid,
-                            @RequestParam("userId") long userId){
+    public String addPlayer(Model model, @Valid @ModelAttribute("player") PlayerReqDto playerReqDto,
+                            BindingResult errors,
+                            @RequestParam("cid") String cid){
 
         if(errors.hasErrors()){
             return "players/add_player";
         }else {
-
-            System.err.println(player.getPlayerStatus()+" status of the player");
-            System.err.println(player.getExpertise()+" expertise of the player");
+            System.err.println(playerReqDto.getPlayerStatus()+" status of the player");
+            System.err.println(playerReqDto.getExpertise()+" expertise of the player");
             System.out.println("2. country id is "+cid);
-            playerService.addPlayer(player,userId, cid);
+            playerService.addPlayer(playerReqDto, cid);
 
             return "redirect: /players/all";
         }

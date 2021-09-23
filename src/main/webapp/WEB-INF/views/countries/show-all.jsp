@@ -80,10 +80,10 @@
 											<tr role="row" class="odd">
 												<td class="sorting_1">${ country.id }</td>
 												<td>${ country.name }</td>
-												<td>${ country.managingDirector.name }</td>
+												<td>${ country.countryManagerName }</td>
 												<td>
-													<c:forEach var="player" items="${country.playerList}">
-														${player.userInfo.name}
+													<c:forEach var="playerName" items="${country.playerNames}">
+														${playerName}
 													</c:forEach>
 												</td>
 												<td><a href="edit?id=${ country.id }">Edit</a></td>

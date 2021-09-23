@@ -1,6 +1,7 @@
 package com.rony.services;
 
 import com.rony.config.HibernateConfig;
+import com.rony.enums.Countries;
 import com.rony.enums.Genders;
 import com.rony.enums.HomeTowns;
 import com.rony.enums.Salutations;
@@ -33,6 +34,7 @@ public class UserService implements UserDetailsService {
     private List<User> userList;
     public final List<String> homeTowns = new ArrayList<>();
     public final List<String> salutations = new ArrayList<>();
+    private final List<String> countries = new ArrayList<>();
     public final Map<String,String> genders = new HashMap<>();
 
     public UserService(HibernateConfig hibernateConfig){
@@ -44,6 +46,9 @@ public class UserService implements UserDetailsService {
         salutations.addAll(Stream.of(Salutations.values())
                 .map(Salutations::name)
                 .collect(Collectors.toList()));
+        countries.addAll(Stream.of(Countries.values())
+                .map(Countries::name)
+                .collect(Collectors.toList()));
         genders.put("M","Male");
         genders.put("F","Female");
         genders.put("O","Others");
@@ -51,6 +56,10 @@ public class UserService implements UserDetailsService {
 
     public List<String> getHomeTowns(){
         return this.homeTowns;
+    }
+
+    public  List<String> getCountries(){
+        return this.countries;
     }
 
     public List<String> getSalutations(){
@@ -83,12 +92,12 @@ public class UserService implements UserDetailsService {
                 .getResultList();
     }
 
-    public User getUserById(long id){
+    public User getUserById(String id){
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(User.class);
         var root = criteriaQuery.from(User.class);
         criteriaQuery.select(root);
-        criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
+        criteriaQuery.where(criteriaBuilder.equal(root.get("id"),Long.parseLong(id)));
 
         return hibernateConfig.query(criteriaQuery).getSingleResult();
 //        return hibernateConfig.getSession()

@@ -105,12 +105,12 @@
 												<td>${ event.startDateTime }</td>
 												<td>${ event.endDateTime }</td>
 												<td>${ event.eventType }</td>
-												<td>${ event.team1.name }</td>
-												<td>${ event.team2.name }</td>
+												<td>${ event.team1Name }</td>
+												<td>${ event.team2Name }</td>
 
 												<td>
-													<c:forEach items="${event.umpires}" var="umpire">
-														${umpire.name},&nbsp
+													<c:forEach items="${event.umpireNames}" var="umpireName">
+														${umpireNames},&nbsp
 													</c:forEach>
 												</td>
 												<td>${ event.score }</td>

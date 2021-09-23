@@ -21,8 +21,8 @@ public class CountryReqDto {
     private String name;
 
     @NotNull(message = "must select an country manager")
-    private int countryManagerId;
+    private String countryManagerId;
 
-    private List<Integer> playerIds;
+    private List<Long> playerIds;
 
 }

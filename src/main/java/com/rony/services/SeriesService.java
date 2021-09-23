@@ -41,7 +41,7 @@ public class SeriesService {
                 .getResultList();
     }
 
-    public void saveSeries(Series seriesDto, long[] eventIds, long[] teamIds) {
+    public void saveSeries(Series seriesDto, String[] eventIds, String[] teamIds) {
         System.err.println("save method of Series service------------------------------------------------------");
         var session = hibernateConfig.getSession();
         Transaction tx = session.getTransaction();
@@ -52,13 +52,13 @@ public class SeriesService {
         BeanUtils.copyProperties(seriesDto,seriesEntity);
 
         List<Event> eventList = new ArrayList<>();
-        for(long id: eventIds){
+        for(String id: eventIds){
             eventList.add(eventService.getEventById(id));
         }
         seriesEntity.setEventList(eventList);
 
         List<Team> teamList = new ArrayList<>();
-        for(long id: teamIds){
+        for(String id: teamIds){
             teamList.add(teamService.getTeamById(id));
         }
         seriesEntity.setParticipantTeams(teamList);

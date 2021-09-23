@@ -72,14 +72,14 @@ public class TeamController {
 
     @PostMapping("/teams/add")
     public String addTeam(Model model, @Valid @ModelAttribute Team team, BindingResult errors,
-                          @RequestParam("playerIds") long[] playerIds,
-                          @RequestParam("coachId") long coachId,
+                          @RequestParam("playerIds") String[] playerIds,
+                          @RequestParam("coachId") String coachId,
                           HttpSession session){
 
         if(errors.hasErrors()){
             return "/teams/add_team";
         }else {
-            var cid = (long) session.getAttribute("cid");
+            var cid = String.valueOf(session.getAttribute("cid"));
             teamService.saveTeam(team, cid, playerIds, coachId);
 
             return "redirect: /teams/all";
@@ -89,7 +89,7 @@ public class TeamController {
 
 
     @GetMapping("/teams/edit")
-    public String edit(Model model, @RequestParam("id") long id){
+    public String edit(Model model, @RequestParam("id") String id){
         var countryEntity = countryService.getCountryById(id);
         System.out.println(countryEntity+" --------------------------countryEntity of getMapping edit---------------------------------");
         model.addAttribute("id",id);

@@ -17,7 +17,8 @@ public class CountryRespDto {
 
     private String id;
     private String name;
-    private int countryManagerId;
-    private List<Integer> playerIds;
+    private String countryManagerName;
+    private String countryManagerEmail;
+    private List<String> playerNames;
 
 }

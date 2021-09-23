@@ -2,8 +2,10 @@ package com.rony.controllers;
 
 import com.rony.config.HibernateConfig;
 import com.rony.config.Initializer;
+import com.rony.enums.Countries;
 import com.rony.enums.UserRole;
 import com.rony.exceptions.InternalServerException;
+import com.rony.models.Country;
 import com.rony.models.User;
 import com.rony.services.CountryService;
 import com.rony.services.RoleService;
@@ -98,15 +100,26 @@ public class HomeController {
             var role = authentication.getAuthorities().stream()
                     .findFirst().get().getAuthority();
             var cm = (User) authentication.getPrincipal();
-            var country = countryService.allCountries().stream()
-                    .filter(u -> u.getManagingDirector().getId() == cm.getId())
-                    .findFirst()
-                    .get();
-            var cid = country.getId();
-            HttpSession session = request.getSession();
 
-            session.setAttribute("cid", cid);
+
+//            var country = countryService.allCountries().stream()
+//                    .filter(c -> c.getManagingDirector().getId() == cm.getId())
+//                    .findFirst()
+//                    .get();
+//            var cid = country.getId();
+
+            HttpSession session = request.getSession();
+//            session.setAttribute("cid", cid);
             model.addAttribute("msg",role );
+
+            var cid = countryService.getCountryByCMId(cm.getId());
+            if(cid != null){
+                session.setAttribute("cid",cid);
+                logger.info("country id from homeController -> success() : " + cid);
+            }else{
+                logger.info("not a country manager ! ");
+            }
+
             return "successPage";
         }catch (Exception e){
             e.printStackTrace();
@@ -164,7 +177,6 @@ public class HomeController {
             userService.addUser(user);
             logger.info("registration success ! "+user.getEmail());
             return "redirect:/login";
-
         }
     }
 

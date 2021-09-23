@@ -1,5 +1,6 @@
 package com.rony.models;
 
+import com.rony.enums.Countries;
 import com.rony.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -63,6 +64,9 @@ public class User extends BaseModel implements UserDetails, Serializable {
 
     @NotNull(message = "hometown is required")
     private String homeTown;
+
+    @NotNull(message = "country must be given")
+    private Countries country;
 
     // Collection<? extends GrantedAuthority> => means in the ? mark, it expects any class that implements GrantedAuthority
     // Note: Here Role class implements GrantedAuthority, so no errors

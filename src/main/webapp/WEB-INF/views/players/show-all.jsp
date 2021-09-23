@@ -79,7 +79,7 @@
 										<c:forEach items="${players}" var="player">
 											<tr role="row" class="odd">
 												<td  class="sorting_1">${ player.id }</td>
-												<td>${ player.userInfo.name }</td>
+												<td>${ player.userName }</td>
 												<td>${ player.expertise }</td>
 												<td>${ player.playerStatus }</td>
 												<td><a href="edit?id=${ player.id }">Edit</a></td>

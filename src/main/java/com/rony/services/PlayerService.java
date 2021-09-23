@@ -4,6 +4,8 @@ import com.rony.config.HibernateConfig;
 import com.rony.models.Country;
 import com.rony.models.Player;
 import com.rony.models.User;
+import com.rony.requestDto.PlayerReqDto;
+import com.rony.responseDto.PlayerRespDto;
 import lombok.extern.flogger.Flogger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,36 +31,50 @@ public class PlayerService {
         this.userService = userService;
     }
 
-    public List<Player> allPlayers(){
+    public List<PlayerRespDto> allPlayers(){
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
         var  criteriaQuery = criteriaBuilder.createQuery(Player.class);
         var root = criteriaQuery.from(Player.class);
         criteriaQuery.select(root);
 
-        return hibernateConfig.query(criteriaQuery).getResultList();
+        var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+
+        return  resultList.size() > 0 ? convertToPlayerRespDtos(resultList) : null;
 
     }
 
-    public Player getPlayerByUserId(long id){
+    private List<PlayerRespDto> convertToPlayerRespDtos(List<Player> resultList) {
+        List<PlayerRespDto> playerRespDtoList = new ArrayList<>();
+        for(Player player : resultList){
+            PlayerRespDto playerRespDto = new PlayerRespDto();
+            BeanUtils.copyProperties(player,playerRespDto);
+            playerRespDto.setUserName(player.getUserInfo().getName());
+            playerRespDtoList.add(playerRespDto);
+        }
+        return playerRespDtoList;
+    }
+
+
+    public Player getPlayerByUserId(String id){
         // partial done
 //        var user = userService.getUserById(id);
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(Player.class);
         var root = criteriaQuery.from(Player.class);
         criteriaQuery.select(root);
-        criteriaQuery.where(criteriaBuilder.equal(root.get("userInfo"),id));
+        criteriaQuery.where(criteriaBuilder.equal(root.get("userInfo"),Long.parseLong(id)));
 
         return hibernateConfig.query(criteriaQuery).getResultList().stream()
                 .findFirst().orElse(null);
 
     }
 
-    public Player getPlayerById(long id){
+    public Player getPlayerById(String id){
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
         var criteriaQuery = criteriaBuilder.createQuery(Player.class);
         var root = criteriaQuery.from(Player.class);
         criteriaQuery.select(root);
-        criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
+        criteriaQuery.where(criteriaBuilder.equal(root.get("id"),Long.parseLong(id)));
 
        return hibernateConfig.query(criteriaQuery)
                .getResultList().stream()
@@ -65,20 +82,19 @@ public class PlayerService {
 
     }
 
-    public void addPlayer(Player playerDto, long userId, long cid){
+    public void addPlayer(PlayerReqDto playerReqDto, String cid){
         System.err.println("save method of player service-----------------------------------");
 
-        if(getPlayerByUserId(userId)==null){
+        if(getPlayerByUserId(playerReqDto.getUserId())==null){
             var playerEntity = new Player();
-            BeanUtils.copyProperties(playerDto,playerEntity);
-            var userInfo = userService.getUserById(userId);
+            BeanUtils.copyProperties(playerReqDto,playerEntity);
+            var userInfo = userService.getUserById(playerReqDto.getUserId());
             playerEntity.setUserInfo(userInfo);
-            playerEntity.setId(userId);
+            playerEntity.setId(Long.parseLong(playerReqDto.getUserId()));
 
             hibernateConfig.saveObject(playerEntity);
 
-
-            var player = getPlayerByUserId(userId);
+            var player = getPlayerByUserId(playerReqDto.getUserId());
 
 //            var countryEntity = countryService.getCountryById(cid);
             Session session = hibernateConfig.getSession();

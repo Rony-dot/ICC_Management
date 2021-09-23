@@ -46,7 +46,7 @@ public class SeriesController {
 
     @PostMapping("/series/add")
     public String addSeries(Model model, @Valid @ModelAttribute Series series, BindingResult errors,
-                            @RequestParam("eventIds") long[] eventIds , @RequestParam("teamIds") long[] teamIds) {
+                            @RequestParam("eventIds") String[] eventIds , @RequestParam("teamIds") String[] teamIds) {
 
         if(errors.hasErrors()){
             return "series/add_series";

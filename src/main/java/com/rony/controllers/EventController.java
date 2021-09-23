@@ -3,6 +3,7 @@ package com.rony.controllers;
 import com.rony.enums.EventType;
 import com.rony.enums.UserRole;
 import com.rony.models.Event;
+import com.rony.requestDto.EventReqDto;
 import com.rony.services.EventService;
 import com.rony.services.PlayerService;
 import com.rony.services.TeamService;
@@ -76,17 +77,12 @@ public class EventController {
     }
 
     @PostMapping("/events/add")
-    public String addEvent(Model model, @Valid @ModelAttribute Event event, BindingResult errors,
-                           @RequestParam("idTeam1") long idTeam1,
-                           @RequestParam("idTeam1Captain") long idTeam1Cap,
-                           @RequestParam("idTeam2") long idTeam2,
-                           @RequestParam("idTeam2Captain") long idTeam2Cap,
-                           @RequestParam(value = "umpireIds", required = false) long[] umpireIds,
-                           @RequestParam(value = "newUmpireIds", required = false) long[] newUmpireIds){
+    public String addEvent(Model model, @Valid @ModelAttribute EventReqDto eventReqDto, BindingResult errors,
+                           @RequestParam(value = "newUmpireIds", required = false) String[] newUmpireIds){
         if(errors.hasErrors()){
             return "events/add_event";
         }else {
-            eventService.saveEvent(event, idTeam1, idTeam1Cap, idTeam2, idTeam2Cap, umpireIds, newUmpireIds);
+            eventService.saveEvent(eventReqDto, newUmpireIds);
             return "redirect: /events/all";
         }
 

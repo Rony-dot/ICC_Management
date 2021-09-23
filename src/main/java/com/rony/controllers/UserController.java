@@ -85,7 +85,7 @@ public class UserController {
     }
 
     @GetMapping("/details")
-    public String showUser(Model model,  @RequestParam("id") long id){
+    public String showUser(Model model,  @RequestParam("id") String id){
         var userEntity = userService.getUserById(id);
         System.out.println(userEntity+" -----------------------------userEntity of getMapping details------------------------------");
         model.addAttribute("user",userEntity);
@@ -97,7 +97,7 @@ public class UserController {
     }
 
     @GetMapping("/edit")
-    public String edit(Model model, @RequestParam("id") long id){
+    public String edit(Model model, @RequestParam("id") String id){
         var userEntity = userService.getUserById(id);
         System.out.println(userEntity+" --------------------------userEntity of getMapping edit---------------------------------");
         model.addAttribute("user",userEntity);

@@ -111,6 +111,13 @@
                                     <li><a href="/series/add">Add Series</a></li>
                                 </ul>
                             </li>
+                            <li><a><i class="fa fa-clone"></i>Setting <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     <div class="menu_section">
