@@ -125,7 +125,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser(User userDto) {
-        System.out.println("save method of userService------------------------------------------------------");
+
 //        var session = hibernateConfig.getSession();
 //        Transaction tx = session.getTransaction();
 //        if(!tx.isActive()){
@@ -135,11 +135,14 @@ public class UserService implements UserDetailsService {
         BeanUtils.copyProperties(userDto,userEntity);
         // encoding password
         userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        System.err.println("save method of userService------------------------------------------------------");
+        System.err.println(userEntity);
+        System.err.println("---------------------------------------------------");
         hibernateConfig.saveObject(userEntity);
 //        session.save(userEntity);
 //        session.flush();
 //        tx.commit();
-        System.out.println("---------------------------------------------------");
+
         System.out.println("User is saved");
         System.out.println(userEntity);
     }

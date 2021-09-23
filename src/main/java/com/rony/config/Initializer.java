@@ -1,5 +1,8 @@
 package com.rony.config;
 
+import com.rony.enums.Genders;
+import com.rony.enums.HomeTowns;
+import com.rony.enums.Salutations;
 import com.rony.enums.UserRole;
 import com.rony.models.Country;
 import com.rony.models.Player;
@@ -40,9 +43,6 @@ public class Initializer {
 //        $2a$10$7RaHAJAavX0VvJe/qwwkR.EKFMm2QFT9NkSViEhHvq2wFuR9czBxC
 
 
-
-
-
         roleService.create(new Role(System.nanoTime(), "ROLE_USER"));
         roleService.create(new Role(System.nanoTime(), "ROLE_ADMIN"));
         roleService.create(new Role(System.nanoTime(), "ROLE_PLAYER"));
@@ -51,6 +51,26 @@ public class Initializer {
         roleService.create(new Role(System.nanoTime(), "ROLE_TEAM_MANAGER"));
         roleService.create(new Role(System.nanoTime(), "ROLE_ICC_AUTHORITY"));
         roleService.create(new Role(System.nanoTime(), "ROLE_SUPER_ADMIN"));
+
+
+
+        // country manager
+        User cmEntity = new User();
+        cmEntity.setId(System.nanoTime());
+        cmEntity.setName("i am cm");
+        cmEntity.setEmail("cm@gmail.com");
+        cmEntity.setAge("9999");
+//        userEntity.setDateOfBirth(new Date());
+        cmEntity.setUserRole(roleService.findByRoleName("ROLE_TEAM_MANAGER"));
+        cmEntity.setPassword("1234");
+        cmEntity.setUsername("country manager");
+        cmEntity.setGender(Genders.MALE.name());
+        cmEntity.setHomeTown(HomeTowns.DHAKA.name());
+        cmEntity.setSalutation(Salutations.MD.name());
+        cmEntity.setMobile("1234");
+        if(userService.getUserByEmail(cmEntity.getEmail())==null){
+            userService.addUser(cmEntity);
+        }
 
         // admin
         User adminEntity = new User();
@@ -62,6 +82,10 @@ public class Initializer {
         adminEntity.setUserRole(roleService.findByRoleName("ROLE_ADMIN"));
         adminEntity.setPassword("1234");
         adminEntity.setUsername("admin");
+        adminEntity.setGender(Genders.MALE.name());
+        adminEntity.setHomeTown(HomeTowns.DHAKA.name());
+        adminEntity.setSalutation(Salutations.MD.name());
+        adminEntity.setMobile("1234");
         if(userService.getUserByEmail(adminEntity.getEmail()) == null){
             userService.addUser(adminEntity);
         }
@@ -77,6 +101,10 @@ public class Initializer {
         playerEntity.setUserRole(roleService.findByRoleName("ROLE_PLAYER"));
         playerEntity.setPassword("1234");
         playerEntity.setUsername("player");
+        playerEntity.setGender(Genders.MALE.name());
+        playerEntity.setHomeTown(HomeTowns.DHAKA.name());
+        playerEntity.setSalutation(Salutations.MD.name());
+        playerEntity.setMobile("1234");
         if(userService.getUserByEmail(playerEntity.getEmail())==null){
             userService.addUser(playerEntity);
         }
@@ -85,44 +113,34 @@ public class Initializer {
         // ICC_AUTH
         User iccEntity = new User();
         iccEntity.setId(System.nanoTime());
-        iccEntity.setName("icc");
+        iccEntity.setName("i am icc");
         iccEntity.setEmail("icc@gmail.com");
         iccEntity.setAge("9999");
 //        iccEntity.setDateOfBirth(new Date());
         iccEntity.setUserRole(roleService.findByRoleName("ROLE_ICC_AUTHORITY"));
         iccEntity.setPassword("1234");
         iccEntity.setUsername("icc");
+        iccEntity.setGender(Genders.MALE.name());
+        iccEntity.setHomeTown(HomeTowns.DHAKA.name());
+        iccEntity.setSalutation(Salutations.MD.name());
+        iccEntity.setMobile("1234");
         if(userService.getUserByEmail(iccEntity.getEmail())==null){
             userService.addUser(iccEntity);
         }
 
         // SUPER ADMIN
-        User suAdminEntity = new User();
-        suAdminEntity.setId(System.nanoTime());
-        suAdminEntity.setName("super admin");
-        suAdminEntity.setEmail("suadmin@gmail.com");
-        suAdminEntity.setAge("9999");
-//        userEntity.setDateOfBirth(new Date());
-        suAdminEntity.setUserRole(roleService.findByRoleName("ROLE_SUPER_ADMIN"));
-        suAdminEntity.setPassword("1234");
-        suAdminEntity.setUsername("suadmin");
-        if(userService.getUserByEmail(suAdminEntity.getEmail())==null){
-            userService.addUser(suAdminEntity);
-        }
-
-        // country manager
-        User cmEntity = new User();
-        cmEntity.setId(System.nanoTime());
-        cmEntity.setName("i am cm");
-        cmEntity.setEmail("cm@gmail.com");
-        cmEntity.setAge("9999");
-//        userEntity.setDateOfBirth(new Date());
-        cmEntity.setUserRole(roleService.findByRoleName("ROLE_TEAM_MANAGER"));
-        cmEntity.setPassword("1234");
-        cmEntity.setUsername("country manager");
-        if(userService.getUserByEmail(cmEntity.getEmail())==null){
-            userService.addUser(cmEntity);
-        }
+//        User suAdminEntity = new User();
+//        suAdminEntity.setId(System.nanoTime());
+//        suAdminEntity.setName("super admin");
+//        suAdminEntity.setEmail("suadmin@gmail.com");
+//        suAdminEntity.setAge("9999");
+////        userEntity.setDateOfBirth(new Date());
+//        suAdminEntity.setUserRole(roleService.findByRoleName("ROLE_SUPER_ADMIN"));
+//        suAdminEntity.setPassword("1234");
+//        suAdminEntity.setUsername("suadmin");
+//        if(userService.getUserByEmail(suAdminEntity.getEmail())==null){
+//            userService.addUser(suAdminEntity);
+//        }
 
         // coach
         User coachEntity = new User();
@@ -134,6 +152,10 @@ public class Initializer {
         coachEntity.setUserRole(roleService.findByRoleName("ROLE_USER"));
         coachEntity.setPassword("1234");
         coachEntity.setUsername("coach");
+        coachEntity.setGender(Genders.MALE.name());
+        coachEntity.setHomeTown(HomeTowns.DHAKA.name());
+        coachEntity.setSalutation(Salutations.MD.name());
+        coachEntity.setMobile("1234");
         if( userService.getUserByEmail(coachEntity.getEmail()) == null){
             userService.addUser(coachEntity);
         }
@@ -150,6 +172,10 @@ public class Initializer {
         p1Entity.setUserRole(roleService.findByRoleName("ROLE_USER"));
         p1Entity.setPassword("1234");
         p1Entity.setUsername("player1");
+        p1Entity.setGender(Genders.MALE.name());
+        p1Entity.setHomeTown(HomeTowns.DHAKA.name());
+        p1Entity.setSalutation(Salutations.MD.name());
+        p1Entity.setMobile("1234");
         if(userService.getUserByEmail(p1Entity.getEmail())==null){
             userService.addUser(p1Entity);
         }
@@ -164,6 +190,10 @@ public class Initializer {
         p2Entity.setUserRole(roleService.findByRoleName("ROLE_USER"));
         p2Entity.setPassword("1234");
         p2Entity.setUsername("player2");
+        p2Entity.setGender(Genders.MALE.name());
+        p2Entity.setHomeTown(HomeTowns.DHAKA.name());
+        p2Entity.setSalutation(Salutations.MD.name());
+        p2Entity.setMobile("1234");
         if(userService.getUserByEmail(p2Entity.getEmail())==null){
             userService.addUser(p2Entity);
         }
@@ -178,6 +208,10 @@ public class Initializer {
         p3Entity.setUserRole(roleService.findByRoleName("ROLE_USER"));
         p3Entity.setPassword("1234");
         p3Entity.setUsername("player4");
+        p3Entity.setGender(Genders.MALE.name());
+        p3Entity.setHomeTown(HomeTowns.DHAKA.name());
+        p3Entity.setSalutation(Salutations.MD.name());
+        p3Entity.setMobile("1234");
         if(userService.getUserByEmail(p3Entity.getEmail())==null){
             userService.addUser(p3Entity);
         }

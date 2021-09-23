@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: User
@@ -10,18 +11,31 @@
 <head>
     <title>Error</title>
 </head>
-<body>
-<c:if test="${not empty errorMsg}">
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <div class="alert alert-danger">
-                        ${errorMsg}
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="row">
+                <div class="col-md-12">
+                    <c:if test="${not empty errorMsg}">
+                        <div class="container mt-3">
+                            <div class="row">
+                                <div class="col-md-6 mx-auto">
+                                    <div class="alert alert-danger">
+                                            ${errorMsg}
+                                                    ${error}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </div>
     </div>
-</c:if>
-${error}
+</div>
+
+
 </body>
 </html>

@@ -13,8 +13,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PlayerRespDto extends BaseModel {
-
+public class PlayerRespDto {
+    private String id;
     private PlayerStatus playerStatus;
 
     private PlayerExpertise expertise;

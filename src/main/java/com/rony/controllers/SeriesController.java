@@ -2,6 +2,7 @@ package com.rony.controllers;
 
 import com.rony.enums.SeriesType;
 import com.rony.models.Series;
+import com.rony.requestDto.SeriesReqDto;
 import com.rony.services.EventService;
 import com.rony.services.SeriesService;
 import com.rony.services.TeamService;
@@ -45,13 +46,13 @@ public class SeriesController {
     }
 
     @PostMapping("/series/add")
-    public String addSeries(Model model, @Valid @ModelAttribute Series series, BindingResult errors,
-                            @RequestParam("eventIds") String[] eventIds , @RequestParam("teamIds") String[] teamIds) {
+    public String addSeries(Model model, @Valid @ModelAttribute SeriesReqDto seriesReqDto,
+                            BindingResult errors) {
 
         if(errors.hasErrors()){
             return "series/add_series";
         }else {
-            seriesService.saveSeries(series, eventIds, teamIds);
+            seriesService.saveSeries(seriesReqDto);
             return "redirect: /series/all";
 
         }

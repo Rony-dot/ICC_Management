@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body>
+<body class="nav-md">
 <c:if test="${not empty errorMsg}">
     <div class="container mt-3">
         <div class="row">
@@ -42,6 +42,9 @@
         </div>
     </div>
 </c:if>
+
+<div class="container body">
+    <div class="main_container">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -75,8 +78,8 @@
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <form:input id="name" path="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
-                                            data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
+                                <form:input id="name" path="name" class="form-control col-md-7 col-xs-12"
+                                           name="name" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
                             </div>
                         </div>
                         <div class="item form-group">

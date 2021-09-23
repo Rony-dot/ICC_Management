@@ -20,7 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SeriesReqDto extends BaseModel {
+public class SeriesReqDto{
+
+    private String id;
 
     @NotNull(message = "name cannot be empty")
     @Size(min = 2, message = "min is 2 characters")
@@ -31,9 +33,10 @@ public class SeriesReqDto extends BaseModel {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date seriesEndDate;
+
     private SeriesType seriesType;
 
     private List<String> eventIdList;
 
-    private List<Team> participantTeams;
+    private List<String> participantTeamIds;
 }

@@ -18,8 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class EventRespDto extends BaseModel {
-
+public class EventRespDto{
+    private String id;
     @NotNull(message = "name cannot be empty")
     @Size(min = 2, message = "min is 2 characters")
     private String name;

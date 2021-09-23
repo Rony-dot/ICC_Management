@@ -110,22 +110,22 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Event List<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="eventIds" multiple="multiple"  class="select2_multiple form-control col-md-7 col-xs-12" >
+                            <form:select path="eventIdList" multiple="multiple"  class="select2_multiple form-control col-md-7 col-xs-12" >
                                 <c:forEach items="${events}" var="event">
                                     <option value="${event.id}">${event.name}</option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Participants Team List<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="teamIds" multiple="multiple"  class="select2_multiple form-control col-md-7 col-xs-12">
+                            <form:select path="participantTeamIds" multiple="multiple"  class="select2_multiple form-control col-md-7 col-xs-12">
                                 <c:forEach items="${teams}" var="team">
                                     <option value="${team.id}">${team.name}</option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
 

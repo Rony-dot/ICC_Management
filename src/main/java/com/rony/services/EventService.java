@@ -57,6 +57,7 @@ public class EventService {
         for(Event event : resultList){
             EventRespDto eventRespDto = new EventRespDto();
             BeanUtils.copyProperties(event,eventRespDto);
+            eventRespDto.setId(String.valueOf(event.getId()));
             eventRespDto.setTeam1Name(event.getTeam1().getName());
             eventRespDto.setTeam1CaptainName(event.getTeam1Captain().getUserInfo().getName());
             eventRespDto.setTeam2Name(event.getTeam2().getName());

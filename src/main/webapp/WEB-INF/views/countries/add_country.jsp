@@ -68,6 +68,7 @@
                 </div>
                 <div class="x_content">
 
+                    <form:errors path="country.*" cssClass="errorblock" />
                     <form:form class="form-horizontal form-label-left" novalidate="" action="${pageContext.request.contextPath}/countries/add"
                                modelAttribute="country">
                         <span class="section text-light text-center">Add Country info</span>
@@ -77,8 +78,8 @@
                                     class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <form:input id="name" path="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
-                                            data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
+                                <form:input id="name" path="name" class="form-control col-md-7 col-xs-12"
+                                            name="name" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
                             </div>
                         </div>
 

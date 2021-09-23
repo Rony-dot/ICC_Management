@@ -187,44 +187,44 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Team 1<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="idTeam1" class="form-control col-md-7 col-xs-12">
+                            <form:select path="idTeam1" class="form-control col-md-7 col-xs-12">
                                 <c:forEach items="${teams1}" var="team1">
                                     <option value="${team1.id}">${team1.name}</option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Team 1 Captain<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="idTeam1Captain" class="form-control col-md-7 col-xs-12">
+                            <form:select path="idTeam1Cap" class="form-control col-md-7 col-xs-12">
                                 <c:forEach items="${team_1_Captain}" var="team1Captain">
                                     <option value="${team1Captain.id}">${team1Captain.userInfo.name}</option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Team 2<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="idTeam2" class="form-control col-md-7 col-xs-12">
+                            <form:select path="idTeam2" class="form-control col-md-7 col-xs-12">
                                 <c:forEach items="${teams2}" var="team2">
                                     <option value="${team2.id}">${team2.name}</option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Team 2 Captain<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="idTeam2Captain" class="form-control col-md-7 col-xs-12">
+                            <form:select path="idTeam2Cap" class="form-control col-md-7 col-xs-12">
                                 <c:forEach items="${team_2_Captain}" var="team2Captain">
                                     <option value="${team2Captain.id}">${team2Captain.userInfo.name}</option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
 
@@ -232,11 +232,11 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" >Umpires <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="umpireIds" multiple="multiple"  class="select2_multiple form-control col-md-7 col-xs-12">
+                            <form:select path="umpireIds" multiple="multiple"  class="select2_multiple form-control col-md-7 col-xs-12">
                                 <c:forEach items="${umpires}" var="umpire">
                                     <option value="${umpire.id}" label="${umpire.name}"> ${umpire.name} </option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
                     <div class="item form-group">

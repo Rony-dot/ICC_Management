@@ -95,13 +95,13 @@
 												<td>${ series.seriesEndDate }</td>
 												<td>${ series.seriesType }</td>
 												<td>
-													<c:forEach items="${series.eventList}" var="event">
-														${event.name}
+													<c:forEach items="${series.eventNameList}" var="eventName">
+														${eventName}
 													</c:forEach>
 												</td>
 												<td>
-													<c:forEach items="${series.participantTeams}" var="team">
-														${team.name}
+													<c:forEach items="${series.participantTeamNames}" var="teamName">
+														${teamName}
 													</c:forEach>
 												</td>
 												<td><a href="edit?id=${ series.id }">Edit</a></td>

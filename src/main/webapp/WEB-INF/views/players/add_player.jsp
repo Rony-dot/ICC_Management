@@ -106,11 +106,11 @@
                                 class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select name="userId" class="form-control col-md-7 col-xs-12"  >
+                            <form:select path="userId" class="form-control col-md-7 col-xs-12"  >
                                 <c:forEach items="${player_users}" var="user">
                                     <option value="${user.id}">${user.name}</option>
                                 </c:forEach>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
                     <div class="item form-group">

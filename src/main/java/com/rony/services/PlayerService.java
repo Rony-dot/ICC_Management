@@ -48,6 +48,7 @@ public class PlayerService {
         for(Player player : resultList){
             PlayerRespDto playerRespDto = new PlayerRespDto();
             BeanUtils.copyProperties(player,playerRespDto);
+            playerRespDto.setId(String.valueOf(player.getId()));
             playerRespDto.setUserName(player.getUserInfo().getName());
             playerRespDtoList.add(playerRespDto);
         }

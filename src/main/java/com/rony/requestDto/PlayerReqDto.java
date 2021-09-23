@@ -16,7 +16,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PlayerReqDto extends BaseModel {
+public class PlayerReqDto {
+    private String id;
 
     private PlayerStatus playerStatus;
 

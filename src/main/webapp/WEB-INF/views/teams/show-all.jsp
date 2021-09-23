@@ -80,10 +80,10 @@
 												<td  class="sorting_1">${ team.id }</td>
 												<td>${ team.name }</td>
 													<%--				<th>${ team.country.name }</th>--%>
-												<td>${ team.coach.name }</td>
+												<td>${ team.coachName }</td>
 												<td>
-													<c:forEach var="player" items="${team.playerList}">
-														${player.userInfo.name}
+													<c:forEach var="playerName" items="${team.playerNameList}">
+														${playerName}
 													</c:forEach>
 												</td>
 

@@ -5,6 +5,7 @@ import com.rony.enums.UserRole;
 import com.rony.models.Country;
 import com.rony.models.Team;
 import com.rony.models.User;
+import com.rony.requestDto.TeamReqDto;
 import com.rony.services.CountryService;
 import com.rony.services.PlayerService;
 import com.rony.services.TeamService;
@@ -71,23 +72,25 @@ public class TeamController {
     }
 
     @PostMapping("/teams/add")
-    public String addTeam(Model model, @Valid @ModelAttribute Team team, BindingResult errors,
-                          @RequestParam("playerIds") String[] playerIds,
-                          @RequestParam("coachId") String coachId,
+    public String addTeam(Model model, @Valid @ModelAttribute TeamReqDto teamReqDto,
+                          BindingResult errors,
                           HttpSession session){
 
         if(errors.hasErrors()){
             return "/teams/add_team";
         }else {
+            // TODO need to check if it works or not,
+            //  send cid from getMapping() then map automatically from the addTeam.jsp form
+
             var cid = String.valueOf(session.getAttribute("cid"));
-            teamService.saveTeam(team, cid, playerIds, coachId);
+            teamService.saveTeam(teamReqDto, cid);
 
             return "redirect: /teams/all";
 
         }
     }
 
-
+/*
     @GetMapping("/teams/edit")
     public String edit(Model model, @RequestParam("id") String id){
         var countryEntity = countryService.getCountryById(id);
@@ -105,7 +108,7 @@ public class TeamController {
         model.addAttribute("players",players);
         return "teams/edit";
     }
-/*
+
     @PostMapping("/teams/update")
     public String updateTeam(Model model, @ModelAttribute("country") CountryReqDto country, @RequestParam("id") long id, @RequestParam("idMD") long idMD, @RequestParam("playerIds") long[] playerIds){
         System.err.println(idMD+"--------------countries update controller-> managing director id------------------");
