@@ -7,6 +7,8 @@ import com.rony.models.User;
 import com.rony.requestDto.PlayerReqDto;
 import com.rony.responseDto.PlayerRespDto;
 import lombok.extern.flogger.Flogger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.BeanUtils;
@@ -25,13 +27,14 @@ public class PlayerService {
     private UserService userService;
     @Autowired
     private CountryService countryService;
+    Logger logger = LogManager.getLogger(PlayerService.class);
 
     public PlayerService(HibernateConfig hibernateConfig, UserService userService) {
         this.hibernateConfig = hibernateConfig;
         this.userService = userService;
     }
 
-    public List<PlayerRespDto> allPlayers(){
+    public List<Player> allPlayers(){
         var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
         var  criteriaQuery = criteriaBuilder.createQuery(Player.class);
         var root = criteriaQuery.from(Player.class);
@@ -39,18 +42,21 @@ public class PlayerService {
 
         var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
 
-        return  resultList.size() > 0 ? convertToPlayerRespDtos(resultList) : null;
+        return  resultList.size() > 0 ? resultList : null;
 
     }
 
-    private List<PlayerRespDto> convertToPlayerRespDtos(List<Player> resultList) {
+    public List<PlayerRespDto> playerRespDtos() {
+        var resultList = allPlayers();
         List<PlayerRespDto> playerRespDtoList = new ArrayList<>();
-        for(Player player : resultList){
-            PlayerRespDto playerRespDto = new PlayerRespDto();
-            BeanUtils.copyProperties(player,playerRespDto);
-            playerRespDto.setId(String.valueOf(player.getId()));
-            playerRespDto.setUserName(player.getUserInfo().getName());
-            playerRespDtoList.add(playerRespDto);
+        if(resultList != null){
+            for(Player player : resultList){
+                PlayerRespDto playerRespDto = new PlayerRespDto();
+                BeanUtils.copyProperties(player,playerRespDto);
+                playerRespDto.setId(String.valueOf(player.getId()));
+                playerRespDto.setUserName(player.getUserInfo().getName());
+                playerRespDtoList.add(playerRespDto);
+            }
         }
         return playerRespDtoList;
     }
@@ -86,6 +92,7 @@ public class PlayerService {
     public void addPlayer(PlayerReqDto playerReqDto, String cid){
         System.err.println("save method of player service-----------------------------------");
 
+        // checking if any player exists with this user_id => user info
         if(getPlayerByUserId(playerReqDto.getUserId())==null){
             var playerEntity = new Player();
             BeanUtils.copyProperties(playerReqDto,playerEntity);
@@ -97,13 +104,14 @@ public class PlayerService {
 
             var player = getPlayerByUserId(playerReqDto.getUserId());
 
-//            var countryEntity = countryService.getCountryById(cid);
+            logger.info("country id : "+ cid);
+
             Session session = hibernateConfig.getSession();
             var tx = session.getTransaction();
             if (!tx.isActive()) {
                 tx = session.beginTransaction();
             }
-            var countryEntity = session.get(Country.class, cid);
+            var countryEntity = session.get(Country.class, Long.parseLong(cid));
             countryEntity.getPlayerList().add(player);
             // omly commit will make the changes save to DB, because it is in the same session
             tx.commit();
@@ -112,14 +120,8 @@ public class PlayerService {
 
 //            hibernateConfig.saveObject(countryEntity);
 
-            System.out.println("assign player to country success!");
-
-            System.err.println("---------------------------------------------------");
-            System.err.println("player along with country  is saved");
-            System.err.println(playerEntity);
         }else {
-            System.out.println("-----======================-----------------");
-            System.out.println("player exists !!! ");
+            logger.error("player exists !!! ");
         }
 
     }

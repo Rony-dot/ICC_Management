@@ -46,7 +46,7 @@ public class Event extends BaseModel{
     @OneToOne
     private Player team2Captain;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "umpires_in_event",
             joinColumns = {@JoinColumn(name = "event_id")},
             inverseJoinColumns = {@JoinColumn(name = "umpire_id")})

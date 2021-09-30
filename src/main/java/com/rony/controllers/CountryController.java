@@ -1,11 +1,13 @@
 package com.rony.controllers;
 
+import com.rony.enums.UserRole;
 import com.rony.requestDto.CountryReqDto;
 //import com.rony.models.CountryReqDto;
 import com.rony.services.CountryService;
 import com.rony.services.UserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @Controller
 public class CountryController {
@@ -31,7 +34,7 @@ public class CountryController {
 
     @GetMapping("/countries/all")
     public String allCountries(Model model){
-        model.addAttribute("countries", countryService.allCountries());
+        model.addAttribute("countries", countryService.CountryRespDtoList());
         return "/countries/show-all";
     }
 
@@ -75,48 +78,55 @@ public class CountryController {
             logger.info("country name : "+countryReqDto.getName());
             logger.info("country Managing director id : "+countryReqDto.getCountryManagerId());
             logger.info("country player id's: "+countryReqDto.getPlayerIds());
-            countryService.saveCountry(countryReqDto);
+            countryService.addCountry(countryReqDto);
             return "redirect: /countries/all";
         }
 
     }
 
-/*
+///*
     @GetMapping("/countries/edit")
-    public String edit(Model model, @RequestParam("id") long id){
+    public String edit(Model model, @RequestParam("id") String id){
         var countryEntity = countryService.getCountryById(id);
-        System.out.println(countryEntity+" --------------------------countryEntity of getMapping edit---------------------------------");
-       model.addAttribute("id",id);
-        model.addAttribute("country",countryEntity);
-        var managingDirectors = userService.allUsers().stream()
-                .filter(u -> u.getRole() == UserRole.TEAM_MANAGER)
-                .collect(Collectors.toList());
+        CountryReqDto countryReqDto = new CountryReqDto();
+        BeanUtils.copyProperties(countryEntity,countryReqDto);
+        countryReqDto.setId(id);
+        model.addAttribute("country",countryReqDto);
+
+        var managingDirectors = userService.allUsers();
         model.addAttribute("managingDirectors",managingDirectors);
 
-        var players = userService.allUsers().stream()
-                .filter(u -> u.getRole() == UserRole.PLAYER)
-                .collect(Collectors.toList());
+        var players = userService.allUsers();
         model.addAttribute("players",players);
-        return "countries/edit";
+//        var managingDirectors = userService.allUsers().stream()
+//                .filter(u -> u.getRole() == UserRole.TEAM_MANAGER)
+//                .collect(Collectors.toList());
+//        model.addAttribute("managingDirectors",managingDirectors);
+
+//        var players = userService.allUsers().stream()
+//                .filter(u -> u.getRole() == UserRole.PLAYER)
+//                .collect(Collectors.toList());
+//        model.addAttribute("players",players);
+        return "/countries/update_country";
     }
 
     @PostMapping("/countries/update")
-    public String updateCountry(Model model, @ModelAttribute("country") CountryReqDto country, @RequestParam("id") long id, @RequestParam("idMD") long idMD, @RequestParam("playerIds") long[] playerIds){
-        System.err.println(idMD+"--------------countries update controller-> managing director id------------------");
-        System.err.println(country);
-        countryService.updateCountry(country, id, idMD, playerIds);
+    public String updateCountry(Model model,
+                                @ModelAttribute("country") CountryReqDto countryReqDto){
+        System.err.println(countryReqDto);
+        countryService.updateCountry(countryReqDto);
         return "redirect: /countries/all";
     }
 
-    @GetMapping("/countries/details")
-    public String showUser(Model model,  @RequestParam("id") long id){
-        var countryEntity = countryService.getCountryById(id);
-        System.out.println(countryEntity+" -----------------------------countryEntity of getMapping details------------------------------");
-        model.addAttribute("country",countryEntity);
-        model.addAttribute("pageTitle","country details");
-        return "countries/details";
-    }
+//    @GetMapping("/countries/details")
+//    public String showUser(Model model,  @RequestParam("id") long id){
+//        var countryEntity = countryService.getCountryById(id);
+//        System.out.println(countryEntity+" -----------------------------countryEntity of getMapping details------------------------------");
+//        model.addAttribute("country",countryEntity);
+//        model.addAttribute("pageTitle","country details");
+//        return "countries/details";
+//    }
 
- */
+// */
 
 }

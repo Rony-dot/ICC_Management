@@ -15,7 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class TeamRespDto {
+
     private String id;
+
     @NotNull(message = "name cannot be empty")
     @Size(min = 2, message = "min is 2 characters")
     private String name;

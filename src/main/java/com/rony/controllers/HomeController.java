@@ -7,6 +7,7 @@ import com.rony.enums.UserRole;
 import com.rony.exceptions.InternalServerException;
 import com.rony.models.Country;
 import com.rony.models.User;
+import com.rony.requestDto.UserReqDto;
 import com.rony.services.CountryService;
 import com.rony.services.RoleService;
 import com.rony.services.UserService;
@@ -82,8 +83,6 @@ public class HomeController {
         for(String r : roles){
             logger.info("role from for looop : " + r);
         }
-
-
         
         return "index";
     }
@@ -101,7 +100,6 @@ public class HomeController {
                     .findFirst().get().getAuthority();
             var cm = (User) authentication.getPrincipal();
 
-
 //            var country = countryService.allCountries().stream()
 //                    .filter(c -> c.getManagingDirector().getId() == cm.getId())
 //                    .findFirst()
@@ -109,11 +107,12 @@ public class HomeController {
 //            var cid = country.getId();
 
             HttpSession session = request.getSession();
-//            session.setAttribute("cid", cid);
             model.addAttribute("msg",role );
 
-            var cid = countryService.getCountryByCMId(cm.getId());
-            if(cid != null){
+            boolean whichRole = role.equals("ROLE_TEAM_MANAGER");
+
+            if(cm.getCountry() != null && whichRole){
+                var cid = String.valueOf(cm.getCountry().getId());
                 session.setAttribute("cid",cid);
                 logger.info("country id from homeController -> success() : " + cid);
             }else{
@@ -152,30 +151,34 @@ public class HomeController {
 
     @GetMapping("/register")
     public String registrationForm(Model model){
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new UserReqDto());
         model.addAttribute("genders",userService.getGenders());
         model.addAttribute("homeTowns",userService.getHomeTowns());
         model.addAttribute("salutations",userService.getSalutations());
+        model.addAttribute("countries",countryService.CountryRespDtoList());
         return "registration";
     }
 
     @PostMapping("/register")
-    public String processRegistration(Model model, @Valid @ModelAttribute(name = "user") User user,
+    public String processRegistration(Model model,
+                                      @Valid @ModelAttribute(name = "user") UserReqDto userReqDto,
                                       BindingResult errors){
         String errorMsg = "";
         if(errors.hasErrors()){
             for(ObjectError error: errors.getAllErrors()){
                 errorMsg += error.getDefaultMessage()+"<br>";
+                logger.error("errror :"+ error.getDefaultMessage());
             }
             model.addAttribute("errorMsg", errorMsg);
             model.addAttribute("genders",userService.getGenders());
             model.addAttribute("homeTowns",userService.getHomeTowns());
             model.addAttribute("salutations",userService.getSalutations());
+            model.addAttribute("countries",countryService.CountryRespDtoList());
             return "registration";
         }else {
-            user.setUserRole(roleService.findByRoleName("ROLE_USER"));
-            userService.addUser(user);
-            logger.info("registration success ! "+user.getEmail());
+//            user.setUserRole(roleService.findByRoleName("ROLE_USER"));
+            userService.addUser(userReqDto);
+            logger.info("registration success ! "+userReqDto.getEmail());
             return "redirect:/login";
         }
     }

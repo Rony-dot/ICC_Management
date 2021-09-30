@@ -17,6 +17,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -53,8 +54,9 @@ public class User extends BaseModel implements UserDetails, Serializable {
     @NotNull(message = "number is required")
     private String mobile;
 //
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateOfBirth;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "birth_date")
+    private LocalDate dateOfBirth;
 
     @NotNull(message = "gender is required")
     private String gender;
@@ -64,6 +66,10 @@ public class User extends BaseModel implements UserDetails, Serializable {
 
     @NotNull(message = "hometown is required")
     private String homeTown;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", nullable = true)
+    private Country country;
 
 //    @NotNull(message = "country must be given")
 //    private Countries country;

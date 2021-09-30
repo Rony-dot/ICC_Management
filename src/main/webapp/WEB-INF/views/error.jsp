@@ -18,6 +18,7 @@
         <div class="right_col" role="main">
             <div class="row">
                 <div class="col-md-12">
+                    <h1>Resource already exists!</h1>
                     <c:if test="${not empty errorMsg}">
                         <div class="container mt-3">
                             <div class="row">

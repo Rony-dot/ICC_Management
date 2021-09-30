@@ -72,7 +72,7 @@
                     <form:form class="form-horizontal form-label-left" novalidate="" action="${pageContext.request.contextPath}/countries/add"
                                modelAttribute="country">
                         <span class="section text-light text-center">Add Country info</span>
-                        <form:input path="id" hidden="true"/>
+                        <form:input path="id" hidden="true" value="${country.id}"/>
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span
                                     class="required">*</span>
@@ -80,6 +80,15 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <form:input id="name" path="name" class="form-control col-md-7 col-xs-12"
                                             name="name" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="countryCode">Country code <span
+                                    class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <form:input id="countryCode" path="countryCode" class="form-control col-md-7 col-xs-12"
+                                            name="countryCode" placeholder="both name(s) e.g Jon Doe" type="text" required="required" />
                             </div>
                         </div>
 

@@ -24,12 +24,14 @@ public class Country extends BaseModel{
     @Size(min = 2, message = "min is 2 characters")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "managing_director")
+    @Column(unique = true)
+    private String countryCode;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "managing_director_id",nullable = true)
     private User managingDirector;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-//    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "country_player",
                 joinColumns = {@JoinColumn(name = "country_id", nullable = true) },
                 inverseJoinColumns = {@JoinColumn(name = "player_id", unique = false, nullable = true)})

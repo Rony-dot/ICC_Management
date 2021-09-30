@@ -143,7 +143,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <form:radiobuttons path="gender" items="${genders}" id="gender"
-                                               name="gender"></form:radiobuttons>
+                                               name="gender"/>
                         </div>
                     </div>
                     <div class="item form-group">
@@ -155,6 +155,15 @@
                         </div>
                     </div>
                     <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="homeTown">HomeTown <span
+                                class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:select path="homeTown" class="form-control col-md-7 col-xs-12">
+                                <form:options items="${homeTowns}"/>
+                            </form:select>
+                        </div>
+                    </div> <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="homeTown">HomeTown <span
                                 class="required">*</span>
                         </label>

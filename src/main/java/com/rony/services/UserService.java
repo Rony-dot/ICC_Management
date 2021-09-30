@@ -6,6 +6,9 @@ import com.rony.enums.Genders;
 import com.rony.enums.HomeTowns;
 import com.rony.enums.Salutations;
 import com.rony.models.User;
+import com.rony.requestDto.UserReqDto;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -18,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,10 +29,17 @@ import java.util.stream.Stream;
 @Service
 public class UserService implements UserDetailsService {
 
+    Logger logger = LogManager.getLogger(UserService.class);
+
     @Autowired
     private HibernateConfig hibernateConfig;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private CountryService countryService;
+
 
 
     private List<User> userList;
@@ -124,7 +135,7 @@ public class UserService implements UserDetailsService {
                 .orElse(null);
     }
 
-    public void addUser(User userDto) {
+    public void addUser(UserReqDto userReqDto) {
 
 //        var session = hibernateConfig.getSession();
 //        Transaction tx = session.getTransaction();
@@ -132,12 +143,25 @@ public class UserService implements UserDetailsService {
 //            tx = session.beginTransaction();
 //        }
         var userEntity = new User();
-        BeanUtils.copyProperties(userDto,userEntity);
+        BeanUtils.copyProperties(userReqDto,userEntity);
         // encoding password
-        userEntity.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        System.err.println("save method of userService------------------------------------------------------");
+        userEntity.setPassword(passwordEncoder.encode(userReqDto.getPassword()));
+
+        if(userReqDto.getUserRole() != null){
+            userEntity.setUserRole(roleService.findByRoleName(userReqDto.getUserRole()));
+        }else{
+            // SETTING ROLE AS USER, if role is not set previously
+            userEntity.setUserRole(roleService.findByRoleName("ROLE_USER"));
+        }
+        String dateOfBirth = userReqDto.getDateOfBirth() == null ? "2017-11-15" : userReqDto.getDateOfBirth();
+        logger.info("country id : "+userReqDto.getCountryId());
+        if(userReqDto.getCountryId() != null){
+            userEntity.setCountry(countryService.getCountryById(userReqDto.getCountryId()));
+        }
+        userEntity.setDateOfBirth(LocalDate.parse(dateOfBirth));
+        System.err.println("\n save method of userService---------------------------");
         System.err.println(userEntity);
-        System.err.println("---------------------------------------------------");
+        System.err.println("\n ------------------------------");
         hibernateConfig.saveObject(userEntity);
 //        session.save(userEntity);
 //        session.flush();
@@ -146,6 +170,7 @@ public class UserService implements UserDetailsService {
         System.out.println("User is saved");
         System.out.println(userEntity);
     }
+
 
     public boolean validateUser(String email, String password) {
         try{

@@ -27,24 +27,31 @@
     </style>
 </head>
 <body class="nav-md">
-<c:if test="${not empty errorMsg}">
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">×</span>
-                    </button>
-                    <p>please consider the following</p>
-                        ${errorMsg}
-                </div>
-            </div>
-        </div>
-    </div>
-</c:if>
-
 <div class="container body">
     <div class="main_container">
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_content bg-primary">
+                            <c:if test="${not empty errorMsg}">
+                                ${errorMsg}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">×</span>
+                                </button>
+                                <p>please consider the following</p>
+                                    ${errorMsg}
+                            </div>
+                            </c:if>
+                        </div>
+                    </div>
+
+                </div>
+
+        </div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -72,6 +79,8 @@
                     <form:form class="form-horizontal form-label-left" novalidate="" action="${pageContext.request.contextPath}/register"
                                modelAttribute="user">
                         <span class="section text-light text-center">Personal Info</span>
+
+                        <form:input path="id" hidden="true" />
 
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span
@@ -133,7 +142,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender">Gender <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <form:radiobuttons path="gender" items="${genders}" id="gender" name="gender" ></form:radiobuttons>
+                                <form:radiobuttons path="gender" items="${genders}" id="gender" name="gender" />
                             </div>
                         </div>
                         <div class="item form-group">
@@ -143,6 +152,20 @@
                                 <form:checkboxes path="salutation" items="${salutations}" id="salutation" name="salutation" />
                             </div>
                         </div>
+                        <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="homeTown">HomeTown <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:select path="countryId" class="form-control col-md-7 col-xs-12">
+                                    <%-- <form:options items="${countries}"/>--%>
+                                <c:forEach items="${countries}" var="country">
+                                    <form:option value="${country.id}" label="${country.name}">
+                                        ${country.name}
+                                    </form:option>
+                                </c:forEach>
+                            </form:select>
+                        </div>
+                    </div>
                         <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="homeTown">HomeTown <span class="required">*</span>
                         </label>
@@ -165,6 +188,7 @@
             </div>
         </div>
     </div>
+        </div>
 </body>
 </html>
 

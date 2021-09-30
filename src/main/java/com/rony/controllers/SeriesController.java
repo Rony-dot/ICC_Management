@@ -38,7 +38,7 @@ public class SeriesController {
 
     @GetMapping("/series/add")
     public String addSeries(Model model){
-        model.addAttribute("series",new Series());
+        model.addAttribute("series",new SeriesReqDto());
         model.addAttribute("seriesTypes", SeriesType.values());
         model.addAttribute("events",eventService.allEvents());
         model.addAttribute("teams",teamService.allTeams());

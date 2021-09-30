@@ -46,7 +46,7 @@ public class EventController {
 
     @GetMapping("/events/add")
     public String addEvent(Model model){
-        model.addAttribute("event",new Event());
+        model.addAttribute("event",new EventReqDto());
         model.addAttribute("eventTypes", EventType.values());
 
         var teams =  teamService.allTeams();

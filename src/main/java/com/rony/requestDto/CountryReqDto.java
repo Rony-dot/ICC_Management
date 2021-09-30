@@ -20,7 +20,9 @@ public class CountryReqDto {
     @Size(min = 3, max = 30, message = "must be greater than or equal 3 and less than or equal 30")
     private String name;
 
-    @NotNull(message = "must select an country manager")
+    private String countryCode;
+
+//    @NotNull(message = "must select an country manager")
     private String countryManagerId;
 
     private List<Long> playerIds;

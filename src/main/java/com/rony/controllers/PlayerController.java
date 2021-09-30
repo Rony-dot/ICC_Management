@@ -43,22 +43,20 @@ public class PlayerController {
 
     @GetMapping("/players/all")
     public String allPlayers(Model model){
-        model.addAttribute("players",playerService.allPlayers());
-        playerService.allPlayers().stream()
-                .forEach(p-> System.err.println(p.toString()));
+        model.addAttribute("players",playerService.playerRespDtos());
+
         return "players/show-all";
     }
 
+    @GetMapping("/players/add")
     public String addPlayer(Model model, HttpSession session){
-
         var cid = session.getAttribute("cid");
         System.out.println("1. country id is "+cid);
         model.addAttribute("cid", cid);
-        model.addAttribute("player",new Player());
+        model.addAttribute("player",new PlayerReqDto());
         model.addAttribute("playerStatus", PlayerStatus.values());
         model.addAttribute("playerExpertise", PlayerExpertise.values());
         model.addAttribute("player_users", userService.allUsers());
-
 
         // Later, team objects need to sent from here, filtered by country
         return "players/add_player";
@@ -66,14 +64,14 @@ public class PlayerController {
 
     @PostMapping("/players/add")
     public String addPlayer(Model model, @Valid @ModelAttribute("player") PlayerReqDto playerReqDto,
-                            BindingResult errors,
-                            @RequestParam("cid") String cid){
+                            BindingResult errors,  HttpSession session){
 
         if(errors.hasErrors()){
             return "players/add_player";
         }else {
             System.err.println(playerReqDto.getPlayerStatus()+" status of the player");
             System.err.println(playerReqDto.getExpertise()+" expertise of the player");
+            var cid = (String) session.getAttribute("cid");
             System.out.println("2. country id is "+cid);
             playerService.addPlayer(playerReqDto, cid);
 

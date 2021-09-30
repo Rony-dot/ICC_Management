@@ -2,6 +2,7 @@ package com.rony.controllers;
 
 import com.rony.enums.UserRole;
 import com.rony.models.User;
+import com.rony.requestDto.UserReqDto;
 import com.rony.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -51,7 +52,8 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // check for a particular role
-        boolean hasRoleIcc = authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ICC_AUTHORITY"));
+        boolean hasRoleIcc = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ICC_AUTHORITY"));
 
         // to get all the roles
         Set<String> roles = authentication.getAuthorities().stream()
@@ -66,8 +68,9 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser_Post( @ModelAttribute(name = "user") @Valid User user, BindingResult errors,
-                                Model model){
+    public String addUser_Post(@ModelAttribute(name = "user") @Valid UserReqDto userReqDto,
+                               BindingResult errors,
+                               Model model){
         String errorMsg = "";
         if(errors.hasErrors()){
             for(ObjectError error: errors.getAllErrors()){
@@ -80,7 +83,7 @@ public class UserController {
               */
             return "users/addUser";
         }
-        userService.addUser(user);
+        userService.addUser(userReqDto);
         return "redirect: /users/all";
     }
 

@@ -41,31 +41,6 @@
 <%--            // error of the form--%>
 <%--    <form:errors path="player.*" cssClass="error" />--%>
 
-<%--    <form:form action="${pageContext.request.contextPath}/players/add"--%>
-<%--               modelAttribute="player">--%>
-<%--        <form:input path="id" hidden="true"/>--%>
-
-<%--        <input name="cid" value="${cid}">--%>
-<%--        User Name:--%>
-<%--        <select name="userId" >--%>
-<%--            <c:forEach items="${player_users}" var="user">--%>
-<%--                <option value="${user.id}">${user.name}</option>--%>
-<%--            </c:forEach>--%>
-<%--        </select>--%>
-
-<%--        Player status:--%>
-<%--        <form:select path="playerStatus" >--%>
-<%--            <form:options items="${playerStatus}"/>--%>
-<%--        </form:select>--%>
-
-<%--        Player expertise:--%>
-<%--        <form:select path="expertise" >--%>
-<%--            <form:options items="${playerExpertise}"/>--%>
-<%--        </form:select>--%>
-
-<%--        <input type="submit" name="submit" value="Add User">--%>
-
-<%--    </form:form>--%>
 <div class="container body">
     <div class="main_container">
         <!-- page content -->
@@ -99,6 +74,7 @@
                     <span class="section text-light text-center">Player Info</span>
 
                     <form:input path="id" hidden="true"/>
+
                     <input name="cid" value="${cid}" hidden="true" >
 
                     <div class="item form-group">

@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Optional;
+
+import static java.lang.StackWalker.Option.RETAIN_CLASS_REFERENCE;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -46,11 +50,26 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
-    @ExceptionHandler(InternalServerException.class)
+    @ExceptionHandler({InternalServerException.class, NumberFormatException.class,
+            NullPointerException.class, Exception.class})
     public String handlerAnyServerError(HttpServletRequest request, Model model, Exception e){
         e.printStackTrace();
         model.addAttribute("error", e.getMessage());
+        printStackTrace(e);
+//        logger.error("error : {} ", class2.get();
         logger.info("global exception => error 500 occurred");
         return "/errors/error_500";
     }
+
+    private void printStackTrace(Exception ex) {
+        StackTraceElement[] trace = ex.getStackTrace();
+        StringBuilder traceLines = new StringBuilder();
+        traceLines.append("Caused By: ").append(ex.fillInStackTrace()).append("\n");
+        Arrays.stream(trace).filter(f -> f.getClassName().contains("com.rony"))
+                .forEach(traceElement -> traceLines.append("\tat ").append(traceElement).append("\n"));
+        logger.error(traceLines);
+    }
+
+
+
 }

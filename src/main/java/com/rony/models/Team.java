@@ -24,20 +24,27 @@ public class Team extends BaseModel{
     private String name;
 
     @OneToOne
+    @JoinColumn(name = "country_id")
     private Country country;
 
+    @JoinColumn(name = "coach_id")
+    @OneToOne
+    private User coach;
+
+    // owner side is player, because that is the many side; so here using oneToMany will make the player side unique;
+    // that is either specify the ManyToOne => relation in player class or,
+    // in this class make => ManyToMany to avoid unique constraint;
     @ManyToMany
     @JoinTable(name = "team_members",
             joinColumns = {@JoinColumn(name = "team_id")},
             inverseJoinColumns = {@JoinColumn(name = "player_id")})
     private List<Player> playerList;
 
-    @OneToOne
-    private User coach;
 
     /**
      * INSERT INTO `icc_spring`.`users`
      * (`id`, `age`, `email`, `gender`, `homeTown`, `mobile`, `name`, `password`, `role`)
      * VALUES ('100', '123', 'coach-email', 'M', 'Dhaka', '1234', 'coach-name', '1234', '2');
      */
+
 }
