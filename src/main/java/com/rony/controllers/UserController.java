@@ -36,8 +36,6 @@ public class UserController {
     public String allUsers(Model model){
         model.addAttribute("pageTitle","Show all Users");
         model.addAttribute("users",userService.allUsers());
-        userService.allUsers().forEach(s->
-                System.out.println(s.toString()));
         return "users/show-all";
     }
 

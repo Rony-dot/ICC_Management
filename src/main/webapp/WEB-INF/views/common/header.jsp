@@ -8,6 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <style>
+        <%--.right_col > row > div {--%>
+        <%--    background-image: url("${pageContext.request.contextPath}/images/logo.jpg");--%>
+        <%--    /*background-color: #cccccc;*/--%>
+        <%--}--%>
+    </style>
 
 <!-- Bootstrap -->
 <link href="${pageContext.request.contextPath}/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

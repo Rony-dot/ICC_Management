@@ -27,7 +27,7 @@ public class Country extends BaseModel{
     @Column(unique = true)
     private String countryCode;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "managing_director_id",nullable = true)
     private User managingDirector;
 

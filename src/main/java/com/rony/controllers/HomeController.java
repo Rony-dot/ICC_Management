@@ -131,7 +131,8 @@ public class HomeController {
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "logout", required = false) String logout,
-                        Model model){
+                        Model model, HttpSession session){
+        session.invalidate();
         logger.info("someone tried to login ?");
         String errorMessge = null;
         if(error != null) {
@@ -150,7 +151,8 @@ public class HomeController {
     }
 
     @GetMapping("/register")
-    public String registrationForm(Model model){
+    public String registrationForm(Model model,  HttpSession session){
+        session.invalidate();
         model.addAttribute("user", new UserReqDto());
         model.addAttribute("genders",userService.getGenders());
         model.addAttribute("homeTowns",userService.getHomeTowns());
@@ -163,6 +165,7 @@ public class HomeController {
     public String processRegistration(Model model,
                                       @Valid @ModelAttribute(name = "user") UserReqDto userReqDto,
                                       BindingResult errors){
+
         String errorMsg = "";
         if(errors.hasErrors()){
             for(ObjectError error: errors.getAllErrors()){
@@ -178,7 +181,7 @@ public class HomeController {
         }else {
 //            user.setUserRole(roleService.findByRoleName("ROLE_USER"));
             userService.addUser(userReqDto);
-            logger.info("registration success ! "+userReqDto.getEmail());
+//            logger.info("registration success ! "+userReqDto.getEmail());
             return "redirect:/login";
         }
     }

@@ -52,7 +52,7 @@ public class TeamController {
 
     @GetMapping("/teams/add")
     public String addTeam(Model model){
-        model.addAttribute("team", new Team());
+        model.addAttribute("team", new TeamReqDto());
 
         var coaches = userService.allUsers();
 //                .stream()

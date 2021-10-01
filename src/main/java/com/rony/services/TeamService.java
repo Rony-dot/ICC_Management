@@ -54,7 +54,7 @@ public class TeamService {
             TeamRespDto teamRespDto = new TeamRespDto();
             BeanUtils.copyProperties(team,teamRespDto);
             teamRespDto.setId(String.valueOf(team.getId()));
-//            teamRespDto.setCoachName(team.getCoach().getName());
+            teamRespDto.setCoachName(team.getCoach().getName());
             teamRespDto.setCountryName(team.getCountry().getName());
             teamRespDto.setPlayerNameList(team.getPlayerList().stream()
                     .map(Player::getUserInfo)
@@ -137,7 +137,7 @@ public class TeamService {
 
         System.err.println("---------------------------------------------------");
         System.err.println("team is saved");
-        System.err.println(teamEntity);
+//        System.err.println(teamEntity);
     }
 
   /*

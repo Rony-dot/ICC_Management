@@ -89,7 +89,7 @@ public class EventService {
         System.err.println("save method of Event service------------------------------------------------------");
 
         // update users as new umpire by updating role
-        if(newUmpireIds.length > 0  && newUmpireIds!=null){
+        if( newUmpireIds!=null){
             for(String id: newUmpireIds){
                 User umpire = userService.getUserById(id);
                 umpire.setUserRole(roleService.findByRoleName("ROLE_UMPIRE"));
@@ -99,7 +99,7 @@ public class EventService {
 
         // fetch updated umpires
         List<User> newUmpires = new ArrayList<>();
-        if(newUmpireIds.length > 0  && newUmpireIds!=null) {
+        if(newUmpireIds!=null) {
             for (String id : newUmpireIds) {
                 User umpire = userService.getUserById(id);
                 newUmpires.add(umpire);
@@ -118,12 +118,12 @@ public class EventService {
         eventEntity.setTeam2Captain(team2Cap);
         List<User> umpireList = new ArrayList<>();
 
-        if(eventReqDto.getUmpireIds().size() > 0 && eventReqDto.getUmpireIds() != null ){
+        if( eventReqDto.getUmpireIds() != null ){
             for(String id : eventReqDto.getUmpireIds()){
                 umpireList.add(userService.getUserById(id));
             }
         }
-        if(newUmpires.size() > 0 && newUmpires !=null ){
+        if(newUmpires !=null ){
             for(User umpire : newUmpires){
                 umpireList.add(umpire);
             }
@@ -133,6 +133,6 @@ public class EventService {
 
         System.err.println("---------------------------------------------------");
         System.err.println("Event is saved");
-        System.err.println(eventEntity);
+//        System.err.println(eventEntity);
     }
 }

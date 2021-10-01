@@ -110,7 +110,7 @@
 
 												<td>
 													<c:forEach items="${event.umpireNames}" var="umpireName">
-														${umpireNames},&nbsp
+														${umpireName},&nbsp
 													</c:forEach>
 												</td>
 												<td>${ event.score }</td>

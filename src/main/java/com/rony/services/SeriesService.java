@@ -60,11 +60,7 @@ public class SeriesService {
 
     public void saveSeries(SeriesReqDto seriesReqDto) {
         System.err.println("save method of Series service------------------------------------------------------");
-        var session = hibernateConfig.getSession();
-        Transaction tx = session.getTransaction();
-        if(!tx.isActive()){
-            tx = session.beginTransaction();
-        }
+
         var seriesEntity = new Series();
         BeanUtils.copyProperties(seriesReqDto,seriesEntity);
 
@@ -79,12 +75,16 @@ public class SeriesService {
             teamList.add(teamService.getTeamById(id));
         }
         seriesEntity.setParticipantTeams(teamList);
-
+        var session = hibernateConfig.getSession();
+        Transaction tx = session.getTransaction();
+        if(!tx.isActive()){
+            tx = session.beginTransaction();
+        }
         session.save(seriesEntity);
         session.flush();
         tx.commit();
         System.err.println("---------------------------------------------------");
         System.err.println("Series is saved");
-        System.err.println(seriesEntity);
+//        System.err.println(seriesEntity);
     }
 }

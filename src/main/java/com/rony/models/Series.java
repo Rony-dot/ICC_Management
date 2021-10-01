@@ -32,13 +32,13 @@ public class Series extends BaseModel{
     private Date seriesEndDate;
     private SeriesType seriesType;
 
-    @ManyToMany
+    @ManyToMany(fetch =  FetchType.LAZY)
     @JoinTable(name = "events_in_series",
             joinColumns = {@JoinColumn(name = "series_id")},
             inverseJoinColumns = {@JoinColumn(name = "event_id")})
     private List<Event> eventList;
 
-    @ManyToMany
+    @ManyToMany(fetch =  FetchType.LAZY)
     @JoinTable(name = "participant_teams",
             joinColumns = {@JoinColumn(name = "series_id")},
             inverseJoinColumns = {@JoinColumn(name = "team_id")})

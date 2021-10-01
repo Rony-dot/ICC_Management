@@ -70,7 +70,7 @@
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1"
                                             colspan="1" aria-label="Salary: activate to sort column ascending"
-                                            style="width: 88px;">HomeTown
+                                            style="width: 88px;">Country
                                         </th>
                                         <th class="sorting" tabindex="0" aria-controls="datatable" rowspan="1"
                                             colspan="1" aria-label="Salary: activate to sort column ascending"
@@ -104,7 +104,7 @@
                                                 <td>${ user.email }</td>
                                                 <td>${ user.age }</td>
                                                 <td>${ user.gender }</td>
-                                                <td>${ user.homeTown }</td>
+                                                <td>${ user.country.name }</td>
                                                 <td>${ user.mobile }</td>
                                                 <td>${ user.dateOfBirth }</td>
                                                 <td>${ user.salutation }</td>

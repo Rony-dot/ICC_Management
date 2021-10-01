@@ -40,8 +40,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private CountryService countryService;
 
-
-
     private List<User> userList;
     public final List<String> homeTowns = new ArrayList<>();
     public final List<String> salutations = new ArrayList<>();
@@ -160,7 +158,7 @@ public class UserService implements UserDetailsService {
         }
         userEntity.setDateOfBirth(LocalDate.parse(dateOfBirth));
         System.err.println("\n save method of userService---------------------------");
-        System.err.println(userEntity);
+//        System.err.println(userEntity);
         System.err.println("\n ------------------------------");
         hibernateConfig.saveObject(userEntity);
 //        session.save(userEntity);
@@ -168,7 +166,7 @@ public class UserService implements UserDetailsService {
 //        tx.commit();
 
         System.out.println("User is saved");
-        System.out.println(userEntity);
+//        System.out.println(userEntity);
     }
 
 

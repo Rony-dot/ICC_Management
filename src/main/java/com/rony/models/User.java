@@ -67,7 +67,7 @@ public class User extends BaseModel implements UserDetails, Serializable {
     @NotNull(message = "hometown is required")
     private String homeTown;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = true)
     private Country country;
 
