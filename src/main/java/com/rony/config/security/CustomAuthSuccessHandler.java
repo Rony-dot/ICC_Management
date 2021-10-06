@@ -1,5 +1,6 @@
 package com.rony.config.security;
 
+import com.rony.models.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -31,14 +32,14 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
         System.out.println("Authenticated user = "+authUser.toString());
 
         Authentication authentication2 = SecurityContextHolder.getContext().getAuthentication();
-        var role = authentication2.getAuthorities().stream()
+        String role = authentication2.getAuthorities().stream()
                 .findFirst().get().getAuthority();
-        var cm = (User) authentication2.getPrincipal();
+        User cm = (User) authentication2.getPrincipal();
 
         boolean whichRole = role.equals("ROLE_TEAM_MANAGER");
 
         if(cm.getCountry() != null && whichRole){
-            var cid = String.valueOf(cm.getCountry().getId());
+            String cid = String.valueOf(cm.getCountry().getId());
             session.setAttribute("cid",cid);
             logger.info("country id from homeController -> success() : " + cid);
         }else{

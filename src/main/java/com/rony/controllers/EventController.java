@@ -3,7 +3,9 @@ package com.rony.controllers;
 import com.rony.enums.EventType;
 import com.rony.enums.UserRole;
 import com.rony.models.Event;
+import com.rony.models.Player;
 import com.rony.requestDto.EventReqDto;
+import com.rony.responseDto.TeamRespDto;
 import com.rony.services.EventService;
 import com.rony.services.PlayerService;
 import com.rony.services.TeamService;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -49,11 +52,11 @@ public class EventController {
         model.addAttribute("event",new EventReqDto());
         model.addAttribute("eventTypes", EventType.values());
 
-        var teams =  teamService.allTeams();
+        List<TeamRespDto> teams =  teamService.allTeams();
         model.addAttribute("teams1",teams);
         model.addAttribute("teams2", teams);
 
-        var players = playerService.allPlayers();
+        List<Player> players = playerService.allPlayers();
         model.addAttribute("team_1_Captain", players);
         model.addAttribute("team_2_Captain", players);
 

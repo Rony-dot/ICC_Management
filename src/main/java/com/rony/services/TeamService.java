@@ -7,11 +7,15 @@ import com.rony.models.Team;
 import com.rony.models.User;
 import com.rony.requestDto.TeamReqDto;
 import com.rony.responseDto.TeamRespDto;
+import org.hibernate.Criteria;
 import org.hibernate.Transaction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +43,12 @@ public class TeamService {
     }
 
     public List<TeamRespDto> allTeams(){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Team.class);
-        var root = criteriaQuery.from(Team.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Team> criteriaQuery = criteriaBuilder.createQuery(Team.class);
+        Root root = criteriaQuery.from(Team.class);
         criteriaQuery.select(root);
 
-        var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+        List<Team> resultList =  hibernateConfig.query(criteriaQuery).getResultList();
         return resultList.size() > 0 ? convertToTeamRespDto(resultList) : null;
     }
 
@@ -88,13 +92,13 @@ public class TeamService {
     }
 
     public Team getTeamById(String id) {
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Team.class);
-        var root = criteriaQuery.from(Team.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Team> criteriaQuery = criteriaBuilder.createQuery(Team.class);
+        Root root = criteriaQuery.from(Team.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),Long.parseLong(id)));
 
-        var result =  hibernateConfig.query(criteriaQuery).getSingleResult();
+        Team result =  hibernateConfig.query(criteriaQuery).getSingleResult();
         return result;
 //        return result!=null ? convertToTeamRespDto(result) : null;
 
@@ -117,11 +121,11 @@ public class TeamService {
     public void saveTeam(TeamReqDto teamReqDto, String cid) {
         System.err.println("save method of Team service------------------------------------------------------");
 
-        var coachDto = userService.getUserById(teamReqDto.getCoachId());
+        User coachDto = userService.getUserById(teamReqDto.getCoachId());
         coachDto.setUserRole(roleService.findByRoleName("ROLE_COACH"));
         hibernateConfig.updateObject(coachDto);
 
-        var teamEntity = new Team();
+        Team teamEntity = new Team();
         BeanUtils.copyProperties(teamReqDto,teamEntity);
 
         teamEntity.setCoach(coachDto);
@@ -130,7 +134,7 @@ public class TeamService {
             playerList.add(playerService.getPlayerById(id));
         }
         teamEntity.setPlayerList(playerList);
-        var country = countryService.getCountryById(cid);
+        Country country = countryService.getCountryById(cid);
         teamEntity.setCountry(country);
 
         hibernateConfig.saveObject(teamEntity);

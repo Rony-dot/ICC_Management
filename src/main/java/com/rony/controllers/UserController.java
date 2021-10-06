@@ -45,7 +45,7 @@ public class UserController {
         model.addAttribute("genders",userService.getGenders());
         model.addAttribute("homeTowns",userService.getHomeTowns());
         model.addAttribute("salutations",userService.getSalutations());
-        var role = session.getAttribute("role");
+        String role = (String) session.getAttribute("role");
         System.err.println(role+" getting role from session in addUser controller ");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -87,7 +87,7 @@ public class UserController {
 
     @GetMapping("/details")
     public String showUser(Model model,  @RequestParam("id") String id){
-        var userEntity = userService.getUserById(id);
+        User userEntity = userService.getUserById(id);
         System.out.println(userEntity+" -----------------------------userEntity of getMapping details------------------------------");
         model.addAttribute("user",userEntity);
         model.addAttribute("homeTowns",userService.getHomeTowns());
@@ -99,7 +99,7 @@ public class UserController {
 
     @GetMapping("/edit")
     public String edit(Model model, @RequestParam("id") String id){
-        var userEntity = userService.getUserById(id);
+        User userEntity = userService.getUserById(id);
         System.out.println(userEntity+" --------------------------userEntity of getMapping edit---------------------------------");
         model.addAttribute("user",userEntity);
         model.addAttribute("homeTowns",userService.getHomeTowns());

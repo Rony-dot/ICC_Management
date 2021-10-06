@@ -3,10 +3,15 @@ package com.rony.services;
 import com.rony.config.HibernateConfig;
 import com.rony.models.Role;
 import com.rony.models.User;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Service
@@ -28,12 +33,12 @@ public class RoleService {
     }
 
     public void save(Role role){
-        var session = hibernateConfig.getSession();
+        Session session = hibernateConfig.getSession();
         Transaction tx = session.getTransaction();
         if(!tx.isActive()){
             tx = session.beginTransaction();
         }
-        var roleEntity = new Role();
+        Role roleEntity = new Role();
         BeanUtils.copyProperties(role,roleEntity);
         session.save(roleEntity);
         session.flush();
@@ -41,13 +46,13 @@ public class RoleService {
     }
 
     public Role findByRoleName(String roleName){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Role.class);
-        var root = criteriaQuery.from(Role.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
+        Root root = criteriaQuery.from(Role.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("roleName"),roleName));
 
-        var result =  hibernateConfig.getSession()
+        List<Role> result =  hibernateConfig.getSession()
                 .getEntityManagerFactory()
                 .createEntityManager()
                 .createQuery(criteriaQuery)
@@ -68,9 +73,9 @@ public class RoleService {
     }
 
     public List<Role> listAllRoles(){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Role.class);
-        var root = criteriaQuery.from(Role.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Role> criteriaQuery = criteriaBuilder.createQuery(Role.class);
+        Root root = criteriaQuery.from(Role.class);
         criteriaQuery.select(root);
 
         return hibernateConfig.getSession()

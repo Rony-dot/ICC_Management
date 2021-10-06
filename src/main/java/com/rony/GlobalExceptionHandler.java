@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static java.lang.StackWalker.Option.RETAIN_CLASS_REFERENCE;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

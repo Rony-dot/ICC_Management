@@ -34,15 +34,15 @@ public class RootConfig {
         return multipartResolver;
     }
 
-    @Bean
-    public ResourceBundleMessageSource messageSource() {
-
-        var source = new ResourceBundleMessageSource();
-//        source.setBasenames("messages/label");
-        source.setBasenames("application");
-        source.setUseCodeAsDefaultMessage(true);
-        return source;
-    }
+//    @Bean
+//    public ResourceBundleMessageSource messageSource() {
+//
+//        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+////        source.setBasenames("messages/label");
+//        source.setBasenames("application");
+//        source.setUseCodeAsDefaultMessage(true);
+//        return source;
+//    }
 
 
     // can use only one CommonsMultipartResolver or StandardServletMultipartResolver

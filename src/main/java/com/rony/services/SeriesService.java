@@ -9,11 +9,15 @@ import com.rony.requestDto.SeriesReqDto;
 import com.rony.responseDto.SeriesRespDto;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Transaction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,12 +40,12 @@ public class SeriesService {
     }
 
     public List<SeriesRespDto> allSeries(){
-        var cb = hibernateConfig.getCriteriaBuilder();
-        var cq = cb.createQuery(Series.class);
-        var root = cq.from(Series.class);
+        CriteriaBuilder cb = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Series> cq = cb.createQuery(Series.class);
+        Root root = cq.from(Series.class);
         cq.select(root);
 
-        var resultList = hibernateConfig.query(cq).getResultList();
+        List<Series> resultList = hibernateConfig.query(cq).getResultList();
         return resultList.size() > 0 ? convertToSeriesRespDtos(resultList) : null;
     }
 
@@ -65,7 +69,7 @@ public class SeriesService {
     public void saveSeries(SeriesReqDto seriesReqDto) {
         System.err.println("save method of Series service------------------------------------------------------");
 
-        var seriesEntity = new Series();
+        Series seriesEntity = new Series();
         BeanUtils.copyProperties(seriesReqDto,seriesEntity);
 
         List<Event> eventList = new ArrayList<>();

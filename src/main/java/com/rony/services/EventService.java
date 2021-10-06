@@ -1,9 +1,7 @@
 package com.rony.services;
 
 import com.rony.config.HibernateConfig;
-import com.rony.models.Country;
-import com.rony.models.Event;
-import com.rony.models.User;
+import com.rony.models.*;
 import com.rony.requestDto.EventReqDto;
 import com.rony.responseDto.EventRespDto;
 import org.hibernate.Hibernate;
@@ -14,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,12 +43,12 @@ public class EventService {
     }
 
     public List<EventRespDto> allEvents(){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Event.class);
-        var root = criteriaQuery.from(Event.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Event> criteriaQuery = criteriaBuilder.createQuery(Event.class);
+        Root root = criteriaQuery.from(Event.class);
         criteriaQuery.select(root);
 
-        var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+        List<Event> resultList =  hibernateConfig.query(criteriaQuery).getResultList();
 
         return  resultList.size() > 0 ? convertToEventRespDtos(resultList) : null;
     }
@@ -71,9 +72,9 @@ public class EventService {
     }
 
     public Event getEventById(String id) {
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Event.class);
-        var root = criteriaQuery.from(Event.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Event> criteriaQuery = criteriaBuilder.createQuery(Event.class);
+        Root root = criteriaQuery.from(Event.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),id));
 
@@ -106,12 +107,12 @@ public class EventService {
             }
         }
 
-        var eventEntity = new Event();
+        Event eventEntity = new Event();
         BeanUtils.copyProperties(eventReqDto,eventEntity);
-        var team1 = teamService.getTeamById(eventReqDto.getIdTeam1());
-        var team1Cap = playerService.getPlayerById(eventReqDto.getIdTeam1Cap());
-        var team2 = teamService.getTeamById(eventReqDto.getIdTeam2());
-        var team2Cap = playerService.getPlayerById(eventReqDto.getIdTeam2Cap());
+        Team team1 = teamService.getTeamById(eventReqDto.getIdTeam1());
+        Player team1Cap = playerService.getPlayerById(eventReqDto.getIdTeam1Cap());
+        Team team2 = teamService.getTeamById(eventReqDto.getIdTeam2());
+        Player team2Cap = playerService.getPlayerById(eventReqDto.getIdTeam2Cap());
         eventEntity.setTeam1(team1);
         eventEntity.setTeam1Captain(team1Cap);
         eventEntity.setTeam2(team2);

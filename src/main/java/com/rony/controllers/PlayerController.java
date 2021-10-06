@@ -50,7 +50,7 @@ public class PlayerController {
 
     @GetMapping("/players/add")
     public String addPlayer(Model model, HttpSession session){
-        var cid = session.getAttribute("cid");
+        String cid = String.valueOf(session.getAttribute("cid"));
         System.out.println("1. country id is "+cid);
         model.addAttribute("cid", cid);
         model.addAttribute("player",new PlayerReqDto());
@@ -71,7 +71,7 @@ public class PlayerController {
         }else {
             System.err.println(playerReqDto.getPlayerStatus()+" status of the player");
             System.err.println(playerReqDto.getExpertise()+" expertise of the player");
-            var cid = (String) session.getAttribute("cid");
+            String cid = (String) session.getAttribute("cid");
             System.out.println("2. country id is "+cid);
             playerService.addPlayer(playerReqDto, cid);
 

@@ -88,7 +88,7 @@ public class HomeController {
         logger.info("initilizer finished");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var role = authentication.getAuthorities().stream()
+        String role = authentication.getAuthorities().stream()
                 .findFirst().get().getAuthority();
         logger.info("your role is --------> " + role);
 
@@ -117,9 +117,9 @@ public class HomeController {
     public String success(Model model, HttpServletRequest request){
         try{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            var role = authentication.getAuthorities().stream()
+            String role = authentication.getAuthorities().stream()
                     .findFirst().get().getAuthority();
-            var cm = (User) authentication.getPrincipal();
+            User cm = (User) authentication.getPrincipal();
 
 //            var country = countryService.allCountries().stream()
 //                    .filter(c -> c.getManagingDirector().getId() == cm.getId())
@@ -133,7 +133,7 @@ public class HomeController {
             boolean whichRole = role.equals("ROLE_TEAM_MANAGER");
 
             if(cm.getCountry() != null && whichRole){
-                var cid = String.valueOf(cm.getCountry().getId());
+                String cid = String.valueOf(cm.getCountry().getId());
                 session.setAttribute("cid",cid);
                 logger.info("country id from homeController -> success() : " + cid);
             }else{

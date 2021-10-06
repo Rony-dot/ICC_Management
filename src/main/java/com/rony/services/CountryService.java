@@ -6,6 +6,7 @@ import com.rony.exceptions.ResourceAlreadyExistsException;
 import com.rony.exceptions.ResourceNotFoundException;
 import com.rony.models.Player;
 
+import com.rony.models.User;
 import com.rony.requestDto.CountryReqDto;
 import com.rony.models.Country;
 import com.rony.responseDto.CountryRespDto;
@@ -44,12 +45,12 @@ public class CountryService {
     }
 
     public List<Country> allCountries(){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Country.class);
-        var root = criteriaQuery.from(Country.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Country> criteriaQuery = criteriaBuilder.createQuery(Country.class);
+        Root root = criteriaQuery.from(Country.class);
         criteriaQuery.select(root);
 
-        var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+        List<Country> resultList =  hibernateConfig.query(criteriaQuery).getResultList();
 
         return resultList.size() > 0 ? resultList : null;
     }
@@ -82,14 +83,14 @@ public class CountryService {
     }
 
     public String getCountryByCMId(String id) {
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Country.class);
-        var root = criteriaQuery.from(Country.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Country.class);
+        Root root = criteriaQuery.from(Country.class);
         criteriaQuery.select(root);
 
-        var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+        List<Country> resultList =  hibernateConfig.query(criteriaQuery).getResultList();
         if(resultList.size() > 0){
-           var country = resultList.stream()
+           Country country = resultList.stream()
                    .filter( c -> c.getManagingDirector().getId() == Long.parseLong(id))
                    .findFirst()
                    .orElse(null);
@@ -130,9 +131,9 @@ public class CountryService {
     }
 
     public com.rony.models.Country getCountryById(String id) {
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(com.rony.models.Country.class);
-        var root = criteriaQuery.from(com.rony.models.Country.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Country> criteriaQuery = criteriaBuilder.createQuery(com.rony.models.Country.class);
+        Root root = criteriaQuery.from(com.rony.models.Country.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),Long.parseLong(id)));
 
@@ -163,7 +164,7 @@ public class CountryService {
         CriteriaQuery<Country> cq = cb.createQuery(Country.class);
         Root<Country> root = cq.from(Country.class);
         cq.where(cb.equal(root.get("countryCode"), countryCode));
-        var result = hibernateConfig.query(cq).getResultList();
+        List<Country> result = hibernateConfig.query(cq).getResultList();
         // **************************** Criteria Query End **************************//
         return Optional.ofNullable(result.get(0))
                 .orElseThrow(() -> new ResourceNotFoundException("Country not found with this code"));
@@ -194,10 +195,10 @@ public class CountryService {
         System.out.println("save method of country service------------------------------------------------------");
 
         // why full qualified class name ?
-        var countryEntity = getCountryById(countryReqDto.getId());
+        Country countryEntity = getCountryById(countryReqDto.getId());
         BeanUtils.copyProperties(countryReqDto,countryEntity);
 
-        var managingDirectorDto = userService.getUserById(countryReqDto.getCountryManagerId());
+        User managingDirectorDto = userService.getUserById(countryReqDto.getCountryManagerId());
         managingDirectorDto.setUserRole(roleService.findByRoleName("ROLE_TEAM_MANAGER"));
 
 
@@ -217,7 +218,7 @@ public class CountryService {
     }
 
     public void addCountry(CountryReqDto countryReqDto){
-        var countryEntity = new com.rony.models.Country();
+        Country countryEntity = new com.rony.models.Country();
         BeanUtils.copyProperties(countryReqDto, countryEntity);
         Optional<Country> optionalCountry = Optional.empty();
         if(allCountries() != null ){

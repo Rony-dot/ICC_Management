@@ -9,9 +9,6 @@ import com.rony.models.User;
 import com.rony.requestDto.UserReqDto;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,9 +89,9 @@ public class UserService implements UserDetailsService {
         var userList = (List<User>) query1.list();
 
         return userList; */
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(User.class);
-        var root = criteriaQuery.from(User.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root root = criteriaQuery.from(User.class);
         criteriaQuery.select(root);
 
         return hibernateConfig.getSession()
@@ -102,9 +102,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserById(String id){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(User.class);
-        var root = criteriaQuery.from(User.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root root = criteriaQuery.from(User.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),Long.parseLong(id)));
 
@@ -117,9 +117,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserByEmail (String email) throws NoResultException {
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(User.class);
-        var root = criteriaQuery.from(User.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root root = criteriaQuery.from(User.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("email"),email));
 
@@ -140,7 +140,7 @@ public class UserService implements UserDetailsService {
 //        if(!tx.isActive()){
 //            tx = session.beginTransaction();
 //        }
-        var userEntity = new User();
+        User userEntity = new User();
         BeanUtils.copyProperties(userReqDto,userEntity);
         // encoding password
         userEntity.setPassword(passwordEncoder.encode(userReqDto.getPassword()));
@@ -187,13 +187,13 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // or can directly call " getUserByEmail(email) ", bcz it is allReady defined previously
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(User.class);
-        var root = criteriaQuery.from(User.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+        Root root = criteriaQuery.from(User.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("email"),email));
 
-        var result =  hibernateConfig.getSession()
+        User result =  hibernateConfig.getSession()
                 .getEntityManagerFactory()
                 .createEntityManager()
                 .createQuery(criteriaQuery)

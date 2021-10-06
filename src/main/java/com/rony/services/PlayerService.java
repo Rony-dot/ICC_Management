@@ -15,6 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,19 +38,19 @@ public class PlayerService {
     }
 
     public List<Player> allPlayers(){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var  criteriaQuery = criteriaBuilder.createQuery(Player.class);
-        var root = criteriaQuery.from(Player.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Player> criteriaQuery = criteriaBuilder.createQuery(Player.class);
+        Root root = criteriaQuery.from(Player.class);
         criteriaQuery.select(root);
 
-        var resultList =  hibernateConfig.query(criteriaQuery).getResultList();
+        List<Player> resultList =  hibernateConfig.query(criteriaQuery).getResultList();
 
         return  resultList.size() > 0 ? resultList : null;
 
     }
 
     public List<PlayerRespDto> playerRespDtos() {
-        var resultList = allPlayers();
+        List<Player> resultList = allPlayers();
         List<PlayerRespDto> playerRespDtoList = new ArrayList<>();
         if(resultList != null){
             for(Player player : resultList){
@@ -65,9 +68,9 @@ public class PlayerService {
     public Player getPlayerByUserId(String id){
         // partial done
 //        var user = userService.getUserById(id);
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Player.class);
-        var root = criteriaQuery.from(Player.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Player> criteriaQuery = criteriaBuilder.createQuery(Player.class);
+        Root root = criteriaQuery.from(Player.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("userInfo"),Long.parseLong(id)));
 
@@ -77,9 +80,9 @@ public class PlayerService {
     }
 
     public Player getPlayerById(String id){
-        var criteriaBuilder = hibernateConfig.getCriteriaBuilder();
-        var criteriaQuery = criteriaBuilder.createQuery(Player.class);
-        var root = criteriaQuery.from(Player.class);
+        CriteriaBuilder criteriaBuilder = hibernateConfig.getCriteriaBuilder();
+        CriteriaQuery<Player> criteriaQuery = criteriaBuilder.createQuery(Player.class);
+        Root root = criteriaQuery.from(Player.class);
         criteriaQuery.select(root);
         criteriaQuery.where(criteriaBuilder.equal(root.get("id"),Long.parseLong(id)));
 
@@ -94,24 +97,24 @@ public class PlayerService {
 
         // checking if any player exists with this user_id => user info
         if(getPlayerByUserId(playerReqDto.getUserId())==null){
-            var playerEntity = new Player();
+            Player playerEntity = new Player();
             BeanUtils.copyProperties(playerReqDto,playerEntity);
-            var userInfo = userService.getUserById(playerReqDto.getUserId());
+            User userInfo = userService.getUserById(playerReqDto.getUserId());
             playerEntity.setUserInfo(userInfo);
             playerEntity.setId(Long.parseLong(playerReqDto.getUserId()));
 
             hibernateConfig.saveObject(playerEntity);
 
-            var player = getPlayerByUserId(playerReqDto.getUserId());
+            Player player = getPlayerByUserId(playerReqDto.getUserId());
 
             logger.info("country id : "+ cid);
 
             Session session = hibernateConfig.getSession();
-            var tx = session.getTransaction();
+            Transaction tx = session.getTransaction();
             if (!tx.isActive()) {
                 tx = session.beginTransaction();
             }
-            var countryEntity = session.get(Country.class, Long.parseLong(cid));
+            Country countryEntity = session.get(Country.class, Long.parseLong(cid));
             countryEntity.getPlayerList().add(player);
             // omly commit will make the changes save to DB, because it is in the same session
             tx.commit();

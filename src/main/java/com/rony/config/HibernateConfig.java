@@ -3,6 +3,7 @@ package com.rony.config;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.reflections.Reflections;
@@ -83,7 +84,7 @@ public class HibernateConfig {
 
     public CriteriaBuilder getCriteriaBuilder() {
         Session session = getSession();
-        var tx = session.getTransaction();
+        Transaction tx = session.getTransaction();
         if (!tx.isActive()) {
             tx = session.beginTransaction();
         }
@@ -91,21 +92,21 @@ public class HibernateConfig {
     }
 
     public <T> TypedQuery<T> query(CriteriaQuery<T> query) {
-        var session = getSession();
-        var tx = session.getTransaction();
+        Session session = getSession();
+        Transaction tx = session.getTransaction();
         if (!tx.isActive()) {
             tx = session.beginTransaction();
         }
-        var result = session.getEntityManagerFactory().createEntityManager().createQuery(query);
+        T result = (T) session.getEntityManagerFactory().createEntityManager().createQuery(query);
         session.flush();
         tx.commit();
-        return result;
+        return (TypedQuery<T>) result;
     }
 
 //    @Transactional
     public void saveObject(Object o){
-        var session = getSession();
-        var tx = session.getTransaction();
+        Session session = getSession();
+        Transaction tx = session.getTransaction();
         if (!tx.isActive()) {
             tx = session.beginTransaction();
         }
@@ -114,8 +115,8 @@ public class HibernateConfig {
     }
 
     public void updateObject(Object o){
-        var session = getSession();
-        var tx = session.getTransaction();
+        Session session = getSession();
+        Transaction tx = session.getTransaction();
         if (!tx.isActive()) {
             tx = session.beginTransaction();
         }

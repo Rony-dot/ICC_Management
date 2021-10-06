@@ -3,6 +3,7 @@ package com.rony.controllers;
 import com.rony.enums.PlayerStatus;
 import com.rony.enums.UserRole;
 import com.rony.models.Country;
+import com.rony.models.Player;
 import com.rony.models.Team;
 import com.rony.models.User;
 import com.rony.requestDto.TeamReqDto;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -54,14 +56,14 @@ public class TeamController {
     public String addTeam(Model model){
         model.addAttribute("team", new TeamReqDto());
 
-        var coaches = userService.allUsers();
+        List<User> coaches = userService.allUsers();
 //                .stream()
 //                .filter(u -> u.getAuthorities().stream()
 //                        .findFirst().get().getAuthority().equals("ROLE_COACH"))
 //                .collect(Collectors.toList());
         model.addAttribute("coaches",coaches);
 
-        var players = playerService.allPlayers().stream()
+        List<Player> players = playerService.allPlayers().stream()
                 .filter(player -> player.getPlayerStatus() == PlayerStatus.ACTIVE)
                 .collect(Collectors.toList());
         model.addAttribute("players",players);
@@ -82,7 +84,7 @@ public class TeamController {
             // TODO need to check if it works or not,
             //  send cid from getMapping() then map automatically from the addTeam.jsp form
 
-            var cid = String.valueOf(session.getAttribute("cid"));
+            String cid = String.valueOf(session.getAttribute("cid"));
             teamService.saveTeam(teamReqDto, cid);
 
             return "redirect: /teams/all";

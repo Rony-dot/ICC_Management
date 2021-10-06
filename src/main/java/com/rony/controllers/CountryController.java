@@ -1,10 +1,14 @@
 package com.rony.controllers;
 
 import com.rony.enums.UserRole;
+import com.rony.models.Country;
+import com.rony.models.Player;
+import com.rony.models.User;
 import com.rony.requestDto.CountryReqDto;
 //import com.rony.models.CountryReqDto;
 import com.rony.services.CountryService;
 import com.rony.services.UserService;
+import lombok.var;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,11 +47,11 @@ public class CountryController {
     public String addCountry(Model model){
         model.addAttribute("country", new CountryReqDto());
 
-        var managingDirectors = userService.allUsers();
+        List<User> managingDirectors = userService.allUsers();
 
         model.addAttribute("managingDirectors",managingDirectors);
 
-        var players = userService.allUsers();
+        List<User> players = userService.allUsers();
         model.addAttribute("players",players);
 
         return "/countries/add_country";
@@ -87,16 +92,16 @@ public class CountryController {
 ///*
     @GetMapping("/countries/edit")
     public String edit(Model model, @RequestParam("id") String id){
-        var countryEntity = countryService.getCountryById(id);
+        Country countryEntity = countryService.getCountryById(id);
         CountryReqDto countryReqDto = new CountryReqDto();
         BeanUtils.copyProperties(countryEntity,countryReqDto);
         countryReqDto.setId(id);
         model.addAttribute("country",countryReqDto);
 
-        var managingDirectors = userService.allUsers();
+        List<User> managingDirectors = userService.allUsers();
         model.addAttribute("managingDirectors",managingDirectors);
 
-        var players = userService.allUsers();
+        List<User> players = userService.allUsers();
         model.addAttribute("players",players);
 //        var managingDirectors = userService.allUsers().stream()
 //                .filter(u -> u.getRole() == UserRole.TEAM_MANAGER)
