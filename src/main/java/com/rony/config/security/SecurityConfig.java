@@ -115,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers( "/images/**", "/js/**", "/css/**", "/vendors/**", "/build/**" ).permitAll()
-                .antMatchers("/","/login","/register", "/test/**").permitAll()
+                .antMatchers("/","/login","/register", "/test/**", "/fileUpload").permitAll()
                 .antMatchers("/users/all","/countries/all","/players/all","/events/all","/teams/all","/series/all").permitAll()
                 .antMatchers("/countries/**","/events/**","/series/**").hasRole("ICC_AUTHORITY")
                 .antMatchers("/players/**","/teams/**","/users/**").hasRole("TEAM_MANAGER")
@@ -127,7 +127,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login-processing")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/success")
+//                .defaultSuccessUrl("/success")
+                .successHandler(authSuccessHandler())
                 .failureUrl("/login?error=true")
                 .permitAll()
                 .and()
@@ -153,10 +154,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        return authProvider;
 //    }
 //
-//    @Bean
-//    public CustomAuthSuccessHandler authSuccessHandler() {
-//        return new CustomAuthSuccessHandler();
-//    }
+    @Bean
+    public CustomAuthSuccessHandler authSuccessHandler() {
+        return new CustomAuthSuccessHandler();
+    }
     
 
 }

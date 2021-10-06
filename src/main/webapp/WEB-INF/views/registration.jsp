@@ -76,8 +76,9 @@
                 </div>
                 <div class="x_content">
 
-                    <form:form class="form-horizontal form-label-left" novalidate="" action="${pageContext.request.contextPath}/register"
-                               modelAttribute="user">
+                    <form:form class="form-horizontal form-label-left" novalidate=""
+                               action="${pageContext.request.contextPath}/register"
+                               modelAttribute="user"  enctype="multipart/form-data">
                         <span class="section text-light text-center">Personal Info</span>
 
                         <form:input path="id" hidden="true" />
@@ -174,6 +175,13 @@
                                 <form:options items="${homeTowns}"/>
                             </form:select>
                         </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="salutation">Image <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:input path="images" type="file" multiple="multiple" />
+                             </div>
                     </div>
                         <div class="ln_solid"></div>
                         <div class="form-group">

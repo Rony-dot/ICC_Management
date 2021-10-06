@@ -1,5 +1,6 @@
 package com.rony.controllers;
 
+import com.rony.ApplicationProperties;
 import com.rony.config.HibernateConfig;
 import com.rony.config.Initializer;
 import com.rony.enums.Countries;
@@ -16,6 +17,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,16 +29,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.awt.geom.QuadCurve2D;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Set;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@PropertySource("classpath:application.properties")
 @Controller
 public class HomeController {
 
@@ -50,6 +61,12 @@ public class HomeController {
     @Autowired
     private CountryService countryService;
 
+    @Autowired
+    private Environment environment;
+
+
+
+
     private static final Logger logger = LogManager.getLogger(HomeController.class);
 
     public HomeController(UserService userService, HibernateConfig hibernateConfig, PasswordEncoder passwordEncoder, RoleService roleService) {
@@ -59,8 +76,11 @@ public class HomeController {
         this.roleService = roleService;
     }
 
+
     @GetMapping("/")
     public String home(Model model, HttpServletRequest request){
+
+        System.out.println(environment.getProperty("message"));
 
         logger.info("application started"+ new Date());
         logger.info("initilizer called");
@@ -83,7 +103,8 @@ public class HomeController {
         for(String r : roles){
             logger.info("role from for looop : " + r);
         }
-        
+
+
         return "index";
     }
 
@@ -162,7 +183,7 @@ public class HomeController {
     }
 
     @PostMapping("/register")
-    public String processRegistration(Model model,
+    public String processRegistration(Model model,  HttpServletRequest servletRequest,
                                       @Valid @ModelAttribute(name = "user") UserReqDto userReqDto,
                                       BindingResult errors){
 
@@ -179,11 +200,96 @@ public class HomeController {
             model.addAttribute("countries",countryService.CountryRespDtoList());
             return "registration";
         }else {
+            //Get the uploaded files and store them
+            List<MultipartFile> files = userReqDto.getImages();
+            List<String> fileNames = new ArrayList<String>();
+            if (null != files && files.size() > 0) {
+                for (MultipartFile multipartFile : files) {
+                    String fileName = multipartFile.getOriginalFilename();
+                    fileNames.add(fileName);
+                    File imageFile = new File(servletRequest.getServletContext().getRealPath("/image"), fileName);
+                    try {
+                        multipartFile.transferTo(imageFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 //            user.setUserRole(roleService.findByRoleName("ROLE_USER"));
             userService.addUser(userReqDto);
 //            logger.info("registration success ! "+userReqDto.getEmail());
             return "redirect:/login";
         }
+    }
+
+    @GetMapping("/fileUpload")
+    public String fileUpload(Model model){
+        return "fileUpload";
+    }
+
+    public static String TEMP_PATH = System.getProperty("user.home") + "/icc-management/temp";
+    public static String WRITE_PATH = System.getProperty("user.home") + "/icc-management/temp";
+    public static String READ_FROM_PATH = System.getProperty("user.home") + "/icc-management";
+    private static final String UPLOADED_FOLDER = WRITE_PATH;
+
+    @PostMapping("/uploadImage")
+    public String upload(Model model, HttpSession session, @RequestParam("profile") CommonsMultipartFile file){
+
+        User userEntity = (User) session.getAttribute("usr");
+        Long userId = userEntity.getId();
+        Long attachmentId = System.currentTimeMillis();
+        try {
+
+            String path = session.getServletContext().getRealPath("/");
+            System.out.println(path);
+            byte[] data = file.getBytes();
+            logger.info("file upload success !");
+
+
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+
+
+            File dir = new File(UPLOADED_FOLDER  + "/" + userId + "/");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+
+            File myDir = new File(path+"/"+"WEB-INF"+"/"+"resouces"+"/"+"images"+"/"+"uploads"+"/");
+//            if (!myDir.exists()) {
+//                myDir.mkdirs();
+//            }
+
+            String extension = "";
+            StringTokenizer tokenizer = new StringTokenizer(file.getOriginalFilename(), ".");
+            while (tokenizer.hasMoreTokens()) {
+                extension = tokenizer.nextToken();
+            }
+            String url = UPLOADED_FOLDER + "/" + userId + "/" + attachmentId + "." + extension;
+            String myUrl = path+"/"+"WEB-INF"+"/"+"resouces"+"/"+"images"+"/"+"uploads"+"/";
+
+            File serverFile = new File(url);
+
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream.write(bytes);
+            stream.close();
+
+            File myServerFile = new File(myUrl);
+            BufferedOutputStream myStream = new BufferedOutputStream(new FileOutputStream(myUrl));
+            stream.write(data);
+            stream.close();
+            logger.info("File written successfully.");
+//            url = "/temp/" + "userId" + "/" + attachment.getAttachmentId() + "." + extension;
+//            attachment.setFileURL(url);
+//            attachment.setFileType(Files.probeContentType(Paths.get(url)));
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println("file upload error !");
+            logger.error("file upload error !");
+        }
+
+        return  "/";
     }
 
     @RequestMapping(value = "/403", method = RequestMethod.GET)

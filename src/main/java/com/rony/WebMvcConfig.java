@@ -23,19 +23,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         // Register resource handler for -
 
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/WEB-INF/resources/");
+
         // IMAGES
-        registry.addResourceHandler("/images/**").addResourceLocations("/WEB-INF/resources/images/");
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("/WEB-INF/resources/images/");
 
         // CSS
-        registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/resources/css/");
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("/WEB-INF/resources/css/");
 
         // JAVASCRIPT
-        registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/resources/js/");
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("/WEB-INF/resources/js/");
 
         // vendors
-        registry.addResourceHandler("/vendors/**").addResourceLocations("/WEB-INF/resources/vendors/");
+        registry.addResourceHandler("/vendors/**")
+                .addResourceLocations("/WEB-INF/resources/vendors/");
         // build
-        registry.addResourceHandler("/build/**").addResourceLocations("/WEB-INF/resources/build/");
+        registry.addResourceHandler("/build/**")
+                .addResourceLocations("/WEB-INF/resources/build/");
 
     }
 }

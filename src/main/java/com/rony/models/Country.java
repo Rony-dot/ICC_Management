@@ -1,5 +1,6 @@
 package com.rony.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Country extends BaseModel{
     @Column(unique = true)
     private String countryCode;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "managing_director_id",nullable = true)
     private User managingDirector;

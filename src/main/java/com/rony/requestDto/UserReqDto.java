@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -65,6 +66,8 @@ public class UserReqDto {
 
     @NotNull(message = "hometown is required")
     private String homeTown;
+
+    private List<MultipartFile> images;
 
 
 }

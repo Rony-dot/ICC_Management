@@ -1,17 +1,16 @@
 package com.rony.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rony.enums.Countries;
 import com.rony.enums.UserRole;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,9 +21,12 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = {"country"})
+@Getter
+@Setter
+@EqualsAndHashCode
 public class User extends BaseModel implements UserDetails, Serializable {
 
     @NotNull(message = "name cannot be null")
@@ -32,7 +34,7 @@ public class User extends BaseModel implements UserDetails, Serializable {
             = "Name must be between 4 and 10 characters")
     private String name;
 
-    private UserRole role;
+//    private UserRole role;
 
     @OneToOne
     @JoinColumn(name = "user_role")
@@ -67,9 +69,11 @@ public class User extends BaseModel implements UserDetails, Serializable {
     @NotNull(message = "hometown is required")
     private String homeTown;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = true)
     private Country country;
+
 
 //    @NotNull(message = "country must be given")
 //    private Countries country;

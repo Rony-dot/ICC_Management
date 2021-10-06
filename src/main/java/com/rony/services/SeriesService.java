@@ -7,6 +7,8 @@ import com.rony.models.Team;
 import com.rony.models.User;
 import com.rony.requestDto.SeriesReqDto;
 import com.rony.responseDto.SeriesRespDto;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class SeriesService {
     private EventService eventService;
     @Autowired
     private TeamService teamService;
+
+    Logger logger = LogManager.getLogger(SeriesService.class);
 
     public SeriesService(HibernateConfig hibernateConfig, EventService eventService, TeamService teamService) {
         this.hibernateConfig = hibernateConfig;
@@ -75,16 +79,8 @@ public class SeriesService {
             teamList.add(teamService.getTeamById(id));
         }
         seriesEntity.setParticipantTeams(teamList);
-        var session = hibernateConfig.getSession();
-        Transaction tx = session.getTransaction();
-        if(!tx.isActive()){
-            tx = session.beginTransaction();
-        }
-        session.save(seriesEntity);
-        session.flush();
-        tx.commit();
-        System.err.println("---------------------------------------------------");
-        System.err.println("Series is saved");
-//        System.err.println(seriesEntity);
+
+        hibernateConfig.saveObject(seriesEntity);
+        logger.info(seriesEntity.getParticipantTeams().get(0).getPlayerList().get(0).getUserInfo().getCountry());
     }
 }
