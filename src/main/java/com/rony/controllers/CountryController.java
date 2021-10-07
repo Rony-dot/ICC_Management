@@ -1,14 +1,10 @@
 package com.rony.controllers;
 
-import com.rony.enums.UserRole;
 import com.rony.models.Country;
-import com.rony.models.Player;
 import com.rony.models.User;
 import com.rony.requestDto.CountryReqDto;
-//import com.rony.models.CountryReqDto;
 import com.rony.services.CountryService;
 import com.rony.services.UserService;
-import lombok.var;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -16,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class CountryController {
