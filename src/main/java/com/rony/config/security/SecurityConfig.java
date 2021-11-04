@@ -13,8 +13,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
@@ -158,6 +162,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CustomAuthSuccessHandler authSuccessHandler() {
         return new CustomAuthSuccessHandler();
     }
-    
+
+//    protected UserDetailsService userDetailsService(){
+//        UserDetails ronyUser = User.builder()
+//                .username("rony")
+//                .password(passwordEncoder.encode("1234"))
+//                .authorities("ROLE_USER")
+//                .build();
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder.encode("1234"))
+//                .authorities("ROLE_ADMIN")
+//                .build();
+//        return new InMemoryUserDetailsManager(ronyUser, admin);
+//    }
 
 }

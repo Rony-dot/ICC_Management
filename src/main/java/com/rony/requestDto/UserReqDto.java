@@ -1,27 +1,16 @@
 package com.rony.requestDto;
 
-import com.rony.enums.UserRole;
-import com.rony.models.BaseModel;
-import com.rony.models.Country;
-import com.rony.models.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 
 @Data
 @AllArgsConstructor
@@ -53,7 +42,6 @@ public class UserReqDto {
     private String age;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "birth_date")
     private  String dateOfBirth;
 
     @NotNull(message = "gender is required")
